@@ -2424,6 +2424,7 @@ export default function AdminPage() {
             <TabsTrigger value="contacts">Əlaqə Mesajları</TabsTrigger>
             <TabsTrigger value="speakers">Natiqlər</TabsTrigger>
             <TabsTrigger value="program">Proqram</TabsTrigger>
+            <TabsTrigger value="sponsors">Sponsorlar</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -2444,6 +2445,10 @@ export default function AdminPage() {
           
           <TabsContent value="program">
             <ProgramPanel />
+          </TabsContent>
+          
+          <TabsContent value="sponsors">
+            <SponsorsPanel />
           </TabsContent>
         </Tabs>
       </main>
