@@ -3,6 +3,16 @@ import { createServer, type Server } from "http";
 import { db } from "@db";
 import { speakers, programSessions, programItems, registrations, contacts } from "@shared/schema";
 import { eq } from "drizzle-orm";
+import mysql from 'mysql2/promise';
+
+// Create a MySQL connection pool for raw queries
+const pool = mysql.createPool({
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  port: process.env.MYSQL_PORT ? parseInt(process.env.MYSQL_PORT) : 3306,
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes for the TEDx website
@@ -37,13 +47,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get program items
   app.get(`${apiPrefix}/program/items`, async (_req, res) => {
     try {
-      const items = await db.query.programItems.findMany({
-        orderBy: programItems.time,
-        with: {
-          speaker: true,
-        },
-      });
-      res.json(items);
+      // MySQL can have issues with complex joins in Drizzle, so use a simpler approach
+      const items = await db.select({
+        id: programItems.id,
+        time: programItems.time,
+        title: programItems.title,
+        description: programItems.description,
+        session: programItems.session,
+        speakerId: programItems.speakerId,
+        order: programItems.order
+      }).from(programItems)
+        .orderBy(programItems.time);
+      
+      // If there are items with speakers, fetch speakers separately
+      const speakerIds = items.filter(item => item.speakerId !== null)
+        .map(item => item.speakerId);
+      
+      if (speakerIds.length > 0) {
+        // For MySQL, use a more compatible approach with the IN operator
+        const [speakersData] = await pool.query(
+          `SELECT * FROM speakers WHERE id IN (${speakerIds.join(',')})`
+        );
+        
+        // Manually join speakers to program items
+        const itemsWithSpeakers = items.map(item => {
+          const speaker = Array.isArray(speakersData) 
+            ? speakersData.find((s: any) => s.id === item.speakerId)
+            : null;
+          return {
+            ...item,
+            speaker: speaker || null
+          };
+        });
+        
+        res.json(itemsWithSpeakers);
+      } else {
+        res.json(items);
+      }
     } catch (error) {
       console.error("Error fetching program items:", error);
       res.status(500).json({ message: "Error fetching program items" });
@@ -61,16 +101,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Check if email already registered
-      const existingUser = await db.query.registrations.findFirst({
-        where: eq(registrations.email, email),
-      });
+      const [existingUsers] = await db.select({id: registrations.id})
+        .from(registrations)
+        .where(eq(registrations.email, email));
 
-      if (existingUser) {
+      if (existingUsers && existingUsers.length > 0) {
         return res.status(400).json({ message: "This email is already registered" });
       }
 
       // Create registration
-      const newRegistration = await db
+      const [newRegistration] = await db
         .insert(registrations)
         .values({
           firstName,
@@ -79,8 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           phone,
           occupation: occupation || null,
           topics: topics ? topics.join(",") : null,
-        })
-        .returning();
+        }); // MySQL doesn't support .returning()
 
       res.status(201).json(newRegistration[0]);
     } catch (error) {
