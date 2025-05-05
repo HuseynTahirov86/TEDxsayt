@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { 
@@ -7,8 +7,162 @@ import {
   Globe, 
   ChevronRight, 
   Info, 
-  Sparkles
+  Sparkles,
+  Lightbulb,
+  BarChart,
+  ZoomIn
 } from "lucide-react";
+
+// Fact Card that flips on hover
+const FlipCard = ({ title, content, icon, index }: { 
+  title: string; 
+  content: string; 
+  icon: React.ReactNode;
+  index: number;
+}) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
+  return (
+    <motion.div 
+      className="relative h-36 w-full perspective-1000"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        transition: { duration: 0.7, delay: 0.1 * index }
+      }}
+      whileHover={{ scale: 1.02 }}
+    >
+      <motion.div 
+        className="absolute inset-0 cursor-pointer"
+        animate={isFlipped ? "back" : "front"}
+        variants={{
+          front: { 
+            rotateY: 0,
+            transition: { duration: 0.6 } 
+          },
+          back: { 
+            rotateY: 180,
+            transition: { duration: 0.6 } 
+          }
+        }}
+        onClick={() => setIsFlipped(!isFlipped)}
+      >
+        {/* Front side */}
+        <div className={`absolute inset-0 rounded-xl bg-white p-6 shadow-md ${isFlipped ? 'backface-hidden' : ''} flex flex-col justify-center`}>
+          <div className="flex items-center mb-3">
+            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-tedred/10 text-tedred mr-4">
+              {icon}
+            </div>
+            <h3 className="text-lg font-semibold">{title}</h3>
+          </div>
+          <div className="flex items-center text-sm text-tedgray space-x-1">
+            <Info size={14} className="text-tedred/70" />
+            <span>Daha ətraflı məlumat üçün klikləyin</span>
+          </div>
+        </div>
+        
+        {/* Back side */}
+        <div className={`absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md ${isFlipped ? '' : 'backface-hidden'} flex flex-col justify-center text-white transform-style-3d rotateY-180`}>
+          <p className="text-sm">{content}</p>
+          <div className="absolute bottom-3 right-3">
+            <ChevronRight size={16} />
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// Animated Stat Component
+const AnimatedStat = ({ 
+  icon, 
+  value, 
+  label, 
+  index = 0 
+}: { 
+  icon: React.ReactNode; 
+  value: string; 
+  label: string; 
+  index?: number;
+}) => {
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  
+  return (
+    <motion.div 
+      ref={ref}
+      className="flex items-center group"
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { 
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, delay: 0.2 * index }
+      } : {}}
+      whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+    >
+      <motion.div 
+        className="w-12 h-12 flex items-center justify-center rounded-full bg-tedred text-white mr-4 relative overflow-hidden"
+        whileHover={{ 
+          scale: 1.1,
+          boxShadow: "0 0 15px rgba(230, 43, 30, 0.4)"
+        }}
+        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      >
+        {/* Background gradient effect */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-r from-tedred/80 to-tedred"></div>
+        
+        {/* Animated icon with subtle movement */}
+        <motion.div 
+          className="relative z-10"
+          animate={inView ? {
+            scale: [1, 1.2, 1],
+          } : {}}
+          transition={{ duration: 1.5, delay: 0.3 * index, ease: "easeInOut" }}
+        >
+          {icon}
+        </motion.div>
+      </motion.div>
+      <div>
+        <motion.h4 
+          className="font-semibold text-lg"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1, transition: { duration: 0.4, delay: 0.3 * index + 0.2 } } : {}}
+        >
+          {value}
+        </motion.h4>
+        <motion.p 
+          className="text-sm text-tedgray"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1, transition: { duration: 0.4, delay: 0.3 * index + 0.3 } } : {}}
+        >
+          {label}
+        </motion.p>
+      </div>
+    </motion.div>
+  );
+};
+
+// Highlighted text component
+const HighlightedText = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <span className="relative inline-block group">
+      <span className="relative z-10 font-semibold">{children}</span>
+      <motion.span 
+        className="absolute bottom-0 left-0 w-full h-2 bg-tedred/20 -z-0"
+        initial={{ width: 0 }}
+        whileInView={{ width: "100%" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true }}
+      />
+      <motion.span 
+        className="absolute bottom-0 left-0 w-0 h-2 bg-tedred/30 -z-0 group-hover:w-full transition-all duration-300"
+      />
+    </span>
+  );
+};
 
 export default function About() {
   // Animation controls for left and right sections
@@ -25,13 +179,24 @@ export default function About() {
 
   // Animation controls for fade in facts
   const [refFacts, inViewFacts] = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
     triggerOnce: true,
   });
 
-  // State for interactive card flip effect
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [selectedFact, setSelectedFact] = useState<number | null>(null);
+  // For image parallax effect
+  const imageRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (imageRef.current) {
+        const scrollPos = window.scrollY;
+        const translateY = scrollPos * 0.05; // Adjust the parallax intensity
+        imageRef.current.style.transform = `translateY(${translateY}px)`;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (inViewLeft) {
@@ -73,33 +238,66 @@ export default function About() {
     },
   };
 
-  const factVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { 
-        duration: 0.5, 
-        delay: i * 0.15,
-        ease: "easeOut" 
-      },
-    }),
-  };
-
-  const flipVariants = {
-    front: { 
-      rotateY: 0,
-      transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] }
+  const tedFacts = [
+    {
+      title: "Qlobal Təsir",
+      content: "TEDx tədbirləri dünya üzrə milyonlarla insana çatır və fərqli mədəniyyətlər arasında fikir mübadiləsini təşviq edir.",
+      icon: <Globe className="h-5 w-5" />
     },
-    back: { 
-      rotateY: 180,
-      transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] }
+    {
+      title: "İnnovativ Platformalar",
+      content: "TEDx tədbirləri yeni texnologiyaların, təhsilin və dizayn yanaşmalarının müzakirə edildiyi innovativ platformalardır.",
+      icon: <Lightbulb className="h-5 w-5" />
+    },
+    {
+      title: "Dərin Təsir",
+      content: "TEDx çıxışları insanların dünyagörüşünü dəyişmək və mühüm sosial dəyişikliklərə ilham vermək gücünə malikdir.",
+      icon: <BarChart className="h-5 w-5" />
     }
-  };
+  ];
 
   return (
-    <section id="about" className="py-20 bg-tedlightgray">
-      <div className="container mx-auto px-4">
+    <section id="about" className="py-20 bg-gradient-to-b from-tedlightgray to-white relative overflow-hidden">
+      {/* Animated background decorations */}
+      <div className="absolute top-0 right-0 w-40 h-40 bg-tedred/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-60 h-60 bg-tedred/5 rounded-full blur-3xl"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <motion.h2 
+            className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold mb-4 relative inline-block"
+            whileInView={{ 
+              textShadow: ["0px 0px 0px rgba(0,0,0,0)", "0px 4px 20px rgba(0,0,0,0.1)", "0px 0px 0px rgba(0,0,0,0)"]
+            }}
+            transition={{ duration: 2, repeat: 0 }}
+            viewport={{ once: true }}
+          >
+            TED və <span className="text-tedred">TEDx</span> nədir?
+            <motion.div 
+              className="absolute -bottom-3 left-0 h-1 bg-tedred/50 rounded-full" 
+              initial={{ width: 0 }}
+              whileInView={{ width: "100%" }}
+              transition={{ duration: 1, delay: 0.3 }}
+              viewport={{ once: true }}
+            />
+          </motion.h2>
+          <motion.p 
+            className="text-tedgray max-w-2xl mx-auto mt-6"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            Dünyada yayılmağa layiq ideyaların paylaşıldığı ən populyar platformalardan biri
+          </motion.p>
+        </motion.div>
+      
         <div className="flex flex-col lg:flex-row gap-12">
           <motion.div
             ref={refLeft}
@@ -108,68 +306,90 @@ export default function About() {
             variants={variants}
             className="lg:w-1/2"
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold mb-6">
-              TED və TEDx nədir?
-            </h2>
-            <p className="text-tedgray mb-6">
-              TED (Technology, Entertainment, Design) 1984-cü ildən etibarən
-              "yayılmağa dəyər ideyalar" (ideas worth spreading) fəlsəfəsi
-              altında fəaliyyət göstərən qlobal konfranslar silsiləsidir.
-            </p>
-            <p className="text-tedgray mb-6">
-              TEDx isə müstəqil təşkilatlar tərəfindən TED-in lisenziyası
-              altında təşkil edilən yerli tədbirlərdir. Bu tədbirlər TED
-              formatında olsa da, yerli icmalar və təşkilatçılar tərəfindən
-              müstəqil şəkildə təşkil edilir.
-            </p>
+            <motion.div variants={childVariants}>
+              <p className="text-tedgray mb-6 text-lg">
+                TED (<HighlightedText>Technology, Entertainment, Design</HighlightedText>) 1984-cü ildən etibarən
+                "yayılmağa dəyər ideyalar" (ideas worth spreading) fəlsəfəsi
+                altında fəaliyyət göstərən qlobal konfranslar silsiləsidir.
+              </p>
+              <p className="text-tedgray mb-8">
+                TEDx isə müstəqil təşkilatlar tərəfindən TED-in lisenziyası
+                altında təşkil edilən yerli tədbirlərdir. Bu tədbirlər TED
+                formatında olsa da, yerli icmalar və təşkilatçılar tərəfindən
+                müstəqil şəkildə təşkil edilir.
+              </p>
+            </motion.div>
 
-            <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
-              <h3 className="text-xl font-poppins font-semibold mb-3">
+            <motion.div 
+              variants={childVariants}
+              className="bg-white p-6 rounded-xl shadow-md mb-8 border-l-4 border-tedred relative overflow-hidden hover-scale shine-effect group"
+            >
+              {/* Animated decoration */}
+              <div className="absolute -right-10 -top-10 w-20 h-20 bg-tedred/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"/>
+              
+              <h3 className="text-xl font-poppins font-semibold mb-3 relative inline-block">
                 TEDx Naxçıvan Dövlət Universiteti
+                <motion.div 
+                  className="absolute -bottom-1 left-0 h-0.5 bg-tedred"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "100%" }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  viewport={{ once: true }}
+                />
               </h3>
               <p className="text-tedgray">
                 Bu il ilk dəfə təşkil olunan TEDx Naxçıvan Dövlət Universiteti
                 tədbirinin əsas mövzusu{" "}
-                <span className="font-semibold">
+                <span className="font-semibold text-tedred">
                   "İnnovasiya və Yaradıcılıq vasitəsilə Regional İnkişaf"
                 </span>{" "}
                 olacaq. Tədbirimiz gənc istedadların, yerli sahibkarların və
                 təhsil liderlərinin ideyalarını paylaşacaqları bir platform
                 olacaq.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex items-center">
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-tedred text-white mr-4">
-                  <Clock className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-semibold">18-dən çox</h4>
-                  <p className="text-sm text-tedgray">çıxış</p>
-                </div>
-              </div>
+            <motion.div 
+              variants={childVariants}
+              className="flex flex-col sm:flex-row justify-between gap-4"
+            >
+              <AnimatedStat 
+                icon={<Clock className="h-5 w-5" />}
+                value="18+ çıxış"
+                label="inspirasiyaverici danışıqlar"
+                index={0}
+              />
 
-              <div className="flex items-center">
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-tedred text-white mr-4">
-                  <Users className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-semibold">300+ iştirakçı</h4>
-                  <p className="text-sm text-tedgray">iştirakçılar</p>
-                </div>
-              </div>
+              <AnimatedStat 
+                icon={<Users className="h-5 w-5" />}
+                value="300+ iştirakçı"
+                label="canlı auditoriya"
+                index={1}
+              />
 
-              <div className="flex items-center">
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-tedred text-white mr-4">
-                  <Globe className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-semibold">2000+</h4>
-                  <p className="text-sm text-tedgray">online izləyici</p>
-                </div>
-              </div>
-            </div>
+              <AnimatedStat 
+                icon={<Globe className="h-5 w-5" />}
+                value="2000+ izləyici"
+                label="online yayım"
+                index={2}
+              />
+            </motion.div>
+            
+            {/* Interactive TEDx facts */}
+            <motion.div 
+              className="mt-10 space-y-4"
+              ref={refFacts}
+            >
+              {tedFacts.map((fact, index) => (
+                <FlipCard 
+                  key={index}
+                  title={fact.title}
+                  content={fact.content}
+                  icon={fact.icon}
+                  index={index}
+                />
+              ))}
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -179,36 +399,112 @@ export default function About() {
             variants={rightVariants}
             className="lg:w-1/2"
           >
-            <div className="relative h-full rounded-xl overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-                alt="Conference hall with audience"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+            <div className="h-full rounded-xl overflow-hidden shadow-lg relative group">
+              {/* Image with parallax effect */}
+              <div ref={imageRef} className="absolute inset-0 w-full h-full transition-transform duration-500 ease-out">
+                <img
+                  src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                  alt="Conference hall with audience"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Gradient overlay with parallax in opposite direction */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8"
+                whileHover={{ backgroundImage: "linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent)" }}
+              >
                 <div className="max-w-md">
-                  <h3 className="text-white text-2xl font-poppins font-semibold mb-2">
+                  <motion.h3 
+                    className="text-white text-2xl font-poppins font-semibold mb-4 relative inline-block"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.7, delay: 0.5 }}
+                  >
                     Global TEDx Facts
-                  </h3>
-                  <div className="flex flex-col gap-2 text-white">
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 rounded-full bg-tedred mr-2"></div>
-                      <p>Dünyada hər il 3000+ TEDx tədbiri keçirilir</p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 rounded-full bg-tedred mr-2"></div>
-                      <p>TEDx çıxışları 150+ dildə və 190+ ölkədə izlənir</p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-2 h-2 rounded-full bg-tedred mr-2"></div>
-                      <p>
+                    <motion.div 
+                      className="absolute -bottom-2 left-0 h-0.5 bg-tedred" 
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 0.7, delay: 1 }}
+                    />
+                  </motion.h3>
+                  
+                  <div className="flex flex-col gap-3 text-white/90">
+                    <motion.div 
+                      className="flex items-center group"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.7 }}
+                    >
+                      <motion.div 
+                        className="w-2 h-2 rounded-full bg-tedred mr-3 group-hover:scale-150 transition-transform duration-300"
+                        animate={{ scale: [1, 1.5, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                      />
+                      <p className="group-hover:translate-x-1 transition-transform duration-300">Dünyada hər il 3000+ TEDx tədbiri keçirilir</p>
+                    </motion.div>
+                    
+                    <motion.div 
+                      className="flex items-center group"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
+                    >
+                      <motion.div 
+                        className="w-2 h-2 rounded-full bg-tedred mr-3 group-hover:scale-150 transition-transform duration-300"
+                        animate={{ scale: [1, 1.5, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", delay: 0.3 }}
+                      />
+                      <p className="group-hover:translate-x-1 transition-transform duration-300">TEDx çıxışları 150+ dildə və 190+ ölkədə izlənir</p>
+                    </motion.div>
+                    
+                    <motion.div 
+                      className="flex items-center group"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.9 }}
+                    >
+                      <motion.div 
+                        className="w-2 h-2 rounded-full bg-tedred mr-3 group-hover:scale-150 transition-transform duration-300"
+                        animate={{ scale: [1, 1.5, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", delay: 0.6 }}
+                      />
+                      <p className="group-hover:translate-x-1 transition-transform duration-300">
                         TEDx video materialları YouTube-da milyardlarla baxış
                         toplayır
                       </p>
-                    </div>
+                    </motion.div>
                   </div>
+                  
+                  {/* Call to action with animation */}
+                  <motion.button
+                    className="mt-6 bg-tedred/90 hover:bg-tedred text-white py-2 px-4 rounded-md flex items-center group"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 1.1 }}
+                  >
+                    <span>Daha ətraflı məlumat</span>
+                    <motion.div
+                      className="ml-2"
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <ChevronRight size={16} />
+                    </motion.div>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
+              
+              {/* Zoom-in indicator on hover */}
+              <motion.div 
+                className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                whileHover={{ scale: 1.2 }}
+              >
+                <ZoomIn className="h-4 w-4 text-white" />
+              </motion.div>
             </div>
           </motion.div>
         </div>
