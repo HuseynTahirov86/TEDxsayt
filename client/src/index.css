@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom perspective class for 3D effects */
+.perspective-[300px] {
+  perspective: 300px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

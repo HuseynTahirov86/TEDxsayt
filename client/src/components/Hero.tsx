@@ -39,13 +39,16 @@ function CountdownTimer() {
   // Single time unit display component
   const TimeUnit = ({ value, label }: { value: number, label: string }) => (
     <div className="flex flex-col items-center mx-1 md:mx-2">
-      <div className="bg-tedred text-white text-xl md:text-3xl font-bold rounded-lg px-2 md:px-4 py-2 min-w-[50px] md:min-w-[80px] flex items-center justify-center overflow-hidden">
+      <div className="bg-tedred text-white text-xl md:text-3xl font-bold rounded-lg px-2 md:px-4 py-2 min-w-[50px] md:min-w-[80px] flex items-center justify-center perspective-[300px]">
         <motion.span
           key={value} // This makes the animation re-trigger when the value changes
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -20, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          initial={{ scale: 0.7, rotateX: -90, y: -10 }}
+          animate={{ scale: 1, rotateX: 0, y: 0 }}
+          transition={{ 
+            duration: 0.4, 
+            ease: "backOut" // Spring-like effect
+          }}
+          style={{ transformStyle: "preserve-3d", display: "inline-block" }}
         >
           {value.toString().padStart(2, '0')}
         </motion.span>
