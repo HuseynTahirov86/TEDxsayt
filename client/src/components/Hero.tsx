@@ -4,8 +4,8 @@ import { ChevronDown, Clock } from "lucide-react";
 
 // Countdown Timer component
 function CountdownTimer() {
-  // Target date: October 15, 2025
-  const targetDate = new Date('2025-10-15T10:00:00');
+  // Target date: June 16, 2025
+  const targetDate = new Date('2025-06-16T10:00:00');
   
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -113,7 +113,7 @@ export default function Hero() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 ></path>
               </svg>
-              <span>15 Oktyabr, 2025</span>
+              <span>16 İyun, 2025</span>
             </div>
             <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-tedred"></div>
             <div className="flex items-center">
