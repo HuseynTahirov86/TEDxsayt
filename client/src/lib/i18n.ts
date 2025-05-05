@@ -84,6 +84,9 @@ const resources = {
       'contact_title': 'Əlaqə saxlayın',
       'contact_subtitle': 'Sualınız var? Bizimlə əlaqə saxlayın və biz sizə köməklik göstərməyə hazırıq.',
       'contact_info': 'Əlaqə Məlumatları',
+      'university_address': 'Naxçıvan Dövlət Universitetinin Konservatoriyası, AZ7000\nNaxçıvan, Azərbaycan',
+      'email_address': 'info@tedxnakhchivansu.com',
+      'phone_number': '+994 50 123 45 67',
       'name': 'Ad',
       'email': 'E-poçt',
       'phone': 'Telefon',
@@ -125,8 +128,44 @@ const resources = {
       'registration_checkin_desc': 'İştirakçıların qeydiyyatı, qarşılanması və tədbir materiallarının paylanması.',
       'opening_speech': 'Açılış Nitqi',
       'opening_speech_desc': 'Naxçıvan Dövlət Universitetinin rektoru tərəfindən açılış nitqi.',
-      'ai_regional_innovation': 'Çıxış: "Aİ və Regional İnnovasiya: Naxçıvandan Dünyaya"',
-      'ai_regional_innovation_desc': 'Süni intellektin regional inkişafa təsiri və Naxçıvanda texnoloji innovasiya imkanları haqqında.',
+      'çıxış___ai_və_regional_i̇nnovasiya__naxçıvandan_dünyaya_': 'Çıxış: "Aİ və Regional İnnovasiya: Naxçıvandan Dünyaya"',
+      'çıxış___ai_və_regional_i̇nnovasiya__naxçıvandan_dünyaya__desc': 'Süni intellektin regional inkişafa təsiri və Naxçıvanda texnoloji innovasiya imkanları haqqında.',
+      
+      'çıxış___su_qıtlığı_şəraitində_davamlı_əkinçilik_texnologiyaları_': 'Çıxış: "Su Qıtlığı Şəraitində Davamlı Əkinçilik Texnologiyaları"',
+      'çıxış___su_qıtlığı_şəraitində_davamlı_əkinçilik_texnologiyaları__desc': 'Naxçıvanda su qıtlığı problemi və müasir texnologiyaların bu problemin həllində rolu.',
+      
+      'nahar_fasiləsi': 'Nahar Fasiləsi',
+      'nahar_fasiləsi_desc': 'İştirakçılar üçün şəbəkələşmə və müzakirə imkanı.',
+      
+      'çıxış___ucqar_bölgələrdə_rəqəmsal_təhsil_imkanları_': 'Çıxış: "Ucqar Bölgələrdə Rəqəmsal Təhsil İmkanları"',
+      'çıxış___ucqar_bölgələrdə_rəqəmsal_təhsil_imkanları__desc': 'Naxçıvanın ucqar kəndlərində təhsilə çıxış problemləri və texnologiyanın təqdim etdiyi həll yolları.',
+      
+      'çıxış___rəqəmsal_texnologiyalar_vasitəsilə_naxçıvan_mədəni_i̇rsinin_qorunması_': 'Çıxış: "Rəqəmsal Texnologiyalar vasitəsilə Naxçıvan Mədəni İrsinin Qorunması"',
+      'çıxış___rəqəmsal_texnologiyalar_vasitəsilə_naxçıvan_mədəni_i̇rsinin_qorunması__desc': 'Mədəni irsin qorunması və dünyaya tanıdılmasında müasir texnologiyaların rolu.',
+      
+      'panel_müzakirəsi___regional_i̇nkişafda_gənclərin_rolu_': 'Panel Müzakirəsi: "Regional İnkişafda Gənclərin Rolu"',
+      'panel_müzakirəsi___regional_i̇nkişafda_gənclərin_rolu__desc': 'Naxçıvanın inkişafında gənc mütəxəssislərin və sahibkarların rolu haqqında panel müzakirəsi.',
+      
+      'qəhvə_fasiləsi': 'Qəhvə Fasiləsi',
+      'qəhvə_fasiləsi_desc': 'Şəbəkələşmə və interaktiv təqdimatlar.',
+      
+      'çıxış___i̇qlim_dəyişikliyinə_qarşı_yerli_həll_yolları_': 'Çıxış: "İqlim Dəyişikliyinə Qarşı Yerli Həll Yolları"',
+      'çıxış___i̇qlim_dəyişikliyinə_qarşı_yerli_həll_yolları__desc': 'İqlim dəyişikliyinin Naxçıvan bölgəsinə təsirləri və yerli həll yollarının əhəmiyyəti.',
+      
+      'çıxış___naxçıvanda_günəş_enerjisi__i̇mkanlar_və_perspektivlər_': 'Çıxış: "Naxçıvanda Günəş Enerjisi: İmkanlar və Perspektivlər"', 
+      'çıxış___naxçıvanda_günəş_enerjisi__i̇mkanlar_və_perspektivlər__desc': 'Naxçıvanda alternativ enerji mənbələrinin inkişafı və günəş enerjisinin potensialı.',
+      
+      'bağlanış_nitqi_və_təşəkkürlər': 'Bağlanış Nitqi və Təşəkkürlər',
+      'bağlanış_nitqi_və_təşəkkürlər_desc': 'Tədbirin yekunlaşdırılması və təşəkkür nitqi.',
+      
+      'networking_və_foto_sessiyası': 'Networking və Foto Sessiyası',
+      'networking_və_foto_sessiyası_desc': 'İştirakçılar və spikerlərlə birgə şəbəkələşmə imkanı və xatirə fotoları.',
+      
+      'qeydiyyat_və_qarşılama': 'Qeydiyyat və Qarşılama',
+      'qeydiyyat_və_qarşılama_desc': 'İştirakçıların qeydiyyatı, qarşılanması və tədbir materiallarının paylanması.',
+      
+      'açılış_nitqi': 'Açılış Nitqi',
+      'açılış_nitqi_desc': 'Naxçıvan Dövlət Universitetinin rektoru tərəfindən açılış nitqi.',
 
       // WhyTedx
       'why': 'Nə üçün',
@@ -207,8 +246,44 @@ const resources = {
       'registration_checkin_desc': 'Registration, welcome and distribution of event materials.',
       'opening_speech': 'Opening Speech',
       'opening_speech_desc': 'Opening speech by the rector of Nakhchivan State University.',
-      'ai_regional_innovation': 'Talk: "AI and Regional Innovation: From Nakhchivan to the World"',
-      'ai_regional_innovation_desc': 'About the impact of artificial intelligence on regional development and technological innovation opportunities in Nakhchivan.',
+      'çıxış___ai_və_regional_i̇nnovasiya__naxçıvandan_dünyaya_': 'Talk: "AI and Regional Innovation: From Nakhchivan to the World"',
+      'çıxış___ai_və_regional_i̇nnovasiya__naxçıvandan_dünyaya__desc': 'About the impact of artificial intelligence on regional development and technological innovation opportunities in Nakhchivan.',
+      
+      'çıxış___su_qıtlığı_şəraitində_davamlı_əkinçilik_texnologiyaları_': 'Talk: "Sustainable Agriculture Technologies in Water Scarcity Conditions"',
+      'çıxış___su_qıtlığı_şəraitində_davamlı_əkinçilik_texnologiyaları__desc': 'About water scarcity problem in Nakhchivan and the role of modern technologies in solving this problem.',
+      
+      'nahar_fasiləsi': 'Lunch Break',
+      'nahar_fasiləsi_desc': 'Networking and discussion opportunity for participants.',
+      
+      'çıxış___ucqar_bölgələrdə_rəqəmsal_təhsil_imkanları_': 'Talk: "Digital Education Opportunities in Remote Areas"',
+      'çıxış___ucqar_bölgələrdə_rəqəmsal_təhsil_imkanları__desc': 'About education access problems in remote villages of Nakhchivan and the solutions offered by technology.',
+      
+      'çıxış___rəqəmsal_texnologiyalar_vasitəsilə_naxçıvan_mədəni_i̇rsinin_qorunması_': 'Talk: "Preservation of Nakhchivan Cultural Heritage through Digital Technologies"',
+      'çıxış___rəqəmsal_texnologiyalar_vasitəsilə_naxçıvan_mədəni_i̇rsinin_qorunması__desc': 'About the role of modern technologies in preserving and introducing cultural heritage to the world.',
+      
+      'panel_müzakirəsi___regional_i̇nkişafda_gənclərin_rolu_': 'Panel Discussion: "The Role of Youth in Regional Development"',
+      'panel_müzakirəsi___regional_i̇nkişafda_gənclərin_rolu__desc': 'Panel discussion about the role of young specialists and entrepreneurs in the development of Nakhchivan.',
+      
+      'qəhvə_fasiləsi': 'Coffee Break',
+      'qəhvə_fasiləsi_desc': 'Networking and interactive presentations.',
+      
+      'çıxış___i̇qlim_dəyişikliyinə_qarşı_yerli_həll_yolları_': 'Talk: "Local Solutions to Climate Change"',
+      'çıxış___i̇qlim_dəyişikliyinə_qarşı_yerli_həll_yolları__desc': 'About the effects of climate change on the Nakhchivan region and the importance of local solutions.',
+      
+      'çıxış___naxçıvanda_günəş_enerjisi__i̇mkanlar_və_perspektivlər_': 'Talk: "Solar Energy in Nakhchivan: Opportunities and Perspectives"', 
+      'çıxış___naxçıvanda_günəş_enerjisi__i̇mkanlar_və_perspektivlər__desc': 'About the development of alternative energy sources in Nakhchivan and the potential of solar energy.',
+      
+      'bağlanış_nitqi_və_təşəkkürlər': 'Closing Speech and Acknowledgments',
+      'bağlanış_nitqi_və_təşəkkürlər_desc': 'Finalization of the event and thank you speech.',
+      
+      'networking_və_foto_sessiyası': 'Networking and Photo Session',
+      'networking_və_foto_sessiyası_desc': 'Networking opportunity and souvenir photos with participants and speakers.',
+      
+      'qeydiyyat_və_qarşılama': 'Registration & Welcome',
+      'qeydiyyat_və_qarşılama_desc': 'Registration, welcome and distribution of event materials.',
+      
+      'açılış_nitqi': 'Opening Speech',
+      'açılış_nitqi_desc': 'Opening speech by the rector of Nakhchivan State University.',
       
       // Register
       'register_title': 'Secure Your Spot Now',

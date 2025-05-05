@@ -84,7 +84,7 @@ function ProgramTimelineItem({ item }: { item: ProgramItem }) {
               </div>
               <div>
                 <h4 className="font-semibold text-sm">{item.speaker.name}</h4>
-                <p className="text-xs text-tedgray">{item.speaker.title}</p>
+                <p className="text-xs text-tedgray">{t(item.speaker.title.toLowerCase().replace(/\s+|&/g, '_'))}</p>
               </div>
             </div>
           )}
