@@ -149,59 +149,40 @@ export default function Sponsors() {
                           className="flex flex-col items-center justify-center text-center p-4 relative group"
                         >
                           {sponsor.website ? (
-                            <motion.a 
+                            <a 
                               href={sponsor.website} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className={`${getSizeClass()} flex items-center justify-center bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 p-4`}
-                              whileHover={{ 
-                                y: -8, 
-                                scale: 1.05,
-                                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)" 
-                              }}
-                              whileTap={{ scale: 0.98 }}
+                              className={`${getSizeClass()} flex items-center justify-center bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 p-4 relative group-hover:-translate-y-2`}
                             >
-                              <motion.img 
-                                src={sponsor.logo} 
-                                alt={sponsor.name} 
-                                className="max-w-full max-h-full object-contain"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              />
-                              <motion.div
-                                className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent opacity-0 transition-opacity duration-300"
-                                whileHover={{ opacity: 1 }}
-                              />
-                            </motion.a>
+                              <div className="z-10 w-full h-full flex items-center justify-center">
+                                <img 
+                                  src={sponsor.logo} 
+                                  alt={sponsor.name} 
+                                  className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                />
+                              </div>
+                              <div className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            </a>
                           ) : (
-                            <motion.div 
-                              className={`${getSizeClass()} flex items-center justify-center bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 p-4`}
-                              whileHover={{ 
-                                y: -8, 
-                                scale: 1.05,
-                                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)" 
-                              }}
+                            <div
+                              className={`${getSizeClass()} flex items-center justify-center bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 p-4 relative group-hover:-translate-y-2`}
                             >
-                              <motion.img 
-                                src={sponsor.logo} 
-                                alt={sponsor.name} 
-                                className="max-w-full max-h-full object-contain"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              />
-                              <motion.div
-                                className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent opacity-0 transition-opacity duration-300"
-                                whileHover={{ opacity: 1 }}
-                              />
-                            </motion.div>
+                              <div className="z-10 w-full h-full flex items-center justify-center">
+                                <img 
+                                  src={sponsor.logo} 
+                                  alt={sponsor.name} 
+                                  className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                />
+                              </div>
+                              <div className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            </div>
                           )}
-                          <motion.p
-                            className="mt-3 text-sm font-medium text-gray-600 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-                            whileInView={{ opacity: 0 }}
-                            whileHover={{ opacity: 1, y: 0 }}
+                          <div
+                            className="mt-3 text-sm font-medium text-gray-600 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-y-1 group-hover:translate-y-0"
                           >
                             {sponsor.name}
-                          </motion.p>
+                          </div>
                         </motion.div>
                       ))}
                     </div>
@@ -220,34 +201,17 @@ export default function Sponsors() {
                   viewport={{ once: true }}
                   className="flex flex-col items-center justify-center text-center p-4 relative group cursor-pointer"
                 >
-                  <motion.div 
-                    className="w-24 h-24 bg-white rounded-lg shadow-sm flex items-center justify-center relative overflow-hidden"
-                    whileHover={{ 
-                      y: -8, 
-                      scale: 1.05,
-                      boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)" 
-                    }}
-                    whileTap={{ scale: 0.98 }}
+                  <div
+                    className="w-24 h-24 bg-white rounded-lg shadow-sm flex items-center justify-center relative overflow-hidden group-hover:-translate-y-2 group-hover:shadow-lg transition-all duration-300"
                   >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent opacity-0"
-                      whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                    <motion.div
-                      whileHover={{ scale: 1.2, rotate: 5, color: "#ef4444" }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    >
+                    <div className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="relative z-10 transition-transform duration-300 group-hover:scale-110 group-hover:text-tedred">
                       <sponsor.Icon size={44} className="text-gray-600 group-hover:text-tedred transition-all duration-300" />
-                    </motion.div>
-                  </motion.div>
-                  <motion.p 
-                    className="mt-3 text-sm font-medium text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={{ y: 10, opacity: 0 }}
-                    whileHover={{ y: 0, opacity: 1 }}
-                  >
+                    </div>
+                  </div>
+                  <div className="mt-3 text-sm font-medium text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {sponsor.name}
-                  </motion.p>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -273,11 +237,7 @@ export default function Sponsors() {
             viewport={{ once: true }}
           >
             <motion.h3 
-              className="text-2xl md:text-3xl font-bold mb-4 relative inline-block"
-              whileInView={{ 
-                borderBottom: ["4px solid rgba(239, 68, 68, 0)", "4px solid rgba(239, 68, 68, 1)"],
-                transition: { delay: 0.5, duration: 0.8 }
-              }}
+              className="text-2xl md:text-3xl font-bold mb-4 relative inline-block border-b-4 border-tedred"
             >
               Sponsor olmaq istəyirsiniz?
             </motion.h3>
@@ -299,7 +259,7 @@ export default function Sponsors() {
               transition={{ delay: 0.4, duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <motion.a
+              <a
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
@@ -308,19 +268,14 @@ export default function Sponsors() {
                     contactSection.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
-                className="relative overflow-hidden inline-flex items-center bg-tedred text-white font-medium px-8 py-3 rounded-md shadow-md group hover:scale-105 transition-all duration-300"
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)",
-                }}
-                whileTap={{ scale: 0.95 }}
+                className="relative overflow-hidden inline-flex items-center bg-tedred text-white font-medium px-8 py-3 rounded-md shadow-md group hover:scale-105 transition-all duration-300 hover:shadow-lg"
               >
                 <span className="absolute top-0 left-0 w-full h-full bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
                 <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-60 group-hover:-translate-y-40 ease-out"></span>
                 <span className="relative z-10">Sponsor olun</span>
-              </motion.a>
+              </a>
               
-              <motion.a
+              <a
                 href="#program"
                 onClick={(e) => {
                   e.preventDefault();
@@ -329,16 +284,10 @@ export default function Sponsors() {
                     programSection.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
-                className="relative overflow-hidden inline-flex items-center bg-white text-tedgray border border-gray-200 font-medium px-8 py-3 rounded-md shadow-sm group hover:border-tedred/30 transition-all duration-300"
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.05)",
-                  color: "#ef4444"
-                }}
-                whileTap={{ scale: 0.95 }}
+                className="relative overflow-hidden inline-flex items-center bg-white text-tedgray border border-gray-200 font-medium px-8 py-3 rounded-md shadow-sm group hover:border-tedred/30 transition-all duration-300 hover:text-tedred hover:shadow-md"
               >
                 <span className="relative z-10">Tədbirə baxın</span>
-              </motion.a>
+              </a>
             </motion.div>
           </motion.div>
         </motion.div>
