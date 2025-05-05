@@ -1,5 +1,71 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Clock } from "lucide-react";
+
+// Countdown Timer component
+function CountdownTimer() {
+  // Target date: June 16, 2025
+  const targetDate = new Date('2025-06-16T10:00:00');
+  
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+      
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        setTimeLeft({ days, hours, minutes, seconds });
+      }
+    };
+    
+    calculateTimeLeft(); // Calculate immediately on mount
+    
+    const timer = setInterval(calculateTimeLeft, 1000); // Update every second
+    
+    return () => clearInterval(timer); // Cleanup on unmount
+  }, []);
+  
+  // Single time unit display component
+  const TimeUnit = ({ value, label }: { value: number, label: string }) => (
+    <motion.div 
+      className="flex flex-col items-center mx-1 md:mx-2"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="bg-tedred text-white text-xl md:text-3xl font-bold rounded-lg px-2 md:px-4 py-2 min-w-[50px] md:min-w-[80px] flex items-center justify-center">
+        {value.toString().padStart(2, '0')}
+      </div>
+      <span className="text-[10px] md:text-xs mt-1 uppercase text-gray-300">{label}</span>
+    </motion.div>
+  );
+  
+  return (
+    <div className="flex justify-center items-center mt-8 mb-8">
+      <div className="flex flex-row items-center">
+        <Clock className="text-tedred mr-3 h-6 w-6 hidden md:block" />
+        <TimeUnit value={timeLeft.days} label="gün" />
+        <span className="text-tedred text-2xl font-bold">:</span>
+        <TimeUnit value={timeLeft.hours} label="saat" />
+        <span className="text-tedred text-2xl font-bold">:</span>
+        <TimeUnit value={timeLeft.minutes} label="dəq" />
+        <span className="text-tedred text-2xl font-bold">:</span>
+        <TimeUnit value={timeLeft.seconds} label="san" />
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
   const scrollToAbout = () => {
@@ -80,13 +146,16 @@ export default function Hero() {
         </motion.div>
 
         <motion.p
-          className="text-2xl font-light mb-10 max-w-2xl mx-auto"
+          className="text-2xl font-light mb-6 max-w-2xl mx-auto"
           initial={{ opacity: 0.5 }}
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
           "Sərhədləri aşan ideyalar, gələcəyi formalaşdıran fikirlər"
         </motion.p>
+        
+        {/* Countdown Timer */}
+        <CountdownTimer />
 
         <motion.button
           onClick={() => {
