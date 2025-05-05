@@ -34,40 +34,53 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
     },
   };
 
+  // Diagonal overlay color based on index (cycling through options)
+  const getOverlayClass = (id: number) => {
+    const options = [
+      "from-tedred/70 to-transparent", // Red overlay
+      "from-black/70 to-transparent",  // Black overlay
+      "from-gray-400/70 to-transparent", // Gray overlay
+    ];
+    return options[(id - 1) % options.length];
+  };
+
   return (
     <motion.div
       ref={ref}
       initial="hidden"
       animate={controls}
       variants={variants}
-      className="speaker-card group relative rounded-xl overflow-hidden shadow-md transition-all hover:shadow-lg"
+      className="speaker-card relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
     >
-      <div className="aspect-w-3 aspect-h-4 relative">
+      {/* Main container with diagonal design */}
+      <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+        {/* Speaker Image */}
         <img
           src={speaker.image}
           alt={speaker.name}
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-black/0 transition-opacity opacity-100 group-hover:bg-black/40"></div>
+        
+        {/* Diagonal Overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${getOverlayClass(speaker.id)}`}></div>
+        
+        {/* TEDx Logo */}
+        <div className="absolute top-4 left-4 text-white text-sm font-bold">
+          TEDx<span className="font-normal">NDU</span>
+        </div>
+        
+        {/* Speaker Info */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+          <h3 className="text-xl font-poppins font-bold text-tedred">
+            {speaker.name}
+          </h3>
+          <p className="text-white text-sm mt-1 font-light leading-tight">
+            {speaker.title}
+          </p>
+        </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 p-6 transform transition-transform duration-300 group-hover:-translate-y-1/2 group-hover:opacity-0">
-        <h3 className="text-white text-xl font-poppins font-semibold">
-          {speaker.name}
-        </h3>
-        <p className="text-gray-200">{speaker.title}</p>
-      </div>
-
-      <div className="absolute inset-0 bg-tedred/90 p-6 flex flex-col justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <h3 className="text-white text-xl font-poppins font-semibold mb-2">
-          {speaker.name}
-        </h3>
-        <p className="text-gray-200 mb-2">{speaker.title}</p>
-        <div className="w-12 h-0.5 bg-white mb-4"></div>
-        <p className="text-white text-sm mb-4">{speaker.bio}</p>
-        <h4 className="text-white font-semibold mb-1">Çıxış mövzusu:</h4>
-        <p className="text-white italic">"{speaker.topic}"</p>
-      </div>
+      
+      {/* Modal/popup could be added here in the future for bio details */}
     </motion.div>
   );
 }
@@ -123,7 +136,7 @@ export default function Speakers() {
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-tedred"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {speakers?.map((speaker: Speaker) => (
               <SpeakerCard key={speaker.id} speaker={speaker} />
             ))}
