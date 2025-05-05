@@ -79,6 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register for the event
   app.post(`${apiPrefix}/registration`, async (req, res) => {
     try {
+      console.log("Registration request received:", req.body);
       const { firstName, lastName, email, phone, occupation, topics, terms } = req.body;
 
       // Basic validation
@@ -87,30 +88,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Check if email already registered using raw MySQL query
+      console.log("Checking if email already exists:", email);
       const [rows] = await pool.query(
         'SELECT id FROM registrations WHERE email = ?',
         [email]
       );
 
       if (Array.isArray(rows) && rows.length > 0) {
+        console.log("Email already registered");
         return res.status(400).json({ message: "This email is already registered" });
       }
 
       // Create registration using raw MySQL query
-      const [result] = await pool.query(
-        'INSERT INTO registrations (first_name, last_name, email, phone, occupation, topics) VALUES (?, ?, ?, ?, ?, ?)',
-        [
-          firstName,
-          lastName,
-          email,
-          phone,
-          occupation || null,
-          topics ? topics.join(",") : null
-        ]
-      );
-
-      // Get inserted ID from the query result
-      const insertedId = (result as any).insertId;
+      console.log("Inserting new registration to database");
+      let insertedId;
+      try {
+        const [result] = await pool.query(
+          'INSERT INTO registrations (first_name, last_name, email, phone, occupation, topics) VALUES (?, ?, ?, ?, ?, ?)',
+          [
+            firstName,
+            lastName,
+            email,
+            phone,
+            occupation || null,
+            topics ? topics.join(",") : null
+          ]
+        );
+        console.log("Registration inserted successfully, result:", result);
+        insertedId = (result as any).insertId;
+      } catch (dbError: any) {
+        console.error("Database error during registration:", dbError);
+        return res.status(500).json({ message: "Database error during registration", error: dbError.message });
+      }
+      console.log("Registration complete, inserted ID:", insertedId);
       
       // Return the newly created registration
       res.status(201).json({

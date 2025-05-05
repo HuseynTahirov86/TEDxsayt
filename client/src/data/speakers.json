@@ -1,13 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Leyla Əliyeva",
-    "title": "Tech Entrepreneur & AI Researcher",
-    "bio": "Süni intellekt sahəsində 10+ illik təcrübəyə malik olan Leyla, hazırda Azərbaycanda texnologiya startaplarını dəstəkləyən və mentor kimi çalışan bir sahibkardır.",
-    "topic": "AI və Regional İnnovasiya: Naxçıvandan Dünyaya",
-    "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80"
-  },
-  {
     "id": 2,
     "name": "Orxan Məmmədov",
     "title": "Sustainable Agriculture Specialist",
