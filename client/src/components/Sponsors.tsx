@@ -149,24 +149,27 @@ export default function Sponsors() {
                           whileHover={{ y: -5 }}
                           className="flex flex-col items-center justify-center text-center p-4"
                         >
-                          <div className={`${getSizeClass()} flex items-center justify-center mb-4`}>
-                            <img 
-                              src={sponsor.logo} 
-                              alt={sponsor.name} 
-                              className="max-w-full max-h-full object-contain"
-                            />
-                          </div>
                           {sponsor.website ? (
                             <a 
                               href={sponsor.website} 
                               target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="text-sm font-medium hover:text-tedred transition-colors"
+                              rel="noopener noreferrer"
+                              className={`${getSizeClass()} flex items-center justify-center`}
                             >
-                              {sponsor.name}
+                              <img 
+                                src={sponsor.logo} 
+                                alt={sponsor.name} 
+                                className="max-w-full max-h-full object-contain"
+                              />
                             </a>
                           ) : (
-                            <p className="text-sm font-medium">{sponsor.name}</p>
+                            <div className={`${getSizeClass()} flex items-center justify-center`}>
+                              <img 
+                                src={sponsor.logo} 
+                                alt={sponsor.name} 
+                                className="max-w-full max-h-full object-contain"
+                              />
+                            </div>
                           )}
                         </motion.div>
                       ))}
@@ -187,8 +190,7 @@ export default function Sponsors() {
                   whileHover={{ y: -5 }}
                   className="flex flex-col items-center justify-center text-center p-4"
                 >
-                  <sponsor.Icon size={60} className="text-gray-600 hover:text-tedred transition-colors mb-3" />
-                  <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
+                  <sponsor.Icon size={60} className="text-gray-600 hover:text-tedred transition-colors" />
                 </motion.div>
               ))}
             </div>
