@@ -155,7 +155,7 @@ function CountdownTimer() {
             ></div>
           </div>
           
-          <AnimatedNumber value={value} />
+          <span>{value.toString().padStart(2, '0')}</span>
         </div>
         <motion.span 
           className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium"
@@ -640,7 +640,7 @@ export default function Hero() {
 
       {/* Scroll down indicator */}
       <motion.div
-        className="absolute bottom-8 w-full text-center z-10"
+        className="absolute bottom-4 w-full text-center z-10"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.6 }}
@@ -652,7 +652,7 @@ export default function Hero() {
           whileHover={{ scale: 1.1 }}
         >
           <motion.span 
-            className="text-xs font-medium tracking-wider uppercase mb-1 opacity-70 group-hover:opacity-100 transition-opacity"
+            className="text-xs font-medium tracking-wider uppercase mb-2 opacity-70 group-hover:opacity-100 transition-opacity"
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
