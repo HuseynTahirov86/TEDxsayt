@@ -673,6 +673,7 @@ type ReplyFormValues = z.infer<typeof replyFormSchema>;
 type SpeakerFormValues = z.infer<typeof speakerFormSchema>;
 type SessionFormValues = z.infer<typeof sessionFormSchema>;
 type ProgramItemFormValues = z.infer<typeof programItemFormSchema>;
+type SponsorFormValues = z.infer<typeof sponsorFormSchema>;
 
 // Speakers Panel Component
 function SpeakersPanel() {
@@ -1117,7 +1118,6 @@ function ProgramPanel() {
 }
 
 // Sponsors Panel Component
-type SponsorFormValues = z.infer<typeof sponsorFormSchema>;
 
 function SponsorsPanel() {
   const { toast } = useToast();
