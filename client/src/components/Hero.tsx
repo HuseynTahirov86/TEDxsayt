@@ -1,8 +1,34 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ChevronDown, Clock } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ChevronDown, Clock, Calendar, MapPin } from "lucide-react";
 
-// Countdown Timer component
+// Animated number for countdown
+const AnimatedNumber = ({ value }: { value: number }) => {
+  const prevValue = useRef(value);
+  
+  useEffect(() => {
+    prevValue.current = value;
+  }, [value]);
+  
+  return (
+    <div className="relative h-full overflow-hidden">
+      <AnimatePresence initial={false}>
+        <motion.span
+          key={value}
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 10, opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="block"
+        >
+          {value.toString().padStart(2, '0')}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+};
+
+// Enhanced Countdown Timer component
 function CountdownTimer() {
   // Target date: June 16, 2025
   const targetDate = new Date('2025-06-16T10:00:00');
@@ -36,35 +62,52 @@ function CountdownTimer() {
     return () => clearInterval(timer); // Cleanup on unmount
   }, []);
   
-  // Simple time unit display component without animation
+  // Enhanced time unit display component
   const TimeUnit = ({ value, label }: { value: number, label: string }) => {    
     return (
-      <div className="flex flex-col items-center mx-1 md:mx-2">
-        <div className="bg-tedred text-white text-xl md:text-3xl font-bold rounded-lg px-2 md:px-4 py-2 min-w-[50px] md:min-w-[80px] flex items-center justify-center">
-          <span>{value.toString().padStart(2, '0')}</span>
+      <div className="flex flex-col items-center mx-1.5 md:mx-3">
+        <div className="bg-tedred relative text-white text-xl md:text-3xl xl:text-4xl font-bold rounded-lg px-2 md:px-4 py-3 min-w-[55px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-lg overflow-hidden group">
+          {/* Subtle animated gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
+          <AnimatedNumber value={value} />
         </div>
-        <span className="text-[10px] md:text-xs mt-1 uppercase text-gray-300">{label}</span>
+        <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">{label}</span>
       </div>
     );
   };
   
   return (
-    <div className="flex justify-center items-center mt-8 mb-8">
-      <div className="flex flex-row items-center">
-        <Clock className="text-tedred mr-3 h-6 w-6 hidden md:block" />
-        <TimeUnit value={timeLeft.days} label="Gün" />
-        <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.hours} label="Saat" />
-        <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.minutes} label="Dəqiqə" />
-        <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.seconds} label="Saniyə" />
+    <motion.div 
+      className="flex justify-center items-center mt-8 mb-8"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+    >
+      <div className="relative p-6 rounded-xl bg-black/30 backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-r from-tedred/10 to-black/10 rounded-xl opacity-50"></div>
+        <div className="flex flex-row items-center relative z-10">
+          <Clock className="text-tedred mr-3 h-6 w-6 hidden md:block animate-pulse" />
+          <TimeUnit value={timeLeft.days} label="Gün" />
+          <span className="text-tedred text-2xl font-bold">:</span>
+          <TimeUnit value={timeLeft.hours} label="Saat" />
+          <span className="text-tedred text-2xl font-bold">:</span>
+          <TimeUnit value={timeLeft.minutes} label="Dəqiqə" />
+          <span className="text-tedred text-2xl font-bold">:</span>
+          <TimeUnit value={timeLeft.seconds} label="Saniyə" />
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Hero() {
+  // Hook to create parallax effect on scroll
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -50]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
+  
   const scrollToAbout = () => {
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
@@ -77,116 +120,146 @@ export default function Hero() {
       id="hero"
       className="relative h-screen flex items-center justify-center text-white parallax bg-tedblack overflow-hidden"
     >
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/90 z-10"></div>
+      {/* Background with parallax effect */}
+      <motion.div 
+        className="absolute inset-0 z-0" 
+        style={{ y: y1 }}
+      >
+        {/* Overlay gradients for depth and improved text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90 z-10"></div>
+        
+        {/* Subtle red gradient accent */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-tedred/30 via-transparent to-transparent mix-blend-overlay z-10 opacity-60"></div>
+        
         <img
           src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
           alt="University Auditorium"
           className="w-full h-full object-cover object-center"
         />
+      </motion.div>
+
+      {/* Animated particles effect (subtle) */}
+      <div className="absolute inset-0 z-5 opacity-30 pointer-events-none overflow-hidden">
+        <div className="absolute h-2 w-2 rounded-full bg-white top-1/4 left-1/4 animate-pulse"></div>
+        <div className="absolute h-1 w-1 rounded-full bg-white top-1/3 left-1/2 animate-ping" style={{ animationDelay: '1s', animationDuration: '3s' }}></div>
+        <div className="absolute h-1.5 w-1.5 rounded-full bg-tedred top-2/3 left-1/3 animate-ping" style={{ animationDelay: '0.5s', animationDuration: '4s' }}></div>
+        <div className="absolute h-2 w-2 rounded-full bg-white top-1/2 right-1/4 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute h-1 w-1 rounded-full bg-tedred top-1/4 right-1/3 animate-ping" style={{ animationDelay: '2s', animationDuration: '3.5s' }}></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 text-center">
+      {/* Content container with inverse parallax movement */}
+      <motion.div 
+        className="container mx-auto px-4 relative z-10 text-center"
+        style={{ y: y2, opacity }}
+      >
+        {/* TED Logo */}
+        <motion.div
+          className="mb-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <div className="w-24 h-12 mx-auto bg-tedred rounded-sm flex items-center justify-center">
+            <span className="text-white font-bold tracking-tight text-2xl">TED<span className="font-normal text-base">x</span></span>
+          </div>
+        </motion.div>
+        
+        {/* Main Content */}
         <motion.div
           className="flex flex-col items-center mb-8"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
         >
-
-          <h1 className="font-poppins font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">
-            TEDx<span className="font-normal">Nakhchivan State University</span>
+          <h1 className="font-poppins font-bold text-4xl md:text-5xl lg:text-7xl tracking-tight mb-5">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">TEDx</span>
+            <span className="font-normal">Nakhchivan State University</span>
           </h1>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 text-lg md:text-xl">
-            <div className="flex items-center">
-              <svg
-                className="w-5 h-5 mr-2 text-tedred"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                ></path>
-              </svg>
-              <span>16 İyun, 2025</span>
-            </div>
-            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-tedred"></div>
-            <div className="flex items-center">
-              <svg
-                className="w-5 h-5 mr-2 text-tedred"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                ></path>
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                ></path>
-              </svg>
-              <span>Naxçıvan Dövlət Universiteti</span>
+          
+          <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm mb-6">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 text-base md:text-lg">
+              <div className="flex items-center">
+                <Calendar className="w-5 h-5 mr-2 text-tedred" />
+                <span className="font-medium">16 İyun, 2025</span>
+              </div>
+              <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-tedred"></div>
+              <div className="flex items-center">
+                <MapPin className="w-5 h-5 mr-2 text-tedred" />
+                <span className="font-medium">Naxçıvan Dövlət Universiteti</span>
+              </div>
             </div>
           </div>
         </motion.div>
 
-        <motion.p
-          className="text-2xl font-light mb-6 max-w-2xl mx-auto"
-          initial={{ opacity: 0.5 }}
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 3, repeat: Infinity }}
+        {/* TEDx Tagline - enhanced animation */}
+        <motion.div
+          className="mb-6 relative"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
         >
-          İdeyalar yayılmağa layiqdir
-        </motion.p>
+          <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-tedred/30 to-transparent blur-xl opacity-30"></div>
+          <motion.p
+            className="text-2xl md:text-3xl font-light max-w-2xl mx-auto relative z-10"
+            animate={{ 
+              opacity: [0.7, 1, 0.7],
+              scale: [1, 1.01, 1],
+            }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            İdeyalar yayılmağa layiqdir
+          </motion.p>
+        </motion.div>
         
         {/* Countdown Timer */}
         <CountdownTimer />
 
-        <motion.button
-          onClick={() => {
-            const registerSection = document.getElementById("register");
-            if (registerSection) {
-              registerSection.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
-          className="inline-block bg-tedred hover:bg-red-700 text-white font-medium px-8 py-3 rounded-md transition-all transform hover:scale-105 text-lg"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        {/* Registration Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
         >
-          İndi qeydiyyatdan keçin
-        </motion.button>
-      </div>
+          <motion.button
+            onClick={() => {
+              const registerSection = document.getElementById("register");
+              if (registerSection) {
+                registerSection.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="relative inline-flex items-center px-8 py-4 overflow-hidden text-lg font-medium text-white bg-tedred rounded-md shadow-lg group hover:scale-105 transition-all duration-300"
+            whileHover={{ scale: 1.05, boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-20 group-hover:-translate-y-20 ease-out"></span>
+            <span className="relative">İndi qeydiyyatdan keçin</span>
+          </motion.button>
+        </motion.div>
+      </motion.div>
 
+      {/* Scroll down indicator */}
       <motion.div
         className="absolute bottom-8 w-full text-center z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        transition={{ delay: 1.2 }}
       >
-        <button
+        <motion.button
           onClick={scrollToAbout}
-          className="inline-block text-white"
+          className="inline-flex flex-col items-center text-white group"
           aria-label="Scroll down"
+          whileHover={{ scale: 1.1 }}
         >
+          <span className="text-xs font-medium tracking-wider uppercase mb-1 opacity-70 group-hover:opacity-100 transition-opacity">Kəşf et</span>
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="relative"
           >
-            <ChevronDown className="h-8 w-8" />
+            <div className="absolute -inset-1 rounded-full blur-sm bg-tedred/30 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+            <ChevronDown className="h-8 w-8 relative z-10" />
           </motion.div>
-        </button>
+        </motion.button>
       </motion.div>
     </section>
   );

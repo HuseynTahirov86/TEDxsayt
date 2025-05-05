@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
+import { Clock, User, ChevronRight, Calendar, MapPin } from "lucide-react";
 
 interface ProgramSession {
   id: string;
@@ -22,71 +23,114 @@ interface ProgramItem {
   session: string;
 }
 
-function ProgramTimelineItem({ item }: { item: ProgramItem }) {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    threshold: 0.2,
+// Timeline item component with enhanced visuals and animations
+function ProgramTimelineItem({ item, index }: { item: ProgramItem; index: number }) {
+  // Determine if the item is a break, lunch, etc. based on title keywords
+  const isBreak = item.title.toLowerCase().includes('qeydiyyat') || 
+                  item.title.toLowerCase().includes('fasilə') || 
+                  item.title.toLowerCase().includes('nahar') ||
+                  item.title.toLowerCase().includes('çay');
+  
+  // Different styling for break items
+  const itemStyle = isBreak 
+    ? "bg-gray-50 border border-gray-200" 
+    : "bg-white shadow-md hover:shadow-lg";
+
+  // Different styling for the timeline dot
+  const dotStyle = isBreak
+    ? "bg-gray-400"
+    : "bg-tedred";
+
+  // Create staggered animation for items
+  const [itemRef, itemInView] = useInView({
+    threshold: 0.1,
     triggerOnce: true,
   });
 
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
-  }, [controls, inView]);
-
-  const variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={variants}
-      className="mb-12 md:max-w-4xl md:mx-auto"
+    <motion.div 
+      ref={itemRef}
+      initial={{ opacity: 0, y: 20 }}
+      animate={itemInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="flex items-start mb-8 relative group"
     >
-      <div className="flex items-start">
-        <div className="relative">
-          <div className="absolute md:static top-0 left-0 transform -translate-x-8 md:transform-none">
-            <div className="w-7 h-7 bg-tedred rounded-full flex items-center justify-center shadow-red">
-              <div className="w-3 h-3 bg-white rounded-full"></div>
-            </div>
-          </div>
-          <div className="hidden md:block text-center mb-2 font-semibold">
-            {item.time}
-          </div>
+      {/* Time indicator */}
+      <div className="flex-shrink-0 w-20 md:w-28 pt-1 text-right">
+        <div className="flex items-center justify-end">
+          <Clock className="w-4 h-4 mr-1 text-tedred hidden md:block" />
+          <span className="text-tedred font-semibold whitespace-nowrap">{item.time}</span>
         </div>
-        <div className="flex-1 md:ml-8 bg-white rounded-lg shadow-sm p-6">
-          <div className="md:hidden text-tedred font-semibold mb-2">
-            {item.time}
-          </div>
-          <h3 className="text-xl font-poppins font-semibold mb-2">
-            {item.title}
-          </h3>
-          <p className="text-tedgray mb-3">{item.description}</p>
-          {item.speaker && (
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
-                <img
-                  src={item.speaker.image}
-                  alt={item.speaker.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <h4 className="font-semibold text-sm">{item.speaker.name}</h4>
-                <p className="text-xs text-tedgray">{item.speaker.title}</p>
-              </div>
-            </div>
+      </div>
+      
+      {/* Timeline connector */}
+      <div className="relative ml-4 mr-6 flex-shrink-0">
+        {/* Vertical line */}
+        <div className="h-full w-0.5 bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200 absolute left-0"></div>
+        
+        {/* Dot marker */}
+        <motion.div 
+          className={`h-4 w-4 rounded-full ${dotStyle} relative z-10 flex items-center justify-center`}
+          whileHover={{ scale: 1.2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          {!isBreak && (
+            <div className="h-2 w-2 rounded-full bg-white"></div>
           )}
-        </div>
+        </motion.div>
+      </div>
+      
+      {/* Content card */}
+      <div className={cn(
+        "flex-grow rounded-lg p-5 transition-all duration-300 transform",
+        itemStyle,
+        !isBreak && "group-hover:translate-x-1"
+      )}>
+        {/* Title with enhanced styling */}
+        <h3 className={cn(
+          "text-lg font-bold mb-2 flex items-center",
+          isBreak ? "text-gray-600" : "text-tedblack"
+        )}>
+          {item.title}
+          {!isBreak && (
+            <motion.span 
+              className="inline-block ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
+            >
+              <ChevronRight className="h-4 w-4 text-tedred" />
+            </motion.span>
+          )}
+        </h3>
+        
+        {/* Speaker information with improved layout */}
+        {item.speaker && (
+          <div className="flex items-center mb-4 p-3 bg-gray-50 rounded-md border-l-2 border-tedred">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden mr-3 shadow-sm">
+              <img 
+                src={item.speaker.image} 
+                alt={item.speaker.name} 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 ring-2 ring-tedred/20 rounded-full"></div>
+            </div>
+            <div>
+              <p className="font-semibold text-sm flex items-center">
+                <User className="w-3 h-3 mr-1 text-tedred opacity-70" />
+                {item.speaker.name}
+              </p>
+              <p className="text-gray-500 text-xs mt-0.5">{item.speaker.title}</p>
+            </div>
+          </div>
+        )}
+        
+        {/* Description with improved typography */}
+        <p className={cn(
+          "text-sm leading-relaxed",
+          isBreak ? "text-gray-500" : "text-gray-600"
+        )}>
+          {item.description}
+        </p>
       </div>
     </motion.div>
   );
