@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import tedxLogo from "@/assets/tedx-logo.svg";
+import nduLogo from "@/assets/images/ndu-logo.svg";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
