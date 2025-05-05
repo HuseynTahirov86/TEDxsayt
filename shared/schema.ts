@@ -126,3 +126,23 @@ export const insertContactSchema = createInsertSchema(contacts, {
 
 export type InsertContact = z.infer<typeof insertContactSchema>;
 export type Contact = typeof contacts.$inferSelect;
+
+// Sponsors table
+export const sponsors = mysqlTable("sponsors", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  logo: varchar("logo", { length: 2000 }).notNull(),
+  website: varchar("website", { length: 1000 }),
+  level: varchar("level", { length: 100 }).notNull(), // platinum, gold, silver, etc.
+  order: int("order").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSponsorSchema = createInsertSchema(sponsors, {
+  name: (schema) => schema.min(2, "Name must be at least 2 characters"),
+  logo: (schema) => schema.min(5, "Logo URL must be at least 5 characters"),
+  level: (schema) => schema.min(3, "Sponsor level must be at least 3 characters"),
+});
+
+export type InsertSponsor = z.infer<typeof insertSponsorSchema>;
+export type Sponsor = typeof sponsors.$inferSelect;

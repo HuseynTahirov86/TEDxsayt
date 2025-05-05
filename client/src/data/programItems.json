@@ -5,7 +5,8 @@
     "title": "Qeydiyyat və Qarşılama",
     "description": "İştirakçıların qeydiyyatı, qarşılanması və tədbir materiallarının paylanması.",
     "session": "morning",
-    "order": 1
+    "order": 1,
+    "speakerId": 2
   },
   {
     "id": 2,
