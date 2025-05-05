@@ -108,6 +108,10 @@ const resources = {
       'silver': 'Gümüş',
       
       // Footer
+      'footer_about_text': 'TEDx, TED lisenziyası altında yerli icmalar tərəfindən müstəqil şəkildə təşkil edilən tədbirlərdir. Bu tədbir, TED konfrans formatında, yerli toplum üçün TED təcrübəsini yaratmaq məqsədi daşıyır.',
+      'navigation': 'Naviqasiya',
+      'contacts': 'Əlaqələr',
+      'tedx_license': 'TEDx, TED lisenziyası altında müstəqil şəkildə təşkil edilir',
       'rights_reserved': 'Bütün hüquqlar qorunur',
       'privacy_policy': 'Gizlilik Siyasəti',
       'terms_of_service': 'Xidmət Şərtləri'
@@ -217,6 +221,10 @@ const resources = {
       'silver': 'Silver',
       
       // Footer
+      'footer_about_text': 'TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. This event is organized under TED license to create a TED-like experience for the local community.',
+      'navigation': 'Navigation',
+      'contacts': 'Contacts',
+      'tedx_license': 'TEDx is independently organized under TED license',
       'rights_reserved': 'All rights reserved',
       'privacy_policy': 'Privacy Policy',
       'terms_of_service': 'Terms of Service'
