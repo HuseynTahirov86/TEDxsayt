@@ -4,7 +4,6 @@ import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
-import connectPgSimple from "connect-pg-simple";
 import { pool } from "@db";
 
 // Types for user authentication
@@ -39,20 +38,14 @@ async function comparePasswords(supplied: string, stored: string) {
 
 // Set up authentication
 export function setupAuth(app: Express) {
-  // Session store setup
-  const MySQLStore = connectPgSimple(session);
-  const sessionStore = new MySQLStore({
-    pool: pool as any, // Type casting for MySQL pool
-    createTableIfMissing: true,
-    tableName: "session" // Default is "session"
-  });
+  // Use default memory store for sessions (for simplicity)
 
   // Session configuration
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "tedx-ndu-secret-key",
     resave: false,
     saveUninitialized: false,
-    store: sessionStore,
+    // Using the default MemoryStore
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       httpOnly: true,
