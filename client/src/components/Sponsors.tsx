@@ -65,45 +65,115 @@ export default function Sponsors() {
           </p>
         </motion.div>
 
-        {/* Animated grid for sponsor logos */}
+        {/* Animated grid for sponsor logos grouped by level */}
         <div className="my-10 bg-white shadow-sm rounded-lg py-8 px-4">
           {isLoading ? (
             <div className="flex justify-center items-center py-8">
               <Loader2 className="h-8 w-8 animate-spin text-tedred" />
             </div>
           ) : sponsors && sponsors.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {sponsors.sort((a, b) => a.order - b.order).map((sponsor, index) => (
-                <motion.div 
-                  key={`sponsor-${sponsor.id}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
-                  className="flex flex-col items-center justify-center text-center p-4"
-                >
-                  <div className="w-24 h-24 flex items-center justify-center mb-3">
-                    <img 
-                      src={sponsor.logo} 
-                      alt={sponsor.name} 
-                      className="max-w-full max-h-full object-contain"
-                    />
+            <div className="space-y-12">
+              {/* Group sponsors by level and display each group */}
+              {["platinum", "gold", "silver", "bronze", "partner", "media"].map(level => {
+                const levelSponsors = sponsors.filter(s => s.level === level);
+                if (levelSponsors.length === 0) return null;
+                
+                // Determine level title
+                const levelTitle = {
+                  platinum: "Platinum Sponsorlar",
+                  gold: "Qızıl Sponsorlar",
+                  silver: "Gümüş Sponsorlar",
+                  bronze: "Bürünc Sponsorlar",
+                  partner: "Tərəfdaşlar",
+                  media: "Media Tərəfdaşları"
+                }[level];
+                
+                // Determine image size based on level and count
+                const getSizeClass = () => {
+                  // Base size depends on level importance
+                  const baseSize = {
+                    platinum: "w-40 h-40",
+                    gold: "w-32 h-32",
+                    silver: "w-28 h-28",
+                    bronze: "w-24 h-24",
+                    partner: "w-24 h-24",
+                    media: "w-24 h-24"
+                  }[level];
+                  
+                  // If there's only one, make it larger
+                  if (levelSponsors.length === 1) {
+                    return {
+                      platinum: "w-64 h-64",
+                      gold: "w-48 h-48",
+                      silver: "w-40 h-40",
+                      bronze: "w-36 h-36",
+                      partner: "w-36 h-36",
+                      media: "w-36 h-36"
+                    }[level];
+                  }
+                  
+                  // If there are two, make them medium sized
+                  if (levelSponsors.length === 2) {
+                    return {
+                      platinum: "w-52 h-52",
+                      gold: "w-40 h-40",
+                      silver: "w-36 h-36",
+                      bronze: "w-32 h-32",
+                      partner: "w-32 h-32",
+                      media: "w-32 h-32"
+                    }[level];
+                  }
+                  
+                  return baseSize;
+                };
+                
+                // Determine grid columns based on count
+                const getGridClass = () => {
+                  if (levelSponsors.length === 1) return "grid-cols-1";
+                  if (levelSponsors.length === 2) return "grid-cols-2";
+                  if (levelSponsors.length === 3) return "grid-cols-3";
+                  return "grid-cols-2 md:grid-cols-4"; // 4 or more
+                };
+                
+                return (
+                  <div key={level} className="pt-6 first:pt-0">
+                    <h3 className="text-xl font-semibold text-center mb-6">{levelTitle}</h3>
+                    <div className={`grid ${getGridClass()} gap-8 justify-items-center`}>
+                      {levelSponsors.sort((a, b) => a.order - b.order).map((sponsor, index) => (
+                        <motion.div 
+                          key={`sponsor-${sponsor.id}`}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: index * 0.1 }}
+                          viewport={{ once: true }}
+                          whileHover={{ y: -5 }}
+                          className="flex flex-col items-center justify-center text-center p-4"
+                        >
+                          <div className={`${getSizeClass()} flex items-center justify-center mb-4`}>
+                            <img 
+                              src={sponsor.logo} 
+                              alt={sponsor.name} 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          {sponsor.website ? (
+                            <a 
+                              href={sponsor.website} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="text-sm font-medium hover:text-tedred transition-colors"
+                            >
+                              {sponsor.name}
+                            </a>
+                          ) : (
+                            <p className="text-sm font-medium">{sponsor.name}</p>
+                          )}
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
-                  {sponsor.website ? (
-                    <a 
-                      href={sponsor.website} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-sm text-gray-700 font-medium hover:text-tedred transition-colors"
-                    >
-                      {sponsor.name}
-                    </a>
-                  ) : (
-                    <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
-                  )}
-                </motion.div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
