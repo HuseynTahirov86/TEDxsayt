@@ -276,17 +276,22 @@ export default function Register() {
                     />
 
                     <div>
-                      <button
+                      <motion.button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-tedred hover:bg-red-700 text-white font-medium py-3 rounded-md transition-colors flex justify-center items-center"
+                        className="relative overflow-hidden w-full bg-tedred text-white font-medium py-3 rounded-md shadow-md group hover:scale-105 transition-all duration-300 flex justify-center items-center"
+                        whileHover={{ scale: 1.05, boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)" }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        {isSubmitting ? (
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        ) : (
-                          "Qeydiyyatdan keç"
-                        )}
-                      </button>
+                        <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-20 group-hover:-translate-y-20 ease-out"></span>
+                        <span className="relative z-10">
+                          {isSubmitting ? (
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                          ) : (
+                            "Qeydiyyatdan keç"
+                          )}
+                        </span>
+                      </motion.button>
                     </div>
                   </form>
                 </Form>
