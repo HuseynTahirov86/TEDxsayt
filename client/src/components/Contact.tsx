@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { MapPin, Mail, Phone, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import { MapPin, Mail, Phone, Instagram, Linkedin, Twitter, Youtube, Check } from "lucide-react";
 import { useContact } from "@/hooks/use-contact";
+import { useTranslation } from "react-i18next";
 
 export default function Contact() {
   const { contactForm, isSubmitting, isSuccess, handleContact, resetForm } = useContact();
+  const { t } = useTranslation();
 
   const controlsLeft = useAnimation();
   const controlsRight = useAnimation();
@@ -40,10 +42,10 @@ export default function Contact() {
     <section id="contact" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
-          Əlaqə
+          {t('contact')}
         </h2>
         <p className="text-tedgray text-center max-w-2xl mx-auto mb-12">
-          Suallarınız və əlavə məlumat üçün bizimlə əlaqə saxlaya bilərsiniz.
+          {t('contact_subtitle')}
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -54,7 +56,7 @@ export default function Contact() {
             variants={variants}
           >
             <h3 className="text-xl font-poppins font-semibold mb-6">
-              Əlaqə Məlumatları
+              {t('contact_info')}
             </h3>
 
             <div className="space-y-6">
@@ -63,7 +65,7 @@ export default function Contact() {
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-1">Ünvan</h4>
+                  <h4 className="font-semibold mb-1">{t('address')}</h4>
                   <p className="text-tedgray">
                     Naxçıvan Dövlət Universitetinin Konservatoriyası, AZ7000
                     Naxçıvan, Azərbaycan
@@ -76,7 +78,7 @@ export default function Contact() {
                   <Mail className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-1">E-poçt</h4>
+                  <h4 className="font-semibold mb-1">{t('email')}</h4>
                   <a
                     href="mailto:info@tedxnakhchivansu.com"
                     className="text-tedred hover:text-red-700 transition-colors"
@@ -91,7 +93,7 @@ export default function Contact() {
                   <Phone className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-1">Telefon</h4>
+                  <h4 className="font-semibold mb-1">{t('phone')}</h4>
                   <a
                     href="tel:+994501234567"
                     className="text-tedgray hover:text-tedblack transition-colors"
@@ -102,7 +104,7 @@ export default function Contact() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-3">Bizi izləyin</h4>
+                <h4 className="font-semibold mb-3">{t('follow_us')}</h4>
                 <div className="flex space-x-4">
                   <a
                     href="#"
@@ -173,7 +175,7 @@ export default function Contact() {
                       });
                     }}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                    placeholder="Adınız"
+                    placeholder={t('name')}
                     required
                   />
                 </div>
@@ -189,7 +191,7 @@ export default function Contact() {
                       });
                     }}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                    placeholder="E-poçt"
+                    placeholder={t('email')}
                     required
                   />
                 </div>
@@ -206,7 +208,7 @@ export default function Contact() {
                     });
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                  placeholder="Mövzu"
+                  placeholder={t('subject')}
                   required
                 />
               </div>
@@ -222,7 +224,7 @@ export default function Contact() {
                     });
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                  placeholder="Mesajınız"
+                  placeholder={t('message')}
                   required
                 ></textarea>
               </div>
@@ -235,15 +237,15 @@ export default function Contact() {
                   {isSubmitting ? (
                     <>
                       <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                      Göndərilir...
+                      {t('sending')}
                     </>
                   ) : isSuccess ? (
                     <>
                       <Check className="h-4 w-4 mr-2" />
-                      Göndərildi!
+                      {t('sent')}
                     </>
                   ) : (
-                    "Göndər"
+                    t('send_message')
                   )}
                 </button>
               </div>
