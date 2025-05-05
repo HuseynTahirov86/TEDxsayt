@@ -1,4 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Dispatch, SetStateAction } from "react";
+
+// Helper function to safely increment state
+const incrementState = (prev: number): number => prev + 1;
 
 import { useAuth } from "@/hooks/use-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -1644,7 +1647,7 @@ function SponsorsPanel() {
 }
 
 // Sessions Panel Subcomponent
-function SessionsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: (key: number) => void }) {
+function SessionsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: Dispatch<SetStateAction<number>> }) {
   const { toast } = useToast();
   const [selectedSession, setSelectedSession] = useState<ProgramSession | null>(null);
   const [isSessionDialogOpen, setIsSessionDialogOpen] = useState(false);
