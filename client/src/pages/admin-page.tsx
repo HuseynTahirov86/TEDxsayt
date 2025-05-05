@@ -1412,7 +1412,7 @@ function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, 
       title: "",
       description: "",
       speakerId: null,
-      session: ""
+      session: "morning" // Ensure a valid default session is always provided
     },
     resolver: zodResolver(programItemFormSchema)
   });
@@ -1438,7 +1438,7 @@ function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, 
       title: "",
       description: "",
       speakerId: null,
-      session: activeSession || ""
+      session: activeSession || "morning" // Default to morning session if none is active
     });
     setIsEditing(!!item);
     setSelectedItem(item);
@@ -1733,8 +1733,8 @@ function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, 
                   <FormItem>
                     <FormLabel>Natiq (istəyə bağlı)</FormLabel>
                     <Select
-                      value={field.value?.toString() || ""}
-                      onValueChange={(value) => field.onChange(value ? parseInt(value) : null)}
+                      value={field.value?.toString() || "none"}
+                      onValueChange={(value) => field.onChange(value !== "none" ? parseInt(value) : null)}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -1742,7 +1742,7 @@ function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, 
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">Natiq yoxdur</SelectItem>
+                        <SelectItem value="none">Natiq yoxdur</SelectItem>
                         {speakers?.map((speaker) => (
                           <SelectItem key={speaker.id} value={speaker.id.toString()}>
                             {speaker.name}
