@@ -159,18 +159,26 @@ export default function Contact() {
             animate={controlsRight}
             variants={variants}
           >
-            <div className="h-80 md:h-96 rounded-xl overflow-hidden mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3068.435967559287!2d45.40486501206979!3d39.20720517139246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x401df1ff02a60e99%3A0xf19a359b4510ccbf!2zTmF4w6fEsXZhbiBEw7Z2bMmZdCBVbml2ZXJzaXRldGk!5e0!3m2!1sen!2saz!4v1712507724071!5m2!1sen!2saz"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Map showing Naxçıvan Dövlət Universiteti TEDx event location"
-                className="hover:opacity-95 transition-opacity duration-300"
-              ></iframe>
+            <div className="h-80 md:h-96 rounded-xl overflow-hidden mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gray-100 flex items-center justify-center relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-tedred/10 to-red-500/5 z-10"></div>
+              <div className="relative z-20 text-center p-6">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="h-8 w-8 text-tedred" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Naxçıvan Dövlət Universiteti</h3>
+                <p className="text-gray-600 mb-4">
+                  Universitet şəhərciyi, AZ7000 Naxçıvan, Azərbaycan
+                </p>
+                <a 
+                  href="https://maps.app.goo.gl/N4MJHFjMcGnSNLDY8" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-5 py-2.5 bg-tedred text-white rounded-md hover:bg-red-700 transition-colors duration-300"
+                >
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Xəritədə bax
+                </a>
+              </div>
             </div>
 
             <form
