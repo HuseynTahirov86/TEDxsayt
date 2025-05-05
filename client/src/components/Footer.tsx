@@ -1,6 +1,7 @@
 import { Link } from "wouter";
-import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import { Instagram, Linkedin, Youtube, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import tedxLogo from "@/assets/images/tedx-logo.png";
+import { motion } from "framer-motion";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
@@ -17,7 +18,12 @@ export default function Footer() {
     <footer className="bg-tedblack text-white py-10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <div className="flex items-center mb-6 md:mb-0">
+          <motion.div 
+            className="flex items-center mb-6 md:mb-0"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <img
               src={tedxLogo}
               alt=""
@@ -26,43 +32,68 @@ export default function Footer() {
             <span className="font-poppins font-bold text-lg">
               Naxçıvan Dövlət Universiteti
             </span>
-          </div>
+          </motion.div>
 
-          <div className="flex space-x-6">
-            <a
-              href="#"
+          <motion.div 
+            className="flex space-x-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.a
+              href="https://www.instagram.com/tedxnakhchivanstateuniversity?igsh=Mzd1bXY1eWtwazA4&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-tedred transition-colors"
               aria-label="Instagram"
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
             >
               <Instagram className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
+            </motion.a>
+            <motion.a
+              href="https://az.linkedin.com/school/naxçıvan-dövlət-universiteti/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-tedred transition-colors"
               aria-label="LinkedIn"
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
             >
               <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
+            </motion.a>
+            <motion.a
+              href="https://www.facebook.com/share/1EVCTH2CyK/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-tedred transition-colors"
-              aria-label="Twitter"
+              aria-label="Facebook"
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
             >
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
+              <Facebook className="h-5 w-5" />
+            </motion.a>
+            <motion.a
+              href="https://www.youtube.com/user/TEDxTalks"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-tedred transition-colors"
               aria-label="YouTube"
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
             >
               <Youtube className="h-5 w-5" />
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
 
         <div className="border-t border-gray-800 pt-8 pb-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
               <h4 className="font-semibold text-lg mb-4">
                 TEDx Naxçıvan Dövlət Universiteti
               </h4>
@@ -72,89 +103,112 @@ export default function Footer() {
                 formatında, yerli toplum üçün TED təcrübəsini yaratmaq məqsədi
                 daşıyır.
               </p>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <h4 className="font-semibold text-lg mb-4">Əlaqələr</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li className="flex items-center">
+                  <Mail className="h-4 w-4 mr-2 text-tedred" />
                   <a
-                    href="mailto:info@tedxnakhchivansu.com"
+                    href="mailto:huseyntahirov@ndu.edu.az"
                     className="hover:text-white transition-colors"
                   >
-                    info@tedxnakhchivansu.com
+                    huseyntahirov@ndu.edu.az
                   </a>
                 </li>
-                <li>
+                <li className="flex items-center">
+                  <Phone className="h-4 w-4 mr-2 text-tedred" />
                   <a
-                    href="tel:+994501234567"
+                    href="tel:+994605285505"
                     className="hover:text-white transition-colors"
                   >
-                    +994 50 123 45 67
+                    +994 60 528 55 05
                   </a>
                 </li>
-                <li>
-                  Naxçıvan Dövlət Universiteti, AZ7000 Naxçıvan, Azərbaycan
+                <li className="flex items-start">
+                  <MapPin className="h-4 w-4 mr-2 text-tedred mt-1 flex-shrink-0" />
+                  <span>
+                    Naxçıvan Dövlət Universiteti, AZ7000 Naxçıvan, Azərbaycan
+                  </span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <h4 className="font-semibold text-lg mb-4">Naviqasiya</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
-                  <button
+                  <motion.button
                     onClick={() => scrollToSection("about")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors flex items-center"
+                    whileHover={{ x: 4 }}
                   >
-                    Haqqında
-                  </button>
+                    <span className="text-tedred mr-1">›</span> Haqqında
+                  </motion.button>
                 </li>
                 <li>
-                  <button
+                  <motion.button
                     onClick={() => scrollToSection("speakers")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors flex items-center"
+                    whileHover={{ x: 4 }}
                   >
-                    Spikerlər
-                  </button>
+                    <span className="text-tedred mr-1">›</span> Spikerlər
+                  </motion.button>
                 </li>
                 <li>
-                  <button
+                  <motion.button
                     onClick={() => scrollToSection("program")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors flex items-center"
+                    whileHover={{ x: 4 }}
                   >
-                    Proqram
-                  </button>
+                    <span className="text-tedred mr-1">›</span> Proqram
+                  </motion.button>
                 </li>
                 <li>
-                  <button
+                  <motion.button
                     onClick={() => scrollToSection("register")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors flex items-center"
+                    whileHover={{ x: 4 }}
                   >
-                    Qeydiyyat
-                  </button>
+                    <span className="text-tedred mr-1">›</span> Qeydiyyat
+                  </motion.button>
                 </li>
                 <li>
-                  <button
+                  <motion.button
                     onClick={() => scrollToSection("contact")}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors flex items-center"
+                    whileHover={{ x: 4 }}
                   >
-                    Əlaqə
-                  </button>
+                    <span className="text-tedred mr-1">›</span> Əlaqə
+                  </motion.button>
                 </li>
               </ul>
-            </div>
+            </motion.div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-6 text-center">
+        <motion.div 
+          className="border-t border-gray-800 pt-6 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <p className="text-gray-400 text-sm mb-2">
             TEDx is independently organized under TED license
           </p>
           <p className="text-gray-500 text-xs">
-            &copy; 2025 TEDx Naxçıvan Dövlət Universiteti. Bütün hüquqlar qorunur.
+            &copy; {new Date().getFullYear()} TEDx Naxçıvan Dövlət Universiteti. Bütün hüquqlar qorunur.
           </p>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
