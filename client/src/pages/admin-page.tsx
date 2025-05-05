@@ -1116,6 +1116,522 @@ function ProgramPanel() {
   );
 }
 
+// Sponsors Panel Component
+type SponsorFormValues = z.infer<typeof sponsorFormSchema>;
+
+function SponsorsPanel() {
+  const { toast } = useToast();
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedSponsor, setSelectedSponsor] = useState<Sponsor | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Fetch sponsors
+  const { data: sponsors, isLoading } = useQuery<Sponsor[]>({
+    queryKey: ["/api/admin/sponsors", refreshKey],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+  
+  // Filtered sponsors
+  const filteredSponsors = sponsors?.filter(sponsor => 
+    sponsor.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  // Form for adding/editing sponsor
+  const form = useForm<SponsorFormValues>({
+    resolver: zodResolver(sponsorFormSchema),
+    defaultValues: {
+      name: "",
+      logo: "",
+      website: "",
+      level: "",
+      order: 0,
+    }
+  });
+  
+  // Reset form when dialog closes
+  useEffect(() => {
+    if (!isAddDialogOpen && !isEditDialogOpen) {
+      form.reset();
+    }
+  }, [isAddDialogOpen, isEditDialogOpen, form]);
+  
+  // Set form values when editing
+  useEffect(() => {
+    if (selectedSponsor && isEditDialogOpen) {
+      form.reset({
+        name: selectedSponsor.name,
+        logo: selectedSponsor.logo,
+        website: selectedSponsor.website || "",
+        level: selectedSponsor.level,
+        order: selectedSponsor.order,
+      });
+    }
+  }, [selectedSponsor, isEditDialogOpen, form]);
+  
+  // Handle form submission
+  const onSubmit = async (values: SponsorFormValues) => {
+    try {
+      setIsSubmitting(true);
+      
+      if (isEditDialogOpen && selectedSponsor) {
+        // Update sponsor
+        const response = await fetch(`/api/admin/sponsors/${selectedSponsor.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
+        
+        if (!response.ok) {
+          throw new Error("Sponsoru yeniləmək mümkün olmadı");
+        }
+        
+        toast({
+          title: "Sponsor yeniləndi",
+          description: "Sponsor məlumatları uğurla yeniləndi",
+        });
+        
+        setIsEditDialogOpen(false);
+        
+      } else {
+        // Add new sponsor
+        const response = await fetch("/api/admin/sponsors", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
+        
+        if (!response.ok) {
+          throw new Error("Sponsor əlavə etmək mümkün olmadı");
+        }
+        
+        toast({
+          title: "Sponsor əlavə edildi",
+          description: "Yeni sponsor uğurla əlavə edildi",
+        });
+        
+        setIsAddDialogOpen(false);
+      }
+      
+      // Refresh data
+      setRefreshKey(prev => prev + 1);
+      
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Handle delete
+  const handleDelete = async () => {
+    if (!selectedSponsor) return;
+    
+    try {
+      setIsSubmitting(true);
+      
+      const response = await fetch(`/api/admin/sponsors/${selectedSponsor.id}`, {
+        method: "DELETE",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Sponsoru silmək mümkün olmadı");
+      }
+      
+      toast({
+        title: "Sponsor silindi",
+        description: "Sponsor uğurla silindi",
+      });
+      
+      setIsDeleteDialogOpen(false);
+      setRefreshKey(prev => prev + 1);
+      
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Function to get level badge
+  const getLevelBadge = (level: string) => {
+    switch (level) {
+      case "platinum":
+        return <Badge className="bg-zinc-300 text-black hover:bg-zinc-300">Platinum</Badge>;
+      case "gold":
+        return <Badge className="bg-yellow-500 text-black hover:bg-yellow-500">Qızıl</Badge>;
+      case "silver":
+        return <Badge className="bg-gray-400 text-black hover:bg-gray-400">Gümüş</Badge>;
+      case "bronze":
+        return <Badge className="bg-amber-600 text-white hover:bg-amber-600">Bürünc</Badge>;
+      case "partner":
+        return <Badge className="bg-blue-500 hover:bg-blue-500">Tərəfdaş</Badge>;
+      case "media":
+        return <Badge className="bg-purple-500 hover:bg-purple-500">Media</Badge>;
+      default:
+        return <Badge>{level}</Badge>;
+    }
+  };
+  
+  // Refresh data
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+    toast({
+      title: "Yeniləndi",
+      description: "Sponsorlar siyahısı yeniləndi",
+    });
+  };
+  
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+        <h2 className="text-2xl font-bold">Sponsorlar</h2>
+        
+        <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+          <div className="relative">
+            <Input
+              placeholder="Axtar..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full sm:w-[200px] pr-8"
+            />
+            {searchTerm && (
+              <button 
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                onClick={() => setSearchTerm("")}
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={handleRefresh}
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Yenilə</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <Button 
+            onClick={() => setIsAddDialogOpen(true)}
+            size="sm"
+          >
+            <Plus className="mr-2 h-4 w-4" /> Sponsor əlavə et
+          </Button>
+        </div>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center my-8">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : sponsors?.length === 0 ? (
+        <div className="text-center p-8 border rounded-lg bg-muted/30">
+          <Award className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
+          <h3 className="text-lg font-medium mb-1">Sponsor tapılmadı</h3>
+          <p className="text-muted-foreground mb-4">Hələ heç bir sponsor əlavə edilməyib</p>
+          <Button onClick={() => setIsAddDialogOpen(true)} variant="outline">
+            İlk sponsor əlavə et
+          </Button>
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>№</TableHead>
+              <TableHead>Logo</TableHead>
+              <TableHead>Ad</TableHead>
+              <TableHead>Səviyyə</TableHead>
+              <TableHead>Sıra</TableHead>
+              <TableHead>Tarix</TableHead>
+              <TableHead className="text-right">Əməliyyatlar</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredSponsors?.map((sponsor, index) => (
+              <TableRow key={sponsor.id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  <div className="w-16 h-12 bg-muted rounded-md flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={sponsor.logo} 
+                      alt={sponsor.name}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="font-medium">{sponsor.name}</div>
+                  {sponsor.website && (
+                    <a 
+                      href={sponsor.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-xs text-muted-foreground flex items-center hover:text-primary"
+                    >
+                      <Globe className="h-3 w-3 mr-1" />
+                      {new URL(sponsor.website).hostname}
+                    </a>
+                  )}
+                </TableCell>
+                <TableCell>{getLevelBadge(sponsor.level)}</TableCell>
+                <TableCell>{sponsor.order}</TableCell>
+                <TableCell>{formatDate(new Date(sponsor.createdAt))}</TableCell>
+                <TableCell className="text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => {
+                              setSelectedSponsor(sponsor);
+                              setIsEditDialogOpen(true);
+                            }}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Düzəliş et</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => {
+                              setSelectedSponsor(sponsor);
+                              setIsDeleteDialogOpen(true);
+                            }}
+                          >
+                            <Trash className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Sil</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+      
+      {/* Add/Edit Dialog */}
+      <Dialog open={isAddDialogOpen || isEditDialogOpen} onOpenChange={(open) => {
+        if (!open) {
+          if (isAddDialogOpen) setIsAddDialogOpen(false);
+          if (isEditDialogOpen) setIsEditDialogOpen(false);
+        }
+      }}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              {isAddDialogOpen ? 'Yeni sponsor əlavə et' : 'Sponsoru düzəliş et'}
+            </DialogTitle>
+            <DialogDescription>
+              {isAddDialogOpen 
+                ? 'Tədbirin sponsorunu əlavə etmək üçün aşağıdakı məlumatları doldurun' 
+                : 'Sponsor məlumatlarını düzəliş etmək üçün aşağıdakı sahələri yeniləyin'}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sponsor adı</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Şirkət adı" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="logo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Logo URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Logo şəklinin URL-i" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Vebsayt (istəyə bağlı)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="level"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sponsorluq səviyyəsi</FormLabel>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sponsorluq səviyyəsini seçin" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="platinum">Platinum</SelectItem>
+                        <SelectItem value="gold">Qızıl</SelectItem>
+                        <SelectItem value="silver">Gümüş</SelectItem>
+                        <SelectItem value="bronze">Bürünc</SelectItem>
+                        <SelectItem value="partner">Tərəfdaş</SelectItem>
+                        <SelectItem value="media">Media</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="order"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sıra nömrəsi</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => {
+                    if (isAddDialogOpen) setIsAddDialogOpen(false);
+                    if (isEditDialogOpen) setIsEditDialogOpen(false);
+                  }}
+                >
+                  Ləğv et
+                </Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isAddDialogOpen ? 'Əlavə et' : 'Yadda saxla'}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Sponsoru silmək istədiyinizə əminsiniz?</DialogTitle>
+            <DialogDescription>
+              Bu əməliyyat geri qaytarıla bilməz. Bu sponsor silinəcək.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="border rounded-md p-3 flex items-center gap-3">
+            {selectedSponsor && (
+              <>
+                <div className="w-12 h-12 bg-muted rounded-md flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={selectedSponsor.logo} 
+                    alt={selectedSponsor.name}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-medium">{selectedSponsor.name}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {getLevelBadge(selectedSponsor.level)}
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
+              Ləğv et
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={isSubmitting}
+            >
+              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sil
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
 // Sessions Panel Subcomponent
 function SessionsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: (key: number) => void }) {
   const { toast } = useToast();
