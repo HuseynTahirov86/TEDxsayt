@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, Clock } from "lucide-react";
 
@@ -8,6 +8,14 @@ function CountdownTimer() {
   const targetDate = new Date('2025-06-16T10:00:00');
   
   const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+  
+  // Track previous values to determine when specific values change
+  const prevTimeRef = useRef({
     days: 0,
     hours: 0,
     minutes: 0,
@@ -25,6 +33,9 @@ function CountdownTimer() {
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
         
+        // Save current values before updating
+        prevTimeRef.current = { ...timeLeft };
+        
         setTimeLeft({ days, hours, minutes, seconds });
       }
     };
@@ -37,37 +48,46 @@ function CountdownTimer() {
   }, []);
   
   // Single time unit display component
-  const TimeUnit = ({ value, label }: { value: number, label: string }) => (
-    <div className="flex flex-col items-center mx-1 md:mx-2">
-      <div className="bg-tedred text-white text-xl md:text-3xl font-bold rounded-lg px-2 md:px-4 py-2 min-w-[50px] md:min-w-[80px] flex items-center justify-center perspective-[300px]">
-        <motion.span
-          key={value} // This makes the animation re-trigger when the value changes
-          initial={{ scale: 0.7, rotateX: -90, y: -10 }}
-          animate={{ scale: 1, rotateX: 0, y: 0 }}
-          transition={{ 
-            duration: 0.4, 
-            ease: "backOut" // Spring-like effect
-          }}
-          style={{ transformStyle: "preserve-3d", display: "inline-block" }}
-        >
-          {value.toString().padStart(2, '0')}
-        </motion.span>
+  const TimeUnit = ({ value, label, prevValue }: { value: number, label: string, prevValue?: number }) => {
+    // Only animate if the value has changed from previous state
+    const hasChanged = prevValue !== undefined && prevValue !== value;
+    
+    return (
+      <div className="flex flex-col items-center mx-1 md:mx-2">
+        <div className="bg-tedred text-white text-xl md:text-3xl font-bold rounded-lg px-2 md:px-4 py-2 min-w-[50px] md:min-w-[80px] flex items-center justify-center" style={{ perspective: "300px" }}>
+          {hasChanged ? (
+            <motion.span
+              key={`${label}-${value}`}
+              initial={{ opacity: 0, y: -20, scale: 1.2 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.3, 
+                ease: "easeOut"
+              }}
+              style={{ display: "inline-block" }}
+            >
+              {value.toString().padStart(2, '0')}
+            </motion.span>
+          ) : (
+            <span>{value.toString().padStart(2, '0')}</span>
+          )}
+        </div>
+        <span className="text-[10px] md:text-xs mt-1 uppercase text-gray-300">{label}</span>
       </div>
-      <span className="text-[10px] md:text-xs mt-1 uppercase text-gray-300">{label}</span>
-    </div>
-  );
+    );
+  };
   
   return (
     <div className="flex justify-center items-center mt-8 mb-8">
       <div className="flex flex-row items-center">
         <Clock className="text-tedred mr-3 h-6 w-6 hidden md:block" />
-        <TimeUnit value={timeLeft.days} label="gün" />
+        <TimeUnit value={timeLeft.days} label="gün" prevValue={prevTimeRef.current.days} />
         <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.hours} label="saat" />
+        <TimeUnit value={timeLeft.hours} label="saat" prevValue={prevTimeRef.current.hours} />
         <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.minutes} label="dəq" />
+        <TimeUnit value={timeLeft.minutes} label="dəq" prevValue={prevTimeRef.current.minutes} />
         <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.seconds} label="san" />
+        <TimeUnit value={timeLeft.seconds} label="san" prevValue={prevTimeRef.current.seconds} />
       </div>
     </div>
   );
