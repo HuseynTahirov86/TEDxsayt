@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Clock, Users, Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function About() {
+  const { t } = useTranslation();
   const controlsLeft = useAnimation();
   const controlsRight = useAnimation();
   const [refLeft, inViewLeft] = useInView({
