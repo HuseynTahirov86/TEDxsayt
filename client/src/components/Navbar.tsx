@@ -3,11 +3,8 @@ import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import tedxLogo from "@/assets/images/tedx-logo.png";
-import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
-  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -71,36 +68,35 @@ export default function Navbar() {
               onClick={() => scrollToSection("about")}
               className="hover:text-tedred transition-colors"
             >
-              {t('about')}
+              Haqqında
             </button>
             <button
               onClick={() => scrollToSection("speakers")}
               className="hover:text-tedred transition-colors"
             >
-              {t('speakers')}
+              Spikerlər
             </button>
             <button
               onClick={() => scrollToSection("program")}
               className="hover:text-tedred transition-colors"
             >
-              {t('program')}
+              Proqram
             </button>
             <button
               onClick={() => scrollToSection("contact")}
               className="hover:text-tedred transition-colors"
             >
-              {t('contact')}
+              Əlaqə
             </button>
           </div>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center">
             <button
               onClick={() => scrollToSection("register")}
               className="bg-tedred hover:bg-red-700 text-white font-medium px-6 py-2 rounded-md transition-colors"
             >
-              {t('register')}
+              Qeydiyyat
             </button>
-            <LanguageSwitcher />
           </div>
 
           <button
@@ -131,35 +127,32 @@ export default function Navbar() {
             onClick={() => scrollToSection("about")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            {t('about')}
+            Haqqında
           </button>
           <button
             onClick={() => scrollToSection("speakers")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            {t('speakers')}
+            Spikerlər
           </button>
           <button
             onClick={() => scrollToSection("program")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            {t('program')}
+            Proqram
           </button>
           <button
             onClick={() => scrollToSection("contact")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            {t('contact')}
+            Əlaqə
           </button>
           <button
             onClick={() => scrollToSection("register")}
             className="bg-tedred hover:bg-red-700 text-white text-center font-medium py-3 rounded-md transition-colors"
           >
-            {t('register')}
+            Qeydiyyat
           </button>
-          <div className="flex justify-center mt-4">
-            <LanguageSwitcher />
-          </div>
         </div>
       </div>
     </nav>
