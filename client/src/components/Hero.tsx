@@ -159,12 +159,8 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <div className="w-36 mx-auto">
-            <img 
-              src="/attached_assets/image_1746439190681.png" 
-              alt="TEDx Logo" 
-              className="w-full h-auto"
-            />
+          <div className="w-24 h-12 mx-auto bg-tedred rounded-sm flex items-center justify-center">
+            <span className="text-white font-bold tracking-tight text-2xl">TED<span className="font-normal text-base">x</span></span>
           </div>
         </motion.div>
         
