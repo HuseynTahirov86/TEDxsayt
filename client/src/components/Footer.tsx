@@ -1,11 +1,8 @@
 import { Link } from "wouter";
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import tedxLogo from "@/assets/images/tedx-logo.png";
-import { useTranslation } from "react-i18next";
 
 export default function Footer() {
-  const { t } = useTranslation();
-  
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -70,12 +67,15 @@ export default function Footer() {
                 TEDx Nakhchivan State University
               </h4>
               <p className="text-gray-400 text-sm">
-                {t('footer_about_text')}
+                TEDx, TED lisenziyası altında yerli icmalar tərəfindən müstəqil
+                şəkildə təşkil edilən tədbirlərdir. Bu tədbir, TED konfrans
+                formatında, yerli toplum üçün TED təcrübəsini yaratmaq məqsədi
+                daşıyır.
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold text-lg mb-4">{t('contacts')}</h4>
+              <h4 className="font-semibold text-lg mb-4">Əlaqələr</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
                   <a
@@ -100,14 +100,14 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 className="font-semibold text-lg mb-4">{t('navigation')}</h4>
+              <h4 className="font-semibold text-lg mb-4">Naviqasiya</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
                   <button
                     onClick={() => scrollToSection("about")}
                     className="hover:text-white transition-colors"
                   >
-                    {t('about')}
+                    Haqqında
                   </button>
                 </li>
                 <li>
@@ -115,7 +115,7 @@ export default function Footer() {
                     onClick={() => scrollToSection("speakers")}
                     className="hover:text-white transition-colors"
                   >
-                    {t('speakers')}
+                    Spikerlər
                   </button>
                 </li>
                 <li>
@@ -123,7 +123,7 @@ export default function Footer() {
                     onClick={() => scrollToSection("program")}
                     className="hover:text-white transition-colors"
                   >
-                    {t('program')}
+                    Proqram
                   </button>
                 </li>
                 <li>
@@ -131,7 +131,7 @@ export default function Footer() {
                     onClick={() => scrollToSection("register")}
                     className="hover:text-white transition-colors"
                   >
-                    {t('register')}
+                    Qeydiyyat
                   </button>
                 </li>
                 <li>
@@ -139,7 +139,7 @@ export default function Footer() {
                     onClick={() => scrollToSection("contact")}
                     className="hover:text-white transition-colors"
                   >
-                    {t('contact')}
+                    Əlaqə
                   </button>
                 </li>
               </ul>
@@ -149,10 +149,10 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 pt-6 text-center">
           <p className="text-gray-400 text-sm mb-2">
-            {t('tedx_license')}
+            TEDx is independently organized under TED license
           </p>
           <p className="text-gray-500 text-xs">
-            &copy; 2025 TEDx Nakhchivan State University. {t('rights_reserved')}
+            &copy; 2025 TEDx Nakhchivan State University. Bütün hüquqlar qorunur.
           </p>
         </div>
       </div>

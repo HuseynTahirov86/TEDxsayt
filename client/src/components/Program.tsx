@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
 interface ProgramSession {
@@ -24,7 +23,6 @@ interface ProgramItem {
 }
 
 function ProgramTimelineItem({ item }: { item: ProgramItem }) {
-  const { t } = useTranslation();
   const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.2,
@@ -70,9 +68,9 @@ function ProgramTimelineItem({ item }: { item: ProgramItem }) {
             {item.time}
           </div>
           <h3 className="text-xl font-poppins font-semibold mb-2">
-            {t(item.title.toLowerCase().replace(/[^a-z0-9]/g, '_'))}
+            {item.title}
           </h3>
-          <p className="text-tedgray mb-3">{t(item.title.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_desc')}</p>
+          <p className="text-tedgray mb-3">{item.description}</p>
           {item.speaker && (
             <div className="flex items-center">
               <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
@@ -84,7 +82,7 @@ function ProgramTimelineItem({ item }: { item: ProgramItem }) {
               </div>
               <div>
                 <h4 className="font-semibold text-sm">{item.speaker.name}</h4>
-                <p className="text-xs text-tedgray">{t(item.speaker.title.toLowerCase().replace(/\s+|&/g, '_'))}</p>
+                <p className="text-xs text-tedgray">{item.speaker.title}</p>
               </div>
             </div>
           )}
@@ -95,14 +93,13 @@ function ProgramTimelineItem({ item }: { item: ProgramItem }) {
 }
 
 export default function Program() {
-  const { t } = useTranslation();
   const [activeSession, setActiveSession] = useState("morning");
-  const { data: sessions = [] } = useQuery<ProgramSession[]>({
+  const { data: sessions } = useQuery({
     queryKey: ["/api/program/sessions"],
     staleTime: Infinity,
   });
 
-  const { data: programItems = [] } = useQuery<ProgramItem[]>({
+  const { data: programItems } = useQuery({
     queryKey: ["/api/program/items"],
     staleTime: Infinity,
   });
@@ -128,9 +125,9 @@ export default function Program() {
     },
   };
 
-  const filteredItems = Array.isArray(programItems) ? programItems.filter(
+  const filteredItems = programItems?.filter(
     (item: ProgramItem) => item.session === activeSession
-  ) : [];
+  );
 
   return (
     <section id="program" className="py-20 bg-tedlightgray">
@@ -143,16 +140,17 @@ export default function Program() {
           className="text-center mb-12"
         >
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
-            {t('program_title')}
+            Proqram
           </h2>
           <p className="text-tedgray text-center max-w-2xl mx-auto">
-            {t('program_subtitle')}
+            16 İyun 2025-ci ildə keçiriləcək TEDx Nakhchivan State University
+            tədbirinin gündəlik cədvəli
           </p>
         </motion.div>
 
         <div className="flex justify-center mb-10">
           <div className="inline-flex rounded-lg overflow-hidden">
-            {Array.isArray(sessions) && sessions.map((session: ProgramSession) => (
+            {sessions?.map((session: ProgramSession) => (
               <button
                 key={session.id}
                 className={cn(
@@ -163,7 +161,7 @@ export default function Program() {
                 )}
                 onClick={() => setActiveSession(session.id)}
               >
-                {t(session.id + '_session')}
+                {session.name}
               </button>
             ))}
           </div>
@@ -171,7 +169,7 @@ export default function Program() {
 
         <div className="program-content">
           <div id={activeSession} className="timeline-connector pl-8 md:pl-0">
-            {Array.isArray(filteredItems) && filteredItems.map((item: ProgramItem) => (
+            {filteredItems?.map((item: ProgramItem) => (
               <ProgramTimelineItem key={item.id} item={item} />
             ))}
           </div>

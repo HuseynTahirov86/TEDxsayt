@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 
 interface Speaker {
   id: number;
@@ -14,7 +13,6 @@ interface Speaker {
 }
 
 function SpeakerCard({ speaker }: { speaker: Speaker }) {
-  const { t } = useTranslation();
   const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.2,
@@ -57,17 +55,17 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
         <h3 className="text-white text-xl font-poppins font-semibold">
           {speaker.name}
         </h3>
-        <p className="text-gray-200">{t(speaker.title.toLowerCase().replace(/\s+|&/g, '_'))}</p>
+        <p className="text-gray-200">{speaker.title}</p>
       </div>
 
       <div className="absolute inset-0 bg-tedred/90 p-6 flex flex-col justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <h3 className="text-white text-xl font-poppins font-semibold mb-2">
           {speaker.name}
         </h3>
-        <p className="text-gray-200 mb-2">{t(speaker.title.toLowerCase().replace(/\s+|&/g, '_'))}</p>
+        <p className="text-gray-200 mb-2">{speaker.title}</p>
         <div className="w-12 h-0.5 bg-white mb-4"></div>
         <p className="text-white text-sm mb-4">{speaker.bio}</p>
-        <h4 className="text-white font-semibold mb-1">{t('speech_topic')}:</h4>
+        <h4 className="text-white font-semibold mb-1">Çıxış mövzusu:</h4>
         <p className="text-white italic">"{speaker.topic}"</p>
       </div>
     </motion.div>
@@ -75,8 +73,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
 }
 
 export default function Speakers() {
-  const { t } = useTranslation();
-  const { data: speakers = [], isLoading } = useQuery<Speaker[]>({
+  const { data: speakers, isLoading } = useQuery({
     queryKey: ["/api/speakers"],
     staleTime: Infinity,
   });
@@ -113,10 +110,11 @@ export default function Speakers() {
           className="text-center mb-12"
         >
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
-            {t('speakers_title')}
+            Spikerlər
           </h2>
           <p className="text-tedgray text-center max-w-2xl mx-auto">
-            {t('speakers_subtitle')}
+            Müxtəlif sahələrdən olan fərqli spikerlər ilhamverici ideyalarını
+            bizimlə bölüşəcəklər.
           </p>
         </motion.div>
 
@@ -126,7 +124,7 @@ export default function Speakers() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.isArray(speakers) && speakers.map((speaker: Speaker) => (
+            {speakers?.map((speaker: Speaker) => (
               <SpeakerCard key={speaker.id} speaker={speaker} />
             ))}
           </div>
@@ -134,7 +132,7 @@ export default function Speakers() {
 
         <div className="text-center mt-12">
           <p className="text-tedgray mb-4">
-            {t('speakers_coming_soon')}
+            Yeni spikerlər haqqında məlumatlar tezliklə əlavə olunacaq
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -147,7 +145,7 @@ export default function Speakers() {
             }}
             className="inline-block bg-tedred hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md transition-colors"
           >
-            {t('hero_register_button')}
+            İndi qeydiyyatdan keç
           </motion.button>
         </div>
       </div>

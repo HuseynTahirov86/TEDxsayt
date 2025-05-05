@@ -34,18 +34,11 @@ const resources = {
       'about_theme_desc': 'Dünyamızı yenidən düşünmə vaxtı gəldi. Mövcud fərziyyələri sorğulayaraq, yeni perspektivlər axtararaq və ideyalarımızı paylaşaraq, daha yaxşı bir gələcək yaratma potensialına malikik.',
       'about_university': 'Naxçıvan Dövlət Universiteti',
       'about_university_desc': 'Naxçıvan Dövlət Universiteti 1967-ci ildə təsis edilmiş və Azərbaycanın ən nüfuzlu ali təhsil müəssisələrindən biridir. Universitetimiz geniş çeşiddə akademik proqramlar və tədqiqat imkanları təklif edir.',
-      'participants': 'iştirakçılar',
-      'online_viewers': 'online izləyici',
-      'tedx_facts': 'Global TEDx Faktları',
-      'fact1': 'Dünyada hər il 3000+ TEDx tədbiri keçirilir',
-      'fact2': 'TEDx çıxışları 150+ dildə və 190+ ölkədə izlənir',
-      'fact3': 'TEDx video materialları YouTube-da milyardlarla baxış toplayır',
       
       // Speakers
       'speakers_title': 'Spikerlərlə tanış olun',
       'speakers_subtitle': 'İlhamverici danışıqlarla çıxış edəcək mütəxəssislər və liderlərlə tanış olun',
       'speakers_coming_soon': 'Tezliklə...',
-      'speech_topic': 'Çıxış mövzusu',
       'view_all': 'Hamısına baxın',
       
       // Program
@@ -55,26 +48,15 @@ const resources = {
       // Register
       'register_title': 'Yerinizi indi təsdiqləyin',
       'register_subtitle': 'TEDx Naxçıvan Dövlət Universiteti tədbirində iştirak etmək üçün aşağıdakı formu doldurun',
-      'form_first_name': 'Ad',
-      'form_last_name': 'Soyad',
-      'form_email': 'E-poçt',
-      'form_phone': 'Telefon',
-      'form_occupation': 'Peşə/Təhsil',
-      'form_topics': 'Sizi ən çox maraqlandıran mövzular',
-      'form_terms': 'Məlumatlarımın TEDx Nakhchivan State University tərəfindən işlənməsinə razılıq verirəm.',
-      'form_submit': 'Qeydiyyatdan keç',
-      'form_first_name_placeholder': 'Adınızı daxil edin',
-      'form_last_name_placeholder': 'Soyadınızı daxil edin',
-      'form_email_placeholder': 'name@example.com',
-      'form_phone_placeholder': '+994 XX XXX XX XX',
-      'form_occupation_placeholder': 'Peşənizi və ya təhsil ocağınızı qeyd edin',
-      'topic_technology': 'Texnologiya və İnnovasiya',
-      'topic_education': 'Təhsil',
-      'topic_sustainability': 'Davamlı İnkişaf',
-      'topic_culture': 'Mədəni İrs',
-      'registration_success': 'Təşəkkür edirik!',
-      'registration_success_message': 'Qeydiyyatınız uğurla tamamlandı. Tədbir haqqında ətraflı məlumat tezliklə e-poçt ünvanınıza göndəriləcək.',
-      'back': 'Geri qayıt',
+      'first_name': 'Ad',
+      'last_name': 'Soyad',
+      'email': 'E-poçt',
+      'phone': 'Telefon',
+      'occupation': 'Peşə/İxtisas',
+      'topics_interest': 'Maraq dairəsi',
+      'terms_conditions': 'Şərtlər və qaydalarla razıyam',
+      'submit': 'Təqdim edin',
+      'registration_success': 'Uğurla qeydiyyatdan keçdiniz!',
       'required_field': 'Bu sahə tələb olunur',
       'invalid_email': 'Düzgün e-poçt ünvanı daxil edin',
       'invalid_phone': 'Düzgün telefon nömrəsi daxil edin',
@@ -83,18 +65,10 @@ const resources = {
       // Contact
       'contact_title': 'Əlaqə saxlayın',
       'contact_subtitle': 'Sualınız var? Bizimlə əlaqə saxlayın və biz sizə köməklik göstərməyə hazırıq.',
-      'contact_info': 'Əlaqə Məlumatları',
-      'university_address': 'Naxçıvan Dövlət Universitetinin Konservatoriyası, AZ7000\nNaxçıvan, Azərbaycan',
-      'email_address': 'info@tedxnakhchivansu.com',
-      'phone_number': '+994 50 123 45 67',
       'name': 'Ad',
-      'email': 'E-poçt',
-      'phone': 'Telefon',
       'subject': 'Mövzu',
       'message': 'Mesaj',
       'send_message': 'Mesaj göndərin',
-      'sending': 'Göndərilir...',
-      'sent': 'Göndərildi!',
       'address': 'Ünvan',
       'email_us': 'E-poçt göndərin',
       'call_us': 'Bizə zəng edin',
@@ -104,90 +78,99 @@ const resources = {
       'sponsors_title': 'Sponsorlarımız',
       'sponsors_subtitle': 'Bu tədbirə dəstək olan etibarlı tərəfdaşlarımız',
       'become_sponsor': 'Sponsor olun',
-      'sponsor_question': 'Sponsor olmaq istəyirsiniz?',
-      'sponsor_description': 'TEDx Naxçıvan Dövlət Universiteti tədbirini dəstəkləyərək innovativ ideyaların və ilham verici mühazirələrin bir parçası olun.',
       'platinum': 'Platin',
       'gold': 'Qızıl',
       'silver': 'Gümüş',
       
-      // Sponsors information
-      'nakhchivan_state_university': 'Naxçıvan Dövlət Universiteti', 
-      'nakhchivan_city_executive': 'Naxçıvan Şəhər İcra Hakimiyyəti',
-      'tech_azerbaijan': 'TechAzərbaycan',
-      'ministry_of_education': 'Təhsil Nazirliyi',
-      'innovation_center': 'İnnovasiya Mərkəzi',
-      'youth_fund': 'Gənclər Fondu',
-      'business_association': 'İş Adamları Assosiasiyası',
-      'international_cooperation': 'Beynəlxalq Əməkdaşlıq Mərkəzi',
-      
-      // Program
-      'morning_session': 'Səhər Sessiyası',
-      'afternoon_session': 'Günorta Sessiyası',
-      'evening_session': 'Axşam Sessiyası',
-      'registration_checkin': 'Qeydiyyat və Qarşılama',
-      'registration_checkin_desc': 'İştirakçıların qeydiyyatı, qarşılanması və tədbir materiallarının paylanması.',
-      'opening_speech': 'Açılış Nitqi',
-      'opening_speech_desc': 'Naxçıvan Dövlət Universitetinin rektoru tərəfindən açılış nitqi.',
-      'çıxış___ai_və_regional_i̇nnovasiya__naxçıvandan_dünyaya_': 'Çıxış: "Aİ və Regional İnnovasiya: Naxçıvandan Dünyaya"',
-      'çıxış___ai_və_regional_i̇nnovasiya__naxçıvandan_dünyaya__desc': 'Süni intellektin regional inkişafa təsiri və Naxçıvanda texnoloji innovasiya imkanları haqqında.',
-      
-      'çıxış___su_qıtlığı_şəraitində_davamlı_əkinçilik_texnologiyaları_': 'Çıxış: "Su Qıtlığı Şəraitində Davamlı Əkinçilik Texnologiyaları"',
-      'çıxış___su_qıtlığı_şəraitində_davamlı_əkinçilik_texnologiyaları__desc': 'Naxçıvanda su qıtlığı problemi və müasir texnologiyaların bu problemin həllində rolu.',
-      
-      'nahar_fasiləsi': 'Nahar Fasiləsi',
-      'nahar_fasiləsi_desc': 'İştirakçılar üçün şəbəkələşmə və müzakirə imkanı.',
-      
-      'çıxış___ucqar_bölgələrdə_rəqəmsal_təhsil_imkanları_': 'Çıxış: "Ucqar Bölgələrdə Rəqəmsal Təhsil İmkanları"',
-      'çıxış___ucqar_bölgələrdə_rəqəmsal_təhsil_imkanları__desc': 'Naxçıvanın ucqar kəndlərində təhsilə çıxış problemləri və texnologiyanın təqdim etdiyi həll yolları.',
-      
-      'çıxış___rəqəmsal_texnologiyalar_vasitəsilə_naxçıvan_mədəni_i̇rsinin_qorunması_': 'Çıxış: "Rəqəmsal Texnologiyalar vasitəsilə Naxçıvan Mədəni İrsinin Qorunması"',
-      'çıxış___rəqəmsal_texnologiyalar_vasitəsilə_naxçıvan_mədəni_i̇rsinin_qorunması__desc': 'Mədəni irsin qorunması və dünyaya tanıdılmasında müasir texnologiyaların rolu.',
-      
-      'panel_müzakirəsi___regional_i̇nkişafda_gənclərin_rolu_': 'Panel Müzakirəsi: "Regional İnkişafda Gənclərin Rolu"',
-      'panel_müzakirəsi___regional_i̇nkişafda_gənclərin_rolu__desc': 'Naxçıvanın inkişafında gənc mütəxəssislərin və sahibkarların rolu haqqında panel müzakirəsi.',
-      
-      'qəhvə_fasiləsi': 'Qəhvə Fasiləsi',
-      'qəhvə_fasiləsi_desc': 'Şəbəkələşmə və interaktiv təqdimatlar.',
-      
-      'çıxış___i̇qlim_dəyişikliyinə_qarşı_yerli_həll_yolları_': 'Çıxış: "İqlim Dəyişikliyinə Qarşı Yerli Həll Yolları"',
-      'çıxış___i̇qlim_dəyişikliyinə_qarşı_yerli_həll_yolları__desc': 'İqlim dəyişikliyinin Naxçıvan bölgəsinə təsirləri və yerli həll yollarının əhəmiyyəti.',
-      
-      'çıxış___naxçıvanda_günəş_enerjisi__i̇mkanlar_və_perspektivlər_': 'Çıxış: "Naxçıvanda Günəş Enerjisi: İmkanlar və Perspektivlər"', 
-      'çıxış___naxçıvanda_günəş_enerjisi__i̇mkanlar_və_perspektivlər__desc': 'Naxçıvanda alternativ enerji mənbələrinin inkişafı və günəş enerjisinin potensialı.',
-      
-      'bağlanış_nitqi_və_təşəkkürlər': 'Bağlanış Nitqi və Təşəkkürlər',
-      'bağlanış_nitqi_və_təşəkkürlər_desc': 'Tədbirin yekunlaşdırılması və təşəkkür nitqi.',
-      
-      'networking_və_foto_sessiyası': 'Networking və Foto Sessiyası',
-      'networking_və_foto_sessiyası_desc': 'İştirakçılar və spikerlərlə birgə şəbəkələşmə imkanı və xatirə fotoları.',
-      
-      'qeydiyyat_və_qarşılama': 'Qeydiyyat və Qarşılama',
-      'qeydiyyat_və_qarşılama_desc': 'İştirakçıların qeydiyyatı, qarşılanması və tədbir materiallarının paylanması.',
-      
-      'açılış_nitqi': 'Açılış Nitqi',
-      'açılış_nitqi_desc': 'Naxçıvan Dövlət Universitetinin rektoru tərəfindən açılış nitqi.',
-
-      // WhyTedx
-      'why': 'Nə üçün',
-      'idea_exchange': 'Fikir Mübadiləsi',
-      'idea_exchange_desc': 'TEDx tədbirlərində müxtəlif sahələrdən olan insanlar öz unikal ideyalarını paylaşır və tamaşaçılara ilham verir.',
-      'global_network': 'Qlobal Şəbəkə',
-      'global_network_desc': 'TEDx tədbirləri dünyanın 170-dən çox ölkəsində keçirilir, bu da qlobal dialoqun bir hissəsi olmaq imkanı yaradır.',
-      'diverse_perspectives': 'Fərqli Perspektivlər',
-      'diverse_perspectives_desc': 'TEDx platforması fərqli yaş, təhsil və karyera sahiblərinə öz təcrübələrini bölüşmək imkanı yaradır.',
-      
       // Footer
-      'footer_about_text': 'TEDx, TED lisenziyası altında yerli icmalar tərəfindən müstəqil şəkildə təşkil edilən tədbirlərdir. Bu tədbir, TED konfrans formatında, yerli toplum üçün TED təcrübəsini yaratmaq məqsədi daşıyır.',
-      'navigation': 'Naviqasiya',
-      'contacts': 'Əlaqələr',
-      'tedx_license': 'TEDx, TED lisenziyası altında müstəqil şəkildə təşkil edilir',
       'rights_reserved': 'Bütün hüquqlar qorunur',
       'privacy_policy': 'Gizlilik Siyasəti',
       'terms_of_service': 'Xidmət Şərtləri'
     }
   },
   en: {
-    translation: { }
+    translation: {
+      // Navigation
+      'about': 'About',
+      'speakers': 'Speakers',
+      'program': 'Program',
+      'contact': 'Contact',
+      'register': 'Register',
+      'language': 'Language',
+      
+      // Hero
+      'hero_title': 'RETHINK',
+      'hero_subtitle': 'Ideas worth spreading',
+      'hero_date': 'October 15, 2025',
+      'hero_location': 'Nakhchivan State University',
+      'hero_register_button': 'Register Now',
+      'days': 'Days',
+      'hours': 'Hours',
+      'minutes': 'Minutes',
+      'seconds': 'Seconds',
+      
+      // About 
+      'about_title': 'About TEDx Nakhchivan State University',
+      'about_description': 'TEDx was created in the spirit of TED\'s mission, "ideas worth spreading." It supports independent organizers who want to create a TED-like event in their communities.',
+      'about_what_is_tedx': 'What is TEDx?',
+      'about_what_is_tedx_desc': 'In the spirit of TED conferences, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience.',
+      'about_theme': 'Our Theme: RETHINK',
+      'about_theme_desc': 'It\'s time to rethink our world. By questioning existing assumptions, seeking new perspectives, and sharing our ideas, we have the potential to create a better future.',
+      'about_university': 'Nakhchivan State University',
+      'about_university_desc': 'Nakhchivan State University was established in 1967 and is one of the most prestigious higher education institutions in Azerbaijan. Our university offers a wide range of academic programs and research opportunities.',
+      
+      // Speakers
+      'speakers_title': 'Meet Our Speakers',
+      'speakers_subtitle': 'Get to know the experts and leaders who will deliver inspiring talks',
+      'speakers_coming_soon': 'Coming Soon...',
+      'view_all': 'View All',
+      
+      // Program
+      'program_title': 'Event Program',
+      'program_subtitle': 'Explore the agenda and plan for exciting talks, workshops, and networking opportunities',
+      
+      // Register
+      'register_title': 'Secure Your Spot Now',
+      'register_subtitle': 'Fill out the form below to participate in the TEDx Nakhchivan State University event',
+      'first_name': 'First Name',
+      'last_name': 'Last Name',
+      'email': 'Email',
+      'phone': 'Phone',
+      'occupation': 'Occupation',
+      'topics_interest': 'Topics of Interest',
+      'terms_conditions': 'I agree to the terms and conditions',
+      'submit': 'Submit',
+      'registration_success': 'You have registered successfully!',
+      'required_field': 'This field is required',
+      'invalid_email': 'Please enter a valid email address',
+      'invalid_phone': 'Please enter a valid phone number',
+      'terms_required': 'You must accept the terms to register',
+      
+      // Contact
+      'contact_title': 'Get in Touch',
+      'contact_subtitle': 'Have questions? Contact us and we\'re ready to help.',
+      'name': 'Name',
+      'subject': 'Subject',
+      'message': 'Message',
+      'send_message': 'Send Message',
+      'address': 'Address',
+      'email_us': 'Email Us',
+      'call_us': 'Call Us',
+      'follow_us': 'Follow Us',
+      
+      // Sponsors
+      'sponsors_title': 'Our Sponsors',
+      'sponsors_subtitle': 'Trusted partners supporting this event',
+      'become_sponsor': 'Become a Sponsor',
+      'platinum': 'Platinum',
+      'gold': 'Gold',
+      'silver': 'Silver',
+      
+      // Footer
+      'rights_reserved': 'All rights reserved',
+      'privacy_policy': 'Privacy Policy',
+      'terms_of_service': 'Terms of Service'
+    }
   }
 };
 

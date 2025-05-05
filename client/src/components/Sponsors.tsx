@@ -9,11 +9,8 @@ import {
   FaBriefcase,
   FaGlobe
 } from "react-icons/fa";
-import { useTranslation } from "react-i18next";
 
 export default function Sponsors() {
-  const { t } = useTranslation();
-  
   // Example sponsor logos with generic icons
   const sponsorLogos = [
     { Icon: FaUniversity, name: "Naxçıvan Dövlət Universiteti" },
@@ -37,10 +34,10 @@ export default function Sponsors() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t('sponsors_title')}
+            Tərəfdaşlarımız
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('sponsors_subtitle')}
+            TEDx Nakhchivan State University tədbirini dəstəkləyən qurumlar və sponsorlar.
           </p>
         </motion.div>
 
@@ -58,7 +55,7 @@ export default function Sponsors() {
                 className="flex flex-col items-center justify-center text-center p-4"
               >
                 <sponsor.Icon size={60} className="text-gray-600 hover:text-tedred transition-colors mb-3" />
-                <p className="text-sm text-gray-700 font-medium">{t(sponsor.name.toLowerCase().replace(/\s+|ə|ö|ü|ğ|ı|ş|ç/g, match => match === ' ' ? '_' : {'ə':'e', 'ö':'o', 'ü':'u', 'ğ':'g', 'ı':'i', 'ş':'s', 'ç':'c'}[match] || match))}</p>
+                <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
               </motion.div>
             ))}
           </div>
@@ -72,9 +69,10 @@ export default function Sponsors() {
           viewport={{ once: true }}
           className="text-center mt-12 p-8 bg-white rounded-lg shadow-md border border-gray-100"
         >
-          <h3 className="text-2xl font-bold mb-4">{t('sponsor_question')}</h3>
+          <h3 className="text-2xl font-bold mb-4">Sponsor olmaq istəyirsiniz?</h3>
           <p className="text-gray-600 mb-6 max-w-3xl mx-auto">
-            {t('sponsor_description')}
+            TEDx Nakhchivan State University tədbirini dəstəkləyərək innovativ ideyaların və 
+            ilham verici mühazirələrin bir parçası olun.
           </p>
           <a
             href="#contact"
@@ -87,7 +85,7 @@ export default function Sponsors() {
             }}
             className="inline-block bg-tedred hover:bg-red-700 text-white font-medium px-8 py-3 rounded-md transition-all transform hover:scale-105"
           >
-            {t('become_sponsor')}
+            Sponsor olun
           </a>
         </motion.div>
       </div>

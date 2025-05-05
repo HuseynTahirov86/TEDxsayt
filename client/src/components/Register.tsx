@@ -6,7 +6,6 @@ import { z } from "zod";
 import { Check } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useRegistration } from "@/hooks/use-registration";
-import { useTranslation } from "react-i18next";
 import {
   Form,
   FormControl,
@@ -39,7 +38,6 @@ const registrationSchema = z.object({
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export default function Register() {
-  const { t } = useTranslation();
   const { isSubmitting, isSuccess, submitRegistration, resetForm } =
     useRegistration();
 
@@ -65,10 +63,11 @@ export default function Register() {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
-            {t('register_title')}
+            Qeydiyyatdan Keçin
           </h2>
           <p className="text-gray-300 text-center mb-10">
-            {t('register_subtitle')}
+            16 İyun 2025-ci ildə keçiriləcək TEDx Nakhchivan State University
+            tədbirində iştirak etmək üçün qeydiyyatdan keçin.
           </p>
 
           <AnimatePresence mode="wait">
@@ -85,17 +84,18 @@ export default function Register() {
                     <Check className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl font-poppins font-semibold mb-2">
-                    {t('registration_success')}
+                    Təşəkkür edirik!
                   </h3>
                   <p className="text-gray-300 mb-4">
-                    {t('registration_success_message')}
+                    Qeydiyyatınız uğurla tamamlandı. Tədbir haqqında ətraflı
+                    məlumat tezliklə e-poçt ünvanınıza göndəriləcək.
                   </p>
                   <button
                     type="button"
                     onClick={resetForm}
                     className="text-sm text-white hover:text-tedred transition-colors"
                   >
-                    {t('back')}
+                    Geri qayıt
                   </button>
                 </div>
               </motion.div>
@@ -118,13 +118,13 @@ export default function Register() {
                         render={({ field }) => (
                           <FormItem className="space-y-2">
                             <FormLabel className="block text-sm font-medium">
-                              {t('form_first_name')}
+                              Ad
                             </FormLabel>
                             <FormControl>
                               <input
                                 {...field}
                                 className="w-full px-4 py-2 bg-white/10 border border-gray-500 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                                placeholder={t('form_first_name_placeholder')}
+                                placeholder="Adınızı daxil edin"
                               />
                             </FormControl>
                             <FormMessage />
@@ -137,13 +137,13 @@ export default function Register() {
                         render={({ field }) => (
                           <FormItem className="space-y-2">
                             <FormLabel className="block text-sm font-medium">
-                              {t('form_last_name')}
+                              Soyad
                             </FormLabel>
                             <FormControl>
                               <input
                                 {...field}
                                 className="w-full px-4 py-2 bg-white/10 border border-gray-500 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                                placeholder={t('form_last_name_placeholder')}
+                                placeholder="Soyadınızı daxil edin"
                               />
                             </FormControl>
                             <FormMessage />
@@ -158,14 +158,14 @@ export default function Register() {
                       render={({ field }) => (
                         <FormItem className="space-y-2">
                           <FormLabel className="block text-sm font-medium">
-                            {t('form_email')}
+                            E-poçt
                           </FormLabel>
                           <FormControl>
                             <input
                               {...field}
                               type="email"
                               className="w-full px-4 py-2 bg-white/10 border border-gray-500 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                              placeholder={t('form_email_placeholder')}
+                              placeholder="name@example.com"
                             />
                           </FormControl>
                           <FormMessage />
@@ -179,13 +179,13 @@ export default function Register() {
                       render={({ field }) => (
                         <FormItem className="space-y-2">
                           <FormLabel className="block text-sm font-medium">
-                            {t('form_phone')}
+                            Telefon
                           </FormLabel>
                           <FormControl>
                             <input
                               {...field}
                               className="w-full px-4 py-2 bg-white/10 border border-gray-500 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                              placeholder={t('form_phone_placeholder')}
+                              placeholder="+994 XX XXX XX XX"
                             />
                           </FormControl>
                           <FormMessage />
@@ -199,13 +199,13 @@ export default function Register() {
                       render={({ field }) => (
                         <FormItem className="space-y-2">
                           <FormLabel className="block text-sm font-medium">
-                            {t('form_occupation')}
+                            Peşə/Təhsil
                           </FormLabel>
                           <FormControl>
                             <input
                               {...field}
                               className="w-full px-4 py-2 bg-white/10 border border-gray-500 rounded-md focus:ring-2 focus:ring-tedred focus:border-transparent transition-colors"
-                              placeholder={t('form_occupation_placeholder')}
+                              placeholder="Peşənizi və ya təhsil ocağınızı qeyd edin"
                             />
                           </FormControl>
                           <FormMessage />
@@ -219,20 +219,20 @@ export default function Register() {
                       render={() => (
                         <FormItem className="space-y-2">
                           <FormLabel className="block text-sm font-medium">
-                            {t('form_topics')}
+                            Sizi ən çox maraqlandıran mövzular
                           </FormLabel>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                             {[
                               {
                                 id: "technology",
-                                label: t('topic_technology'),
+                                label: "Texnologiya və İnnovasiya",
                               },
-                              { id: "education", label: t('topic_education') },
+                              { id: "education", label: "Təhsil" },
                               {
                                 id: "sustainability",
-                                label: t('topic_sustainability'),
+                                label: "Davamlı İnkişaf",
                               },
-                              { id: "culture", label: t('topic_culture') },
+                              { id: "culture", label: "Mədəni İrs" },
                             ].map((topic) => (
                               <label
                                 key={topic.id}
@@ -267,7 +267,8 @@ export default function Register() {
                             />
                           </FormControl>
                           <FormLabel className="text-sm">
-                            {t('form_terms')}
+                            Məlumatlarımın TEDx Nakhchivan State University
+                            tərəfindən işlənməsinə razılıq verirəm.
                           </FormLabel>
                           <FormMessage />
                         </FormItem>
@@ -283,7 +284,7 @@ export default function Register() {
                         {isSubmitting ? (
                           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                         ) : (
-                          t('form_submit')
+                          "Qeydiyyatdan keç"
                         )}
                       </button>
                     </div>
