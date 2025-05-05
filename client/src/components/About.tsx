@@ -21,6 +21,7 @@ const FlipCard = ({ title, content, icon, index }: {
   index: number;
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   
   return (
     <motion.div 
@@ -29,46 +30,185 @@ const FlipCard = ({ title, content, icon, index }: {
       animate={{ 
         opacity: 1, 
         y: 0,
-        transition: { duration: 0.7, delay: 0.1 * index }
+        transition: { 
+          type: "spring",
+          stiffness: 100,
+          damping: 12,
+          delay: 0.2 * index 
+        }
       }}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.03 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       <motion.div 
-        className="absolute inset-0 cursor-pointer"
+        className="absolute inset-0 cursor-pointer z-10"
         animate={isFlipped ? "back" : "front"}
         variants={{
           front: { 
             rotateY: 0,
-            transition: { duration: 0.6 } 
+            transition: { 
+              type: "spring",
+              stiffness: 300,
+              damping: 20
+            } 
           },
           back: { 
             rotateY: 180,
-            transition: { duration: 0.6 } 
+            transition: { 
+              type: "spring",
+              stiffness: 300,
+              damping: 20
+            } 
           }
         }}
         onClick={() => setIsFlipped(!isFlipped)}
       >
         {/* Front side */}
-        <div className={`absolute inset-0 rounded-xl bg-white p-6 shadow-md ${isFlipped ? 'backface-hidden' : ''} flex flex-col justify-center`}>
-          <div className="flex items-center mb-3">
-            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-tedred/10 text-tedred mr-4">
-              {icon}
-            </div>
-            <h3 className="text-lg font-semibold">{title}</h3>
+        <motion.div 
+          className={`absolute inset-0 rounded-xl bg-white p-6 shadow-md ${isFlipped ? 'backface-hidden' : ''} flex flex-col justify-center overflow-hidden`}
+          animate={{
+            boxShadow: isHovered ? "0 10px 30px rgba(0, 0, 0, 0.1)" : "0 4px 6px rgba(0, 0, 0, 0.05)"
+          }}
+        >
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-tr from-tedred/5 to-transparent opacity-0"
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          
+          <div className="flex items-center mb-3 relative z-10">
+            <motion.div 
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-tedred/10 text-tedred mr-4 overflow-hidden"
+              animate={{ 
+                scale: isHovered ? 1.1 : 1,
+                backgroundColor: isHovered ? "rgba(230, 43, 30, 0.2)" : "rgba(230, 43, 30, 0.1)"
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            >
+              <motion.div
+                animate={{ 
+                  scale: isHovered ? [1, 1.2, 1] : 1,
+                  rotate: isHovered ? [0, 5, -5, 0] : 0
+                }}
+                transition={{ 
+                  duration: 0.8, 
+                  repeat: isHovered ? Infinity : 0, 
+                  repeatType: "reverse" 
+                }}
+              >
+                {icon}
+              </motion.div>
+            </motion.div>
+            
+            <motion.h3 
+              className="text-lg font-semibold relative"
+              animate={{ x: isHovered ? 5 : 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            >
+              {title}
+              <motion.div 
+                className="absolute -bottom-1 left-0 h-0.5 bg-tedred/30 w-0"
+                animate={{ width: isHovered ? "100%" : "0%" }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.h3>
           </div>
-          <div className="flex items-center text-sm text-tedgray space-x-1">
-            <Info size={14} className="text-tedred/70" />
+          
+          <motion.div 
+            className="flex items-center text-sm text-tedgray space-x-1 relative z-10"
+            animate={{ 
+              opacity: isHovered ? 1 : 0.7,
+              y: isHovered ? 0 : 5
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div
+              animate={{ 
+                scale: isHovered ? [1, 1.2, 1] : 1,
+                rotate: isHovered ? [0, 10, -10, 0] : 0
+              }}
+              transition={{ 
+                duration: 0.8, 
+                repeat: isHovered ? Infinity : 0, 
+                repeatType: "reverse" 
+              }}
+            >
+              <Info size={14} className="text-tedred/70" />
+            </motion.div>
             <span>Daha ətraflı məlumat üçün klikləyin</span>
-          </div>
-        </div>
+          </motion.div>
+          
+          {/* Shine effect on hover */}
+          <motion.div 
+            className="absolute top-0 left-0 w-[120%] h-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full"
+            animate={{ 
+              translateX: isHovered ? ["-100%", "200%"] : "-100%"
+            }}
+            transition={{ 
+              duration: 1.5, 
+              ease: "easeInOut", 
+              repeat: isHovered ? Infinity : 0, 
+              repeatDelay: 2
+            }}
+          />
+        </motion.div>
         
         {/* Back side */}
-        <div className={`absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md ${isFlipped ? '' : 'backface-hidden'} flex flex-col justify-center text-white transform-style-3d rotateY-180`}>
-          <p className="text-sm">{content}</p>
-          <div className="absolute bottom-3 right-3">
+        <motion.div 
+          className={`absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md ${isFlipped ? '' : 'backface-hidden'} flex flex-col justify-center text-white transform-style-3d rotateY-180 overflow-hidden`}
+          animate={{
+            boxShadow: isHovered ? "0 10px 30px rgba(230, 43, 30, 0.3)" : "0 4px 6px rgba(230, 43, 30, 0.2)"
+          }}
+        >
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0"
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          
+          <motion.p 
+            className="text-sm relative z-10"
+            animate={{ scale: isHovered ? 1.02 : 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 10 }}
+          >
+            {content}
+          </motion.p>
+          
+          <motion.div 
+            className="absolute bottom-3 right-3"
+            animate={{ 
+              x: isHovered ? 5 : 0,
+              scale: isHovered ? 1.2 : 1
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 10 }}
+          >
             <ChevronRight size={16} />
-          </div>
-        </div>
+          </motion.div>
+          
+          {/* Light particles */}
+          {Array.from({ length: 5 }).map((_, i) => (
+            <motion.div 
+              key={i}
+              className="absolute w-1 h-1 bg-white/30 rounded-full"
+              style={{
+                top: `${10 + (i * 15)}%`,
+                left: `${80 - (i * 10)}%`,
+              }}
+              animate={{ 
+                opacity: isHovered ? [0, 0.8, 0] : 0,
+                scale: isHovered ? [0, 1.5, 0] : 0,
+              }}
+              transition={{ 
+                duration: 2, 
+                delay: i * 0.2, 
+                repeat: isHovered ? Infinity : 0,
+                repeatDelay: 0.5
+              }}
+            />
+          ))}
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -379,6 +519,19 @@ export default function About() {
             <motion.div 
               className="mt-10 space-y-4"
               ref={refFacts}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ 
+                opacity: 1, 
+                y: 0,
+                transition: {
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 12,
+                  staggerChildren: 0.2,
+                  delayChildren: 0.3
+                }
+              }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               {tedFacts.map((fact, index) => (
                 <FlipCard 
