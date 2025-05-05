@@ -28,6 +28,9 @@ import {
   BarChart,
   UserPlus,
   Clock,
+  Globe,
+  Award,
+  MoveVertical,
   Calendar,
   Edit,
   Plus,
@@ -36,7 +39,6 @@ import {
   Users,
   ListChecks,
   Database,
-  Award,
   Link,
   ExternalLink
 } from "lucide-react";
@@ -130,6 +132,17 @@ interface ProgramItem {
 }
 
 // Statistics type
+// Sponsor type
+interface Sponsor {
+  id: number;
+  name: string;
+  logo: string;
+  website?: string;
+  level: string;
+  order: number;
+  createdAt: string;
+}
+
 interface Statistics {
   registrationsCount: number;
   contactsCount: number;
