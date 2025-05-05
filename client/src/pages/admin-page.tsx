@@ -40,7 +40,8 @@ import {
   ListChecks,
   Database,
   Link,
-  ExternalLink
+  ExternalLink,
+  Pencil
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
@@ -81,6 +82,15 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
+// Form schemas
+const sponsorFormSchema = z.object({
+  name: z.string().min(2, "Ad ən azı 2 simvol olmalıdır"),
+  logo: z.string().min(10, "Logo URL qeyd edilməlidir"),
+  website: z.string().optional(),
+  level: z.string().min(1, "Sponsorluq səviyyəsi seçilməlidir"),
+  order: z.coerce.number().int().min(0, "Sıra nömrəsi müsbət ədəd olmalıdır"),
+});
 
 // Registration type
 interface Registration {
