@@ -1,4 +1,7 @@
 import { useEffect, useState, useRef } from "react";
+
+// Helper function to safely increment numeric state
+const incrementState = (prev: any): number => prev + 1;
 import { useAuth } from "@/hooks/use-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -1300,7 +1303,7 @@ function SponsorsPanel() {
   
   // Refresh data
   const handleRefresh = () => {
-    setRefreshKey((prev: number) => prev + 1);
+    setRefreshKey(incrementState);
     toast({
       title: "Yeniləndi",
       description: "Sponsorlar siyahısı yeniləndi",
