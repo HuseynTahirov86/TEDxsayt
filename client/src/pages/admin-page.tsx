@@ -25,7 +25,17 @@ import {
   MessageSquare, 
   Eye, 
   ChevronDown,
-  BarChart 
+  BarChart,
+  UserPlus,
+  Clock,
+  Calendar,
+  Edit,
+  Plus,
+  Upload,
+  Mic,
+  Users,
+  ListChecks,
+  Database 
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
@@ -57,6 +67,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 // Registration type
@@ -80,6 +91,49 @@ interface Contact {
   message: string;
   createdAt: string;
   isRead: boolean;
+}
+
+// Speaker type
+interface Speaker {
+  id: number;
+  name: string;
+  title: string;
+  bio: string;
+  topic: string;
+  image: string;
+}
+
+// Session type
+interface ProgramSession {
+  id: string;
+  name: string;
+}
+
+// Program item type
+interface ProgramItem {
+  id: number;
+  time: string;
+  title: string;
+  description: string;
+  speakerId?: number;
+  session: string;
+}
+
+// Statistics type
+interface Statistics {
+  registrationsCount: number;
+  contactsCount: number;
+  unreadCount: number;
+  speakersCount: number;
+  programItemsCount: number;
+  recentRegistrations: Array<{
+    date: string;
+    count: number;
+  }>;
+  topicStats: Array<{
+    topic: string;
+    count: number;
+  }>;
 }
 
 // Stats component
@@ -557,7 +611,440 @@ const replyFormSchema = z.object({
   message: z.string().min(1, "Mesaj daxil edin"),
 });
 
+// Speaker form schema
+const speakerFormSchema = z.object({
+  name: z.string().min(1, "Natiqin adı tələb olunur"),
+  title: z.string().min(1, "Natiqin vəzifəsi tələb olunur"),
+  bio: z.string().min(1, "Natiqin bioqrafiyası tələb olunur"),
+  topic: z.string().min(1, "Natiqin mövzusu tələb olunur"),
+  image: z.string().optional()
+});
+
+// Program session form schema
+const sessionFormSchema = z.object({
+  id: z.string().min(1, "ID tələb olunur"),
+  name: z.string().min(1, "Sessiya adı tələb olunur")
+});
+
+// Program item form schema
+const programItemFormSchema = z.object({
+  time: z.string().min(1, "Vaxt tələb olunur"),
+  title: z.string().min(1, "Başlıq tələb olunur"),
+  description: z.string().optional(),
+  speakerId: z.number().optional().nullable(),
+  session: z.string().min(1, "Sessiya tələb olunur")
+});
+
 type ReplyFormValues = z.infer<typeof replyFormSchema>;
+type SpeakerFormValues = z.infer<typeof speakerFormSchema>;
+type SessionFormValues = z.infer<typeof sessionFormSchema>;
+type ProgramItemFormValues = z.infer<typeof programItemFormSchema>;
+
+// Speakers Panel Component
+function SpeakersPanel() {
+  const { toast } = useToast();
+  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isSpeakerDialogOpen, setIsSpeakerDialogOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const { data: speakers, isLoading, refetch } = useQuery<Speaker[]>({
+    queryKey: ["/api/admin/speakers", refreshKey],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+  
+  // Speaker form
+  const speakerForm = useForm<SpeakerFormValues>({
+    defaultValues: {
+      name: "",
+      title: "",
+      bio: "",
+      topic: "",
+      image: ""
+    },
+    resolver: zodResolver(speakerFormSchema)
+  });
+  
+  // Filter speakers based on search term
+  const filteredSpeakers = speakers?.filter(speaker => {
+    return searchTerm.trim() === "" || 
+      speaker.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      speaker.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      speaker.topic.toLowerCase().includes(searchTerm.toLowerCase());
+  }) || [];
+  
+  // Refresh speakers list
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+    refetch();
+    toast({
+      title: "Yeniləndi",
+      description: "Natiqlər siyahısı yeniləndi",
+    });
+  };
+  
+  // Initialize speaker form for editing
+  const initSpeakerForm = (speaker: Speaker | null = null) => {
+    speakerForm.reset(speaker || {
+      name: "",
+      title: "",
+      bio: "",
+      topic: "",
+      image: ""
+    });
+    setIsEditing(!!speaker);
+    setSelectedSpeaker(speaker);
+    setIsSpeakerDialogOpen(true);
+  };
+  
+  // Handle speaker form submission
+  const onSpeakerSubmit = async (data: SpeakerFormValues) => {
+    try {
+      setIsSubmitting(true);
+      
+      if (isEditing && selectedSpeaker) {
+        // Update speaker
+        const response = await fetch(`/api/admin/speakers/${selectedSpeaker.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Natiq məlumatlarını yeniləmək mümkün olmadı');
+        }
+        
+        toast({
+          title: "Natiq yeniləndi",
+          description: "Natiq məlumatları uğurla yeniləndi",
+        });
+      } else {
+        // Add new speaker
+        const response = await fetch('/api/admin/speakers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Natiq əlavə etmək mümkün olmadı');
+        }
+        
+        toast({
+          title: "Natiq əlavə edildi",
+          description: "Yeni natiq uğurla əlavə edildi",
+        });
+      }
+      
+      // Refresh speakers and close dialog
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/speakers"] });
+      setIsSpeakerDialogOpen(false);
+      speakerForm.reset();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Handle speaker deletion
+  const handleDelete = async (id: number) => {
+    try {
+      setIsDeleting(true);
+      const response = await fetch(`/api/admin/speakers/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Natiqi silmək mümkün olmadı');
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/speakers"] });
+      toast({
+        title: "Natiq silindi",
+        description: "Natiq uğurla silindi",
+      });
+      setIsDeleteDialogOpen(false);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+  
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <h2 className="text-2xl font-bold">Natiqlər</h2>
+        
+        <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+          <div className="relative">
+            <Input
+              placeholder="Axtar..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full sm:w-[200px] pr-8"
+            />
+            {searchTerm && (
+              <button 
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                onClick={() => setSearchTerm("")}
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={handleRefresh}
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Yenilə</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <Button 
+            size="sm"
+            onClick={() => initSpeakerForm()}
+          >
+            <Plus className="h-4 w-4 mr-1" /> Natiq əlavə et
+          </Button>
+        </div>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : !speakers || speakers.length === 0 ? (
+        <Card className="p-8 text-center text-muted-foreground">
+          <p>Hələ heç bir natiq əlavə edilməyib</p>
+          <Button 
+            variant="link" 
+            onClick={() => initSpeakerForm()} 
+            className="mt-2"
+          >
+            Natiq əlavə et
+          </Button>
+        </Card>
+      ) : filteredSpeakers.length === 0 ? (
+        <Card className="p-8 text-center text-muted-foreground">
+          <p>Axtarış meyarlarınıza uyğun natiq tapılmadı</p>
+          <Button variant="link" onClick={() => setSearchTerm("")} className="mt-2">
+            Filtrləri sıfırla
+          </Button>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredSpeakers.map((speaker) => (
+            <Card key={speaker.id} className="overflow-hidden">
+              <div className="aspect-[3/2] relative">
+                <img 
+                  src={speaker.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(speaker.name)}&background=random`} 
+                  alt={speaker.name}
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+              <CardHeader>
+                <CardTitle>{speaker.name}</CardTitle>
+                <CardDescription>{speaker.title}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm line-clamp-3">{speaker.bio}</p>
+                <div className="mt-3">
+                  <Badge variant="secondary">{speaker.topic}</Badge>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    setSelectedSpeaker(speaker);
+                    initSpeakerForm(speaker);
+                  }}
+                >
+                  <Edit className="h-4 w-4 mr-1" /> Düzəliş et
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    setSelectedSpeaker(speaker);
+                    setIsDeleteDialogOpen(true);
+                  }}
+                >
+                  <Trash className="h-4 w-4 mr-1" /> Sil
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
+      
+      {/* Speaker Form Dialog */}
+      <Dialog open={isSpeakerDialogOpen} onOpenChange={setIsSpeakerDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {isEditing ? "Natiq məlumatlarını düzəlt" : "Yeni natiq əlavə et"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <Form {...speakerForm}>
+            <form onSubmit={speakerForm.handleSubmit(onSpeakerSubmit)} className="space-y-4">
+              <FormField
+                control={speakerForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ad</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Natiqin adı" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={speakerForm.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Vəzifə</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Natiqin vəzifəsi" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={speakerForm.control}
+                name="bio"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bioqrafiya</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Natiq haqqında qısa məlumat" 
+                        className="min-h-[100px]"
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={speakerForm.control}
+                name="topic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mövzu</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Natiqin çıxış mövzusu" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={speakerForm.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Şəkil URL (istəyə bağlı)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Şəkil URL ünvanı" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsSpeakerDialogOpen(false);
+                    speakerForm.reset();
+                  }}
+                  disabled={isSubmitting}
+                >
+                  Ləğv et
+                </Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isEditing ? "Yenilə" : "Əlavə et"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Natiqi silmək istədiyinizə əminsiniz?</DialogTitle>
+            <DialogDescription>
+              Bu əməliyyat geri qaytarıla bilməz və natiq məlumatları tamamilə silinəcək.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
+              Ləğv et
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => selectedSpeaker && handleDelete(selectedSpeaker.id)}
+              disabled={isDeleting}
+            >
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sil
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
 
 // Contacts panel
 function ContactsPanel() {
@@ -988,6 +1475,8 @@ export default function AdminPage() {
             <TabsTrigger value="overview">Əsas Statistika</TabsTrigger>
             <TabsTrigger value="registrations">Qeydiyyatlar</TabsTrigger>
             <TabsTrigger value="contacts">Əlaqə Mesajları</TabsTrigger>
+            <TabsTrigger value="speakers">Natiqlər</TabsTrigger>
+            <TabsTrigger value="program">Proqram</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -1000,6 +1489,14 @@ export default function AdminPage() {
 
           <TabsContent value="contacts">
             <ContactsPanel />
+          </TabsContent>
+          
+          <TabsContent value="speakers">
+            <SpeakersPanel />
+          </TabsContent>
+          
+          <TabsContent value="program">
+            <ProgramPanel />
           </TabsContent>
         </Tabs>
       </main>
