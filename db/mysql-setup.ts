@@ -19,8 +19,19 @@ async function createTables() {
   try {
     console.log("Creating MySQL tables...");
 
-    // We don't need users, speakers, program_sessions, and program_items tables in MySQL anymore
+    // We don't need speakers, program_sessions, and program_items tables in MySQL anymore
     // as we're using JSON files for static content and only storing dynamic user data in MySQL
+    
+    // Create users table for admin authentication
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `);
+    console.log("Users table created");
 
     // Create registrations table
     await pool.query(`

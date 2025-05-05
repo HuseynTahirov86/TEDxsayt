@@ -1,18 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { db } from "@db";
+import { db, pool } from "@db";
 import { speakers, programSessions, programItems, registrations, contacts } from "@shared/schema";
 import { eq } from "drizzle-orm";
-import mysql from 'mysql2/promise';
-
-// Create a MySQL connection pool for raw queries
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  port: process.env.MYSQL_PORT ? parseInt(process.env.MYSQL_PORT) : 3306,
-});
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes for the TEDx website
