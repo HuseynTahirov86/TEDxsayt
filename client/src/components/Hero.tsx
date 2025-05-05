@@ -30,11 +30,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/TEDx_logo.svg/1200px-TEDx_logo.svg.png"
-            alt="TEDx Logo"
-            className="h-20 md:h-24 mb-4"
-          />
+
           <h1 className="font-poppins font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4">
             TEDx<span className="font-normal">Nakhchivan State University</span>
           </h1>
