@@ -20,7 +20,7 @@ export function useRegistration() {
   const submitRegistration = async (data: RegistrationFormData) => {
     setIsSubmitting(true);
     try {
-      const response = await apiRequest("POST", "/api/register", data);
+      const response = await apiRequest("POST", "/api/registration", data);
       setIsSuccess(true);
       toast({
         title: "Qeydiyyat tamamlandı",

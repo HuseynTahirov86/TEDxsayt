@@ -77,7 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Register for the event
-  app.post(`${apiPrefix}/register`, async (req, res) => {
+  app.post(`${apiPrefix}/registration`, async (req, res) => {
     try {
       const { firstName, lastName, email, phone, occupation, topics, terms } = req.body;
 
