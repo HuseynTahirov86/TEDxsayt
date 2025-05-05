@@ -46,8 +46,8 @@ export default function Navbar() {
       className={cn(
         "sticky-nav fixed w-full z-50 transition-all duration-300",
         isScrolled
-          ? "bg-tedblack/95 py-2 shadow-md"
-          : "bg-transparent py-4"
+          ? "bg-tedblack py-2 shadow-md" // Removed opacity for full blackness
+          : "bg-tedblack/70 py-4" // Added semi-transparent background even at the top
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
