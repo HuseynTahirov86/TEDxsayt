@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { MapPin, Mail, Phone, Instagram, Linkedin, Twitter, Youtube, Check } from "lucide-react";
+import { MapPin, Mail, Phone, Instagram, Linkedin, Facebook, Youtube, Check } from "lucide-react";
 import { useContact } from "@/hooks/use-contact";
 
 export default function Contact() {
@@ -78,10 +78,10 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">E-poçt</h4>
                   <a
-                    href="mailto:info@tedxnakhchivansu.com"
+                    href="mailto:huseyntahirov@ndu.edu.az"
                     className="text-tedred hover:text-red-700 transition-colors"
                   >
-                    info@tedxnakhchivansu.com
+                    huseyntahirov@ndu.edu.az
                   </a>
                 </div>
               </div>
@@ -93,10 +93,10 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">Telefon</h4>
                   <a
-                    href="tel:+994501234567"
+                    href="tel:+994605285505"
                     className="text-tedgray hover:text-tedblack transition-colors"
                   >
-                    +994 50 123 45 67
+                    +994 60 528 55 05
                   </a>
                 </div>
               </div>
@@ -104,34 +104,50 @@ export default function Contact() {
               <div>
                 <h4 className="font-semibold mb-3">Bizi izləyin</h4>
                 <div className="flex space-x-4">
-                  <a
-                    href="#"
+                  <motion.a
+                    href="https://www.instagram.com/tedxnakhchivanstateuniversity?igsh=Mzd1bXY1eWtwazA4&utm_source=qr"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-tedlightgray text-tedblack hover:bg-tedred hover:text-white transition-colors"
                     aria-label="Instagram"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <Instagram className="h-5 w-5" />
-                  </a>
-                  <a
-                    href="#"
+                  </motion.a>
+                  <motion.a
+                    href="https://az.linkedin.com/school/naxçıvan-dövlət-universiteti/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-tedlightgray text-tedblack hover:bg-tedred hover:text-white transition-colors"
                     aria-label="LinkedIn"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <Linkedin className="h-5 w-5" />
-                  </a>
-                  <a
-                    href="#"
+                  </motion.a>
+                  <motion.a
+                    href="https://www.facebook.com/share/1EVCTH2CyK/?mibextid=wwXIfr"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-tedlightgray text-tedblack hover:bg-tedred hover:text-white transition-colors"
-                    aria-label="Twitter"
+                    aria-label="Facebook"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
-                    <Twitter className="h-5 w-5" />
-                  </a>
-                  <a
-                    href="#"
+                    <Facebook className="h-5 w-5" />
+                  </motion.a>
+                  <motion.a
+                    href="https://www.youtube.com/user/TEDxTalks"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-tedlightgray text-tedblack hover:bg-tedred hover:text-white transition-colors"
                     aria-label="YouTube"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <Youtube className="h-5 w-5" />
-                  </a>
+                  </motion.a>
                 </div>
               </div>
             </div>
@@ -143,16 +159,17 @@ export default function Contact() {
             animate={controlsRight}
             variants={variants}
           >
-            <div className="h-80 md:h-96 rounded-xl overflow-hidden mb-8">
+            <div className="h-80 md:h-96 rounded-xl overflow-hidden mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3068.382115335651!2d45.40681907577115!3d39.2083783269816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x401df1ff02a60e99%3A0xf19a359b4510ccbf!2zTsSDeHTEnXZhbiBEw7Z2bMmZdCBVbml2ZXJzaXRldGkgLyBOYWtoY2hpdmFuIFN0YXRlIFVuaXZlcnNpdHk!5e0!3m2!1sen!2s!4v1711032578966!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3027.6958916156!2d45.39985911166313!3d39.211177131147466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMznCsDEyJzQwLjIiTiA0NcKwMjQnMDMuMSJF!5e0!3m2!1saz!2saz!4v1712507057452!5m2!1saz!2saz"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Map showing Naxçıvan Dövlət Universiteti location"
+                title="Map showing Naxçıvan Dövlət Universiteti TEDx event location"
+                className="hover:opacity-95 transition-opacity duration-300"
               ></iframe>
             </div>
 
