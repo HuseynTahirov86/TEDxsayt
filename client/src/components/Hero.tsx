@@ -588,8 +588,68 @@ export default function Hero() {
         </motion.div>
         
         {/* Countdown Timer */}
-        <motion.div variants={itemVariants}>
-          <CountdownTimer />
+        <motion.div 
+          variants={itemVariants} 
+          className="w-full max-w-3xl mx-auto py-5"
+        >
+          {/* Set hard-coded countdown values */}
+          <div className="relative p-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.5)]">
+            {/* Main background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-tedred/20 to-black/20 rounded-xl opacity-70"></div>
+            
+            {/* Animated pulsing glow */}
+            <motion.div 
+              className="absolute inset-0 rounded-xl bg-tedred/10"
+              animate={{ 
+                boxShadow: [
+                  "0 0 5px rgba(230, 43, 30, 0.1)",
+                  "0 0 25px rgba(230, 43, 30, 0.4)",
+                  "0 0 5px rgba(230, 43, 30, 0.1)"
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            ></motion.div>
+            
+            <div className="flex flex-row items-center justify-center relative z-10 px-1 md:px-4">
+              <div className="flex flex-col items-center mx-1 md:mx-3">
+                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
+                  <div className="text-lg md:text-3xl font-bold">25</div>
+                </div>
+                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Gün</span>
+              </div>
+              
+              <span className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1">:</span>
+              
+              <div className="flex flex-col items-center mx-1 md:mx-3">
+                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
+                  <div className="text-lg md:text-3xl font-bold">12</div>
+                </div>
+                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Saat</span>
+              </div>
+              
+              <span className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1">:</span>
+              
+              <div className="flex flex-col items-center mx-1 md:mx-3">
+                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
+                  <div className="text-lg md:text-3xl font-bold">45</div>
+                </div>
+                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Dəq</span>
+              </div>
+              
+              <span className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1">:</span>
+              
+              <div className="flex flex-col items-center mx-1 md:mx-3">
+                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
+                  <div className="text-lg md:text-3xl font-bold">30</div>
+                </div>
+                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">San</span>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Registration Button */}
