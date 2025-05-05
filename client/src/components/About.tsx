@@ -148,24 +148,32 @@ const FlipCard = ({ title, content, icon, index }: {
         
         {/* Back side */}
         <motion.div 
-          className="absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md flex flex-col justify-center text-white overflow-hidden w-full h-full"
+          className="absolute inset-0 rounded-xl bg-tedred p-6 shadow-md flex flex-col justify-center text-white overflow-hidden w-full h-full"
           style={{ 
             backfaceVisibility: "hidden", 
             WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)" 
           }}
           animate={{
-            boxShadow: isHovered ? "0 10px 30px rgba(230, 43, 30, 0.3)" : "0 4px 6px rgba(230, 43, 30, 0.2)"
+            boxShadow: isHovered ? "0 10px 30px rgba(230, 43, 30, 0.5)" : "0 4px 6px rgba(230, 43, 30, 0.3)"
           }}
         >
           <motion.div 
-            className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0"
+            className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0"
             animate={{ opacity: isHovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
           />
           
+          <motion.h3 
+            className="text-lg font-semibold mb-2 relative z-10"
+            animate={{ scale: isHovered ? 1.05 : 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 10 }}
+          >
+            {title}
+          </motion.h3>
+          
           <motion.p 
-            className="text-sm relative z-10"
+            className="text-sm relative z-10 font-medium text-white"
             animate={{ scale: isHovered ? 1.02 : 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 10 }}
           >
