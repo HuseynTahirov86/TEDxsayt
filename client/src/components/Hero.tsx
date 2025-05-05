@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 // Countdown Timer component
 function CountdownTimer() {
-  // Target date: June 16, 2025
-  const targetDate = new Date('2025-06-16T10:00:00');
+  const { t } = useTranslation();
+  // Target date: October 15, 2025
+  const targetDate = new Date('2025-10-15T10:00:00');
   
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -52,19 +54,21 @@ function CountdownTimer() {
     <div className="flex justify-center items-center mt-8 mb-8">
       <div className="flex flex-row items-center">
         <Clock className="text-tedred mr-3 h-6 w-6 hidden md:block" />
-        <TimeUnit value={timeLeft.days} label="gün" />
+        <TimeUnit value={timeLeft.days} label={t('days')} />
         <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.hours} label="saat" />
+        <TimeUnit value={timeLeft.hours} label={t('hours')} />
         <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.minutes} label="dəq" />
+        <TimeUnit value={timeLeft.minutes} label={t('minutes')} />
         <span className="text-tedred text-2xl font-bold">:</span>
-        <TimeUnit value={timeLeft.seconds} label="san" />
+        <TimeUnit value={timeLeft.seconds} label={t('seconds')} />
       </div>
     </div>
   );
 }
 
 export default function Hero() {
+  const { t } = useTranslation();
+  
   const scrollToAbout = () => {
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
@@ -113,7 +117,7 @@ export default function Hero() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 ></path>
               </svg>
-              <span>16 İyun 2025</span>
+              <span>{t('hero_date')}</span>
             </div>
             <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-tedred"></div>
             <div className="flex items-center">
@@ -137,7 +141,7 @@ export default function Hero() {
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 ></path>
               </svg>
-              <span>Naxçıvan Dövlət Universitetinin Konservatoriyası</span>
+              <span>{t('hero_location')}</span>
             </div>
           </div>
         </motion.div>
@@ -148,7 +152,7 @@ export default function Hero() {
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
-          "Sərhədləri aşan ideyalar, gələcəyi formalaşdıran fikirlər"
+          {t('hero_subtitle')}
         </motion.p>
         
         {/* Countdown Timer */}
@@ -165,7 +169,7 @@ export default function Hero() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Qeydiyyatdan keç
+          {t('hero_register_button')}
         </motion.button>
       </div>
 

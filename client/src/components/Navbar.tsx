@@ -71,34 +71,37 @@ export default function Navbar() {
               onClick={() => scrollToSection("about")}
               className="hover:text-tedred transition-colors"
             >
-              Haqqında
+              {t('about')}
             </button>
             <button
               onClick={() => scrollToSection("speakers")}
               className="hover:text-tedred transition-colors"
             >
-              Spikerlər
+              {t('speakers')}
             </button>
             <button
               onClick={() => scrollToSection("program")}
               className="hover:text-tedred transition-colors"
             >
-              Proqram
+              {t('program')}
             </button>
             <button
               onClick={() => scrollToSection("contact")}
               className="hover:text-tedred transition-colors"
             >
-              Əlaqə
+              {t('contact')}
             </button>
           </div>
 
-          <button
-            onClick={() => scrollToSection("register")}
-            className="hidden md:block bg-tedred hover:bg-red-700 text-white font-medium px-6 py-2 rounded-md transition-colors"
-          >
-            Qeydiyyat
-          </button>
+          <div className="hidden md:flex items-center space-x-4">
+            <button
+              onClick={() => scrollToSection("register")}
+              className="bg-tedred hover:bg-red-700 text-white font-medium px-6 py-2 rounded-md transition-colors"
+            >
+              {t('register')}
+            </button>
+            <LanguageSwitcher />
+          </div>
 
           <button
             id="mobileMenuButton"
@@ -128,32 +131,35 @@ export default function Navbar() {
             onClick={() => scrollToSection("about")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            Haqqında
+            {t('about')}
           </button>
           <button
             onClick={() => scrollToSection("speakers")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            Spikerlər
+            {t('speakers')}
           </button>
           <button
             onClick={() => scrollToSection("program")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            Proqram
+            {t('program')}
           </button>
           <button
             onClick={() => scrollToSection("contact")}
             className="py-2 hover:text-tedred transition-colors"
           >
-            Əlaqə
+            {t('contact')}
           </button>
           <button
             onClick={() => scrollToSection("register")}
             className="bg-tedred hover:bg-red-700 text-white text-center font-medium py-3 rounded-md transition-colors"
           >
-            Qeydiyyat
+            {t('register')}
           </button>
+          <div className="flex justify-center mt-4">
+            <LanguageSwitcher />
+          </div>
         </div>
       </div>
     </nav>
