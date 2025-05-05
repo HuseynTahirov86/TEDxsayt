@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Lightbulb, Globe, MessagesSquare } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useTranslation } from "react-i18next";
 
 interface ReasonProps {
   icon: React.ReactNode;
@@ -49,24 +50,23 @@ function Reason({ icon, title, description }: ReasonProps) {
 }
 
 export default function WhyTedx() {
+  const { t } = useTranslation();
+  
   const reasons = [
     {
       icon: <Lightbulb className="h-8 w-8 text-tedred" />,
-      title: "Fikir Mübadiləsi",
-      description:
-        "TEDx tədbirlərində müxtəlif sahələrdən olan insanlar öz unikal ideyalarını paylaşır və tamaşaçılara ilham verir.",
+      title: t('idea_exchange'),
+      description: t('idea_exchange_desc'),
     },
     {
       icon: <Globe className="h-8 w-8 text-tedred" />,
-      title: "Qlobal Şəbəkə",
-      description:
-        "TEDx tədbirləri dünyanın 170-dən çox ölkəsində keçirilir, bu da qlobal dialoqun bir hissəsi olmaq imkanı yaradır.",
+      title: t('global_network'),
+      description: t('global_network_desc'),
     },
     {
       icon: <MessagesSquare className="h-8 w-8 text-tedred" />,
-      title: "Fərqli Perspektivlər",
-      description:
-        "TEDx platforması fərqli yaş, təhsil və karyera sahiblərinə öz təcrübələrini bölüşmək imkanı yaradır.",
+      title: t('diverse_perspectives'),
+      description: t('diverse_perspectives_desc'),
     },
   ];
 
@@ -101,7 +101,7 @@ export default function WhyTedx() {
           variants={headingVariants}
           className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-12"
         >
-          Nə üçün <span className="text-tedred">TEDx</span>?
+          {t('why')} <span className="text-tedred">TEDx</span>?
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
