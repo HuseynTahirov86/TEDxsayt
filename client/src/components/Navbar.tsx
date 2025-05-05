@@ -152,7 +152,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center group">
             <div className="relative overflow-hidden">
               <img
-                src={tedxLogo}
+                src="/attached_assets/image_1746439190681.png"
                 alt="TEDx Logo"
                 className="h-10 mr-2 transition-transform duration-300 group-hover:scale-105"
               />
