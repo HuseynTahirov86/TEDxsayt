@@ -66,6 +66,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -440,27 +447,22 @@ function RegistrationsPanel() {
                   onClick={handleDownloadCSV}
                   disabled={isDownloading || (filteredRegistrations?.length || 0) === 0}
                 >
-                  {isDownloading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+                  <Download className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>CSV olaraq endir</p>
+                <p>CSV Endir</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                Filtrlər <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              <DropdownMenuItem onClick={clearFilters}>
-                Filtrləri sıfırla
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => setIsFilterDialogOpen(true)}
+          >
+            Filtrlər <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
         </div>
       </div>
       
@@ -488,6 +490,7 @@ function RegistrationsPanel() {
                   <TableRow>
                     <TableHead>№</TableHead>
                     <TableHead>Ad</TableHead>
+                    <TableHead>Soyad</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Telefon</TableHead>
                     <TableHead>Peşə</TableHead>
@@ -499,55 +502,24 @@ function RegistrationsPanel() {
                   {filteredRegistrations.map((registration, index) => (
                     <TableRow key={registration.id}>
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>
-                        {registration.firstName} {registration.lastName}
-                      </TableCell>
+                      <TableCell>{registration.firstName}</TableCell>
+                      <TableCell>{registration.lastName}</TableCell>
                       <TableCell>{registration.email}</TableCell>
                       <TableCell>{registration.phone}</TableCell>
                       <TableCell>{registration.occupation || "-"}</TableCell>
                       <TableCell>{formatDate(new Date(registration.createdAt))}</TableCell>
                       <TableCell>
-                        <div className="flex space-x-2">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm"
-                                  onClick={() => {
-                                    setSelectedRegistration(registration);
-                                    // Show details in a modal - to be implemented
-                                  }}
-                                >
-                                  <Eye className="h-4 w-4 text-blue-500" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Ətraflı bax</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm"
-                                  onClick={() => {
-                                    setSelectedRegistration(registration);
-                                    setIsDeleteDialogOpen(true);
-                                  }}
-                                >
-                                  <Trash className="h-4 w-4 text-red-500" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Sil</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </div>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            setSelectedRegistration(registration);
+                            setIsDeleteDialogOpen(true);
+                          }}
+                        >
+                          <Trash className="h-4 w-4 mr-1" />
+                          Sil
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -555,49 +527,95 @@ function RegistrationsPanel() {
               </Table>
             </ScrollArea>
           </CardContent>
-          <CardFooter className="flex justify-between py-2 px-4 border-t">
-            <div className="text-sm text-muted-foreground">
-              Cəmi: <span className="font-medium">{registrations.length}</span> qeydiyyat
-              {filteredRegistrations.length !== registrations.length && 
-                ` (${filteredRegistrations.length} göstərilir)`
-              }
-            </div>
-          </CardFooter>
         </Card>
       )}
-
-      {/* Delete Dialog */}
+      
+      {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Qeydiyyatı silmək istədiyinizə əminsiniz?</DialogTitle>
             <DialogDescription>
-              {selectedRegistration && (
-                <p>
-                  {selectedRegistration.firstName} {selectedRegistration.lastName} ({selectedRegistration.email}) 
-                  qeydiyyatı silinəcək. Bu əməliyyat geri qaytarıla bilməz.
-                </p>
-              )}
+              Bu əməliyyat geri qaytarıla bilməz və bütün qeydiyyat məlumatları tamamilə silinəcək.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} disabled={isDeleting}>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
               Ləğv et
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={() => selectedRegistration && handleDelete(selectedRegistration.id)}
               disabled={isDeleting}
             >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Silinir...
-                </>
-              ) : (
-                "Sil"
-              )}
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sil
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Filter Dialog */}
+      <Dialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Filtrləri Tənzimləyin</DialogTitle>
+            <DialogDescription>
+              Qeydiyyat məlumatlarını süzmək üçün filtrlər tətbiq edin
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <h4 className="font-medium text-sm">Tarix aralığı</h4>
+              <div className="flex flex-col space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-sm" htmlFor="start-date">Başlanğıc tarix</label>
+                    <Input 
+                      id="start-date"
+                      type="date" 
+                      value={dateRange.start?.toISOString().slice(0, 10) || ''}
+                      onChange={(e) => setDateRange({
+                        ...dateRange,
+                        start: e.target.value ? new Date(e.target.value) : undefined
+                      })}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm" htmlFor="end-date">Son tarix</label>
+                    <Input 
+                      id="end-date"
+                      type="date" 
+                      value={dateRange.end?.toISOString().slice(0, 10) || ''}
+                      onChange={(e) => setDateRange({
+                        ...dateRange,
+                        end: e.target.value ? new Date(e.target.value) : undefined
+                      })}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={clearFilters}
+            >
+              Filtrləri sıfırla
+            </Button>
+            <Button
+              onClick={() => setIsFilterDialogOpen(false)}
+            >
+              Tətbiq et
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
@@ -1046,7 +1064,780 @@ function SpeakersPanel() {
   );
 }
 
-// Contacts panel
+// Program Management Panel Component
+function ProgramPanel() {
+  const { toast } = useToast();
+  const [activeView, setActiveView] = useState<"sessions" | "items">("sessions");
+  const [refreshKey, setRefreshKey] = useState(0);
+  
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <h2 className="text-2xl font-bold">Proqram Planlaşdırma</h2>
+        
+        <div className="flex space-x-2 mt-2 sm:mt-0">
+          <Button 
+            variant={activeView === "sessions" ? "default" : "outline"} 
+            onClick={() => setActiveView("sessions")}
+          >
+            Sessiyalar
+          </Button>
+          <Button 
+            variant={activeView === "items" ? "default" : "outline"} 
+            onClick={() => setActiveView("items")}
+          >
+            Proqram Elementləri
+          </Button>
+        </div>
+      </div>
+      
+      {activeView === "sessions" ? (
+        <SessionsPanel refreshKey={refreshKey} setRefreshKey={setRefreshKey} />
+      ) : (
+        <ProgramItemsPanel refreshKey={refreshKey} setRefreshKey={setRefreshKey} />
+      )}
+    </div>
+  );
+}
+
+// Sessions Panel Subcomponent
+function SessionsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: (key: number) => void }) {
+  const { toast } = useToast();
+  const [selectedSession, setSelectedSession] = useState<ProgramSession | null>(null);
+  const [isSessionDialogOpen, setIsSessionDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  
+  const { data: sessions, isLoading } = useQuery<ProgramSession[]>({
+    queryKey: ["/api/admin/program/sessions", refreshKey],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+  
+  // Session form
+  const sessionForm = useForm<SessionFormValues>({
+    defaultValues: {
+      id: "",
+      name: ""
+    },
+    resolver: zodResolver(sessionFormSchema)
+  });
+  
+  // Initialize session form for editing
+  const initSessionForm = (session: ProgramSession | null = null) => {
+    sessionForm.reset(session || {
+      id: "",
+      name: ""
+    });
+    setIsEditing(!!session);
+    setSelectedSession(session);
+    setIsSessionDialogOpen(true);
+  };
+  
+  // Handle session form submission
+  const onSessionSubmit = async (data: SessionFormValues) => {
+    try {
+      setIsSubmitting(true);
+      
+      if (isEditing && selectedSession) {
+        // Update session
+        const response = await fetch(`/api/admin/program/sessions/${selectedSession.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Sessiya məlumatlarını yeniləmək mümkün olmadı');
+        }
+        
+        toast({
+          title: "Sessiya yeniləndi",
+          description: "Sessiya məlumatları uğurla yeniləndi",
+        });
+      } else {
+        // Add new session
+        const response = await fetch('/api/admin/program/sessions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Sessiya əlavə etmək mümkün olmadı');
+        }
+        
+        toast({
+          title: "Sessiya əlavə edildi",
+          description: "Yeni sessiya uğurla əlavə edildi",
+        });
+      }
+      
+      // Refresh sessions and close dialog
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/program/sessions"] });
+      setIsSessionDialogOpen(false);
+      sessionForm.reset();
+      setRefreshKey(prev => prev + 1);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Handle session deletion
+  const handleDelete = async (id: string) => {
+    try {
+      setIsDeleting(true);
+      const response = await fetch(`/api/admin/program/sessions/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Sessiyanı silmək mümkün olmadı');
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/program/sessions"] });
+      toast({
+        title: "Sessiya silindi",
+        description: "Sessiya uğurla silindi",
+      });
+      setIsDeleteDialogOpen(false);
+      setRefreshKey(prev => prev + 1);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+  
+  return (
+    <div>
+      <div className="flex justify-end mb-4">
+        <Button 
+          onClick={() => initSessionForm()}
+        >
+          <Plus className="h-4 w-4 mr-1" /> Sessiya əlavə et
+        </Button>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : !sessions || sessions.length === 0 ? (
+        <Card className="p-8 text-center text-muted-foreground">
+          <p>Hələ heç bir sessiya əlavə edilməyib</p>
+          <Button 
+            variant="link" 
+            onClick={() => initSessionForm()} 
+            className="mt-2"
+          >
+            Sessiya əlavə et
+          </Button>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {sessions.map((session) => (
+            <Card key={session.id}>
+              <CardHeader>
+                <CardTitle>{session.name}</CardTitle>
+                <CardDescription>ID: {session.id}</CardDescription>
+              </CardHeader>
+              <CardFooter className="flex justify-end space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => initSessionForm(session)}
+                >
+                  <Edit className="h-4 w-4 mr-1" /> Düzəliş et
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    setSelectedSession(session);
+                    setIsDeleteDialogOpen(true);
+                  }}
+                >
+                  <Trash className="h-4 w-4 mr-1" /> Sil
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
+      
+      {/* Session Form Dialog */}
+      <Dialog open={isSessionDialogOpen} onOpenChange={setIsSessionDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {isEditing ? "Sessiya məlumatlarını düzəlt" : "Yeni sessiya əlavə et"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <Form {...sessionForm}>
+            <form onSubmit={sessionForm.handleSubmit(onSessionSubmit)} className="space-y-4">
+              <FormField
+                control={sessionForm.control}
+                name="id"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>ID</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Sessiya ID (məs: morning, afternoon)" 
+                        {...field} 
+                        disabled={isEditing}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={sessionForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ad</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Sessiya adı" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsSessionDialogOpen(false);
+                    sessionForm.reset();
+                  }}
+                  disabled={isSubmitting}
+                >
+                  Ləğv et
+                </Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isEditing ? "Yenilə" : "Əlavə et"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Sessiyanı silmək istədiyinizə əminsiniz?</DialogTitle>
+            <DialogDescription>
+              Bu əməliyyat geri qaytarıla bilməz və sessiya ilə əlaqəli proqram elementləri təsirlənə bilər.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
+              Ləğv et
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => selectedSession && handleDelete(selectedSession.id)}
+              disabled={isDeleting}
+            >
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sil
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// Program Items Panel Subcomponent
+function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: (key: number) => void }) {
+  const { toast } = useToast();
+  const [selectedItem, setSelectedItem] = useState<ProgramItem | null>(null);
+  const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeSession, setActiveSession] = useState<string | null>(null);
+  
+  const { data: items, isLoading: itemsLoading } = useQuery<ProgramItem[]>({
+    queryKey: ["/api/admin/program/items", refreshKey],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+  
+  const { data: sessions, isLoading: sessionsLoading } = useQuery<ProgramSession[]>({
+    queryKey: ["/api/admin/program/sessions", refreshKey],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+  
+  const { data: speakers, isLoading: speakersLoading } = useQuery<Speaker[]>({
+    queryKey: ["/api/admin/speakers", refreshKey],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+  
+  // Program item form
+  const itemForm = useForm<ProgramItemFormValues>({
+    defaultValues: {
+      time: "",
+      title: "",
+      description: "",
+      speakerId: null,
+      session: ""
+    },
+    resolver: zodResolver(programItemFormSchema)
+  });
+  
+  // Filter program items based on search term and active session
+  const filteredItems = items?.filter(item => {
+    const searchMatch = searchTerm.trim() === "" || 
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const sessionMatch = !activeSession || item.session === activeSession;
+    
+    return searchMatch && sessionMatch;
+  }) || [];
+  
+  // Initialize program item form for editing
+  const initItemForm = (item: ProgramItem | null = null) => {
+    itemForm.reset(item ? {
+      ...item,
+      speakerId: item.speakerId || null
+    } : {
+      time: "",
+      title: "",
+      description: "",
+      speakerId: null,
+      session: activeSession || ""
+    });
+    setIsEditing(!!item);
+    setSelectedItem(item);
+    setIsItemDialogOpen(true);
+  };
+  
+  // Handle program item form submission
+  const onItemSubmit = async (data: ProgramItemFormValues) => {
+    try {
+      setIsSubmitting(true);
+      
+      if (isEditing && selectedItem) {
+        // Update program item
+        const response = await fetch(`/api/admin/program/items/${selectedItem.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Proqram elementini yeniləmək mümkün olmadı');
+        }
+        
+        toast({
+          title: "Proqram elementi yeniləndi",
+          description: "Proqram elementi uğurla yeniləndi",
+        });
+      } else {
+        // Add new program item
+        const response = await fetch('/api/admin/program/items', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Proqram elementi əlavə etmək mümkün olmadı');
+        }
+        
+        toast({
+          title: "Proqram elementi əlavə edildi",
+          description: "Yeni proqram elementi uğurla əlavə edildi",
+        });
+      }
+      
+      // Refresh program items and close dialog
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/program/items"] });
+      setIsItemDialogOpen(false);
+      itemForm.reset();
+      setRefreshKey(prev => prev + 1);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Handle program item deletion
+  const handleDelete = async (id: number) => {
+    try {
+      setIsDeleting(true);
+      const response = await fetch(`/api/admin/program/items/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Proqram elementini silmək mümkün olmadı');
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/program/items"] });
+      toast({
+        title: "Proqram elementi silindi",
+        description: "Proqram elementi uğurla silindi",
+      });
+      setIsDeleteDialogOpen(false);
+      setRefreshKey(prev => prev + 1);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Xəta",
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+  
+  const isLoading = itemsLoading || sessionsLoading || speakersLoading;
+  
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <div className="relative w-full sm:w-[200px] mb-2 sm:mb-0">
+          <Input
+            placeholder="Axtar..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pr-8"
+          />
+          {searchTerm && (
+            <button 
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              onClick={() => setSearchTerm("")}
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+        
+        <div className="flex flex-wrap gap-2">
+          <Button 
+            variant={!activeSession ? "default" : "outline"} 
+            size="sm" 
+            onClick={() => setActiveSession(null)}
+          >
+            Bütün sessiyalar
+          </Button>
+          
+          {sessions?.map(session => (
+            <Button 
+              key={session.id} 
+              variant={activeSession === session.id ? "default" : "outline"} 
+              size="sm" 
+              onClick={() => setActiveSession(session.id)}
+            >
+              {session.name}
+            </Button>
+          ))}
+          
+          <Button 
+            onClick={() => initItemForm()}
+            className="ml-2"
+          >
+            <Plus className="h-4 w-4 mr-1" /> Yeni element
+          </Button>
+        </div>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : !items || items.length === 0 ? (
+        <Card className="p-8 text-center text-muted-foreground">
+          <p>Hələ heç bir proqram elementi əlavə edilməyib</p>
+          <Button 
+            variant="link" 
+            onClick={() => initItemForm()} 
+            className="mt-2"
+          >
+            Proqram elementi əlavə et
+          </Button>
+        </Card>
+      ) : filteredItems.length === 0 ? (
+        <Card className="p-8 text-center text-muted-foreground">
+          <p>Axtarış meyarlarınıza uyğun proqram elementi tapılmadı</p>
+          <Button variant="link" onClick={() => {
+            setSearchTerm("");
+            setActiveSession(null);
+          }} className="mt-2">
+            Filtrləri sıfırla
+          </Button>
+        </Card>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Vaxt</TableHead>
+              <TableHead>Başlıq</TableHead>
+              <TableHead>Təsvir</TableHead>
+              <TableHead>Natiq</TableHead>
+              <TableHead>Sessiya</TableHead>
+              <TableHead>Əməliyyatlar</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredItems.map((item) => {
+              const session = sessions?.find(s => s.id === item.session);
+              const speaker = speakers?.find(s => s.id === item.speakerId);
+              
+              return (
+                <TableRow key={item.id}>
+                  <TableCell>{item.time}</TableCell>
+                  <TableCell>{item.title}</TableCell>
+                  <TableCell className="max-w-[200px] truncate">
+                    {item.description || "-"}
+                  </TableCell>
+                  <TableCell>
+                    {speaker ? speaker.name : "-"}
+                  </TableCell>
+                  <TableCell>
+                    {session ? session.name : item.session}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => initItemForm(item)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {
+                          setSelectedItem(item);
+                          setIsDeleteDialogOpen(true);
+                        }}
+                      >
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      )}
+      
+      {/* Program Item Form Dialog */}
+      <Dialog open={isItemDialogOpen} onOpenChange={setIsItemDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {isEditing ? "Proqram elementini düzəlt" : "Yeni proqram elementi əlavə et"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <Form {...itemForm}>
+            <form onSubmit={itemForm.handleSubmit(onItemSubmit)} className="space-y-4">
+              <FormField
+                control={itemForm.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Vaxt</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Məs: 09:00" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={itemForm.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Başlıq</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Proqram elementinin başlığı" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={itemForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Təsvir (istəyə bağlı)</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Proqram elementinin təsviri" 
+                        className="min-h-[80px]"
+                        {...field} 
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={itemForm.control}
+                name="speakerId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Natiq (istəyə bağlı)</FormLabel>
+                    <Select
+                      value={field.value?.toString() || ""}
+                      onValueChange={(value) => field.onChange(value ? parseInt(value) : null)}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Natiq seçin" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="">Natiq yoxdur</SelectItem>
+                        {speakers?.map((speaker) => (
+                          <SelectItem key={speaker.id} value={speaker.id.toString()}>
+                            {speaker.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={itemForm.control}
+                name="session"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sessiya</FormLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sessiya seçin" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {sessions?.map((session) => (
+                          <SelectItem key={session.id} value={session.id}>
+                            {session.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsItemDialogOpen(false);
+                    itemForm.reset();
+                  }}
+                  disabled={isSubmitting}
+                >
+                  Ləğv et
+                </Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {isEditing ? "Yenilə" : "Əlavə et"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Proqram elementini silmək istədiyinizə əminsiniz?</DialogTitle>
+            <DialogDescription>
+              Bu əməliyyat geri qaytarıla bilməz və proqram elementi tamamilə silinəcək.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
+              Ləğv et
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => selectedItem && handleDelete(selectedItem.id)}
+              disabled={isDeleting}
+            >
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sil
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// Contacts panel component
 function ContactsPanel() {
   const { toast } = useToast();
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
@@ -1342,10 +2133,25 @@ function ContactsPanel() {
                             size="sm"
                             onClick={() => {
                               setSelectedContact(contact);
+                              replyForm.reset({
+                                to: contact.email,
+                                subject: `RE: ${contact.subject}`,
+                                message: ""
+                              });
+                              setIsReplyDialogOpen(true);
+                            }}
+                          >
+                            Cavabla
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => {
+                              setSelectedContact(contact);
                               setIsDeleteDialogOpen(true);
                             }}
                           >
-                            <Trash className="h-4 w-4 text-red-500" />
+                            <Trash className="h-4 w-4" />
                           </Button>
                         </div>
                       </TableCell>
@@ -1357,113 +2163,238 @@ function ContactsPanel() {
           </CardContent>
         </Card>
       )}
-
-      {/* View Dialog */}
+      
+      {/* View Message Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle>{selectedContact?.subject}</DialogTitle>
-            <DialogDescription>
-              <div className="flex justify-between items-center text-sm text-muted-foreground">
-                <span>Göndərən: {selectedContact?.name} ({selectedContact?.email})</span>
-                <span>{selectedContact && formatDate(new Date(selectedContact.createdAt))}</span>
-              </div>
-            </DialogDescription>
+            <DialogTitle>Əlaqə Mesajı</DialogTitle>
           </DialogHeader>
-          <Separator />
-          <div className="mt-2 max-h-[300px] overflow-y-auto">
-            <p className="whitespace-pre-wrap">{selectedContact?.message}</p>
-          </div>
-          <div className="flex justify-between mt-4">
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                // Add mailto link
-                if (selectedContact) {
-                  window.location.href = `mailto:${selectedContact.email}?subject=Re: ${selectedContact.subject}`;
-                }
-              }}
-            >
-              <Mail className="h-4 w-4 mr-2" /> Cavab ver
-            </Button>
-            <Button 
-              variant="default" 
-              onClick={() => setIsViewDialogOpen(false)}
-            >
-              Bağla
-            </Button>
-          </div>
+          
+          {selectedContact && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="text-sm font-medium">Göndərən</h4>
+                  <p>{selectedContact.name}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium">Email</h4>
+                  <p>{selectedContact.email}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium">Tarix</h4>
+                  <p>{formatDate(new Date(selectedContact.createdAt))}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium">Status</h4>
+                  <p>
+                    {selectedContact.isRead ? (
+                      <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200">
+                        <Check className="h-3 w-3 mr-1" /> Oxunub
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-200">
+                        <Mail className="h-3 w-3 mr-1" /> Yeni
+                      </Badge>
+                    )}
+                  </p>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-medium">Mövzu</h4>
+                <p className="font-medium text-lg">{selectedContact.subject}</p>
+              </div>
+              
+              <Separator />
+              
+              <div>
+                <h4 className="text-sm font-medium mb-2">Mesaj</h4>
+                <ScrollArea className="h-[200px] border rounded-md p-4">
+                  <p className="whitespace-pre-wrap">{selectedContact.message}</p>
+                </ScrollArea>
+              </div>
+              
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsViewDialogOpen(false)}
+                >
+                  Bağla
+                </Button>
+                <Button
+                  onClick={() => {
+                    setIsViewDialogOpen(false);
+                    replyForm.reset({
+                      to: selectedContact.email,
+                      subject: `RE: ${selectedContact.subject}`,
+                      message: ""
+                    });
+                    setIsReplyDialogOpen(true);
+                  }}
+                >
+                  Cavabla
+                </Button>
+              </DialogFooter>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
-
-      {/* Delete Dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
+      
+      {/* Reply Dialog */}
+      <Dialog open={isReplyDialogOpen} onOpenChange={setIsReplyDialogOpen}>
+        <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle>Əlaqə mesajını silmək istədiyinizə əminsiniz?</DialogTitle>
+            <DialogTitle>Mesaja Cavab</DialogTitle>
             <DialogDescription>
-              {selectedContact && (
-                <p>
-                  {selectedContact.name} ({selectedContact.email}) tərəfindən göndərilən əlaqə mesajı silinəcək. 
-                  Bu əməliyyat geri qaytarıla bilməz.
-                </p>
-              )}
+              Bu forma vasitəsilə əlaqə sorğusuna email cavab hazırlayın
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} disabled={isDeleting}>
+          
+          <Form {...replyForm}>
+            <form onSubmit={replyForm.handleSubmit(onReplySubmit)} className="space-y-4">
+              <FormField
+                control={replyForm.control}
+                name="to"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kimə</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email ünvanı" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={replyForm.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mövzu</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email mövzusu" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={replyForm.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mesaj</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Cavab mesajı" 
+                        className="h-[200px]"
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsReplyDialogOpen(false)}
+                >
+                  Ləğv et
+                </Button>
+                <Button type="submit" disabled={isSendingReply}>
+                  {isSendingReply && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Cavab Göndər
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Mesajı silmək istədiyinizə əminsiniz?</DialogTitle>
+            <DialogDescription>
+              Bu əməliyyat geri qaytarıla bilməz və əlaqə mesajı tamamilə silinəcək.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
               Ləğv et
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={() => selectedContact && handleDelete(selectedContact.id)}
               disabled={isDeleting}
             >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Silinir...
-                </>
-              ) : (
-                "Sil"
-              )}
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sil
             </Button>
-          </div>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
   );
 }
 
-// Main Admin Page component
+// Main Admin Page Component
 export default function AdminPage() {
-  const { user, logoutMutation } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
 
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
+  // If not authenticated, redirect to auth page
+  useEffect(() => {
+    if (!authLoading && !user) {
+      window.location.href = "/auth";
+    }
+  }, [user, authLoading]);
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin h-8 w-8 text-primary" />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Admin Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary">TEDx NDU Admin Panel</h1>
-          <div className="flex items-center space-x-4">
-            {user && (
-              <span className="text-gray-600">
-                Xoş gəlmisiniz, <span className="font-semibold">{user.username}</span>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h1>
+            
+            <div className="flex items-center space-x-4">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {user?.username}
               </span>
-            )}
-            <Button variant="outline" onClick={handleLogout} disabled={logoutMutation.isPending}>
-              {logoutMutation.isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Çıxış...
-                </>
-              ) : (
-                "Çıxış"
-              )}
-            </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  fetch("/api/logout", {
+                    method: "POST",
+                  }).then(() => {
+                    window.location.href = "/";
+                  });
+                }}
+              >
+                Çıxış
+              </Button>
+            </div>
           </div>
         </div>
       </header>
