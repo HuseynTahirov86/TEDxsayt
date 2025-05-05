@@ -161,7 +161,7 @@ export default function Contact() {
           >
             <div className="h-80 md:h-96 rounded-xl overflow-hidden mb-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3027.6958916156!2d45.39985911166313!3d39.211177131147466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMznCsDEyJzQwLjIiTiA0NcKwMjQnMDMuMSJF!5e0!3m2!1saz!2saz!4v1712507057452!5m2!1saz!2saz"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3068.435967559287!2d45.40486501206979!3d39.20720517139246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x401df1ff02a60e99%3A0xf19a359b4510ccbf!2zTmF4w6fEsXZhbiBEw7Z2bMmZdCBVbml2ZXJzaXRldGk!5e0!3m2!1sen!2saz!4v1712507724071!5m2!1sen!2saz"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
