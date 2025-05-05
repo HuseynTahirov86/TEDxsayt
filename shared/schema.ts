@@ -1,13 +1,13 @@
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { mysqlTable, varchar, int, boolean, timestamp, primaryKey } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
 // Users table (required for basic auth if needed)
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+export const users = mysqlTable("users", {
+  id: int("id").autoincrement().primaryKey(),
+  username: varchar("username", { length: 255 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -19,13 +19,13 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
 // Speakers table
-export const speakers = pgTable("speakers", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  title: text("title").notNull(),
-  bio: text("bio").notNull(),
-  topic: text("topic").notNull(),
-  image: text("image").notNull(),
+export const speakers = mysqlTable("speakers", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  bio: varchar("bio", { length: 2000 }).notNull(),
+  topic: varchar("topic", { length: 255 }).notNull(),
+  image: varchar("image", { length: 2000 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -44,10 +44,10 @@ export type InsertSpeaker = z.infer<typeof insertSpeakerSchema>;
 export type Speaker = typeof speakers.$inferSelect;
 
 // Program Sessions table
-export const programSessions = pgTable("program_sessions", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  order: integer("order").notNull(),
+export const programSessions = mysqlTable("program_sessions", {
+  id: varchar("id", { length: 50 }).primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  order: int("order").notNull(),
 });
 
 export const programSessionsRelations = relations(programSessions, ({ many }) => ({
@@ -59,14 +59,14 @@ export type InsertProgramSession = z.infer<typeof insertProgramSessionSchema>;
 export type ProgramSession = typeof programSessions.$inferSelect;
 
 // Program Items table
-export const programItems = pgTable("program_items", {
-  id: serial("id").primaryKey(),
-  time: text("time").notNull(),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  session: text("session").notNull().references(() => programSessions.id),
-  speakerId: integer("speaker_id").references(() => speakers.id),
-  order: integer("order").notNull(),
+export const programItems = mysqlTable("program_items", {
+  id: int("id").autoincrement().primaryKey(),
+  time: varchar("time", { length: 50 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: varchar("description", { length: 2000 }).notNull(),
+  session: varchar("session", { length: 50 }).notNull().references(() => programSessions.id),
+  speakerId: int("speaker_id").references(() => speakers.id),
+  order: int("order").notNull(),
 });
 
 export const programItemsRelations = relations(programItems, ({ one }) => ({
@@ -85,14 +85,14 @@ export type InsertProgramItem = z.infer<typeof insertProgramItemSchema>;
 export type ProgramItem = typeof programItems.$inferSelect;
 
 // Registrations table
-export const registrations = pgTable("registrations", {
-  id: serial("id").primaryKey(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  email: text("email").notNull().unique(),
-  phone: text("phone").notNull(),
-  occupation: text("occupation"),
-  topics: text("topics"),
+export const registrations = mysqlTable("registrations", {
+  id: int("id").autoincrement().primaryKey(),
+  firstName: varchar("first_name", { length: 255 }).notNull(),
+  lastName: varchar("last_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  phone: varchar("phone", { length: 50 }).notNull(),
+  occupation: varchar("occupation", { length: 255 }),
+  topics: varchar("topics", { length: 1000 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -107,12 +107,12 @@ export type InsertRegistration = z.infer<typeof insertRegistrationSchema>;
 export type Registration = typeof registrations.$inferSelect;
 
 // Contacts table
-export const contacts = pgTable("contacts", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  subject: text("subject").notNull(),
-  message: text("message").notNull(),
+export const contacts = mysqlTable("contacts", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  subject: varchar("subject", { length: 255 }).notNull(),
+  message: varchar("message", { length: 2000 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   isRead: boolean("is_read").default(false).notNull(),
 });
