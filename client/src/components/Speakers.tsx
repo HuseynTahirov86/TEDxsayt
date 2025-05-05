@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 interface Speaker {
   id: number;
@@ -13,6 +14,7 @@ interface Speaker {
 }
 
 function SpeakerCard({ speaker }: { speaker: Speaker }) {
+  const { t } = useTranslation();
   const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.2,
@@ -65,7 +67,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
         <p className="text-gray-200 mb-2">{speaker.title}</p>
         <div className="w-12 h-0.5 bg-white mb-4"></div>
         <p className="text-white text-sm mb-4">{speaker.bio}</p>
-        <h4 className="text-white font-semibold mb-1">Çıxış mövzusu:</h4>
+        <h4 className="text-white font-semibold mb-1">{t('speech_topic')}:</h4>
         <p className="text-white italic">"{speaker.topic}"</p>
       </div>
     </motion.div>
@@ -73,6 +75,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
 }
 
 export default function Speakers() {
+  const { t } = useTranslation();
   const { data: speakers, isLoading } = useQuery({
     queryKey: ["/api/speakers"],
     staleTime: Infinity,
