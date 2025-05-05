@@ -439,7 +439,7 @@ export default function Speakers() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
-            {speakers?.map((speaker: Speaker, index: number) => (
+            {Array.isArray(speakers) && speakers.map((speaker: Speaker, index: number) => (
               <SpeakerCard 
                 key={speaker.id} 
                 speaker={speaker} 

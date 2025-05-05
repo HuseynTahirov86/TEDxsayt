@@ -1727,7 +1727,7 @@ function SessionsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setR
       queryClient.invalidateQueries({ queryKey: ["/api/admin/program/sessions"] });
       setIsSessionDialogOpen(false);
       sessionForm.reset();
-      setRefreshKey(prev => prev + 1);
+      setRefreshKey((prev: number) => prev + 1);
     } catch (error) {
       toast({
         variant: "destructive",

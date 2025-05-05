@@ -728,7 +728,7 @@ export default function Hero() {
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
             
-            <span className="mr-2 relative z-10">İndi qeydiyyatdan keçin</span>
+            <span className="mr-2 relative z-10">İndi qeydiyyatdan keç</span>
             
             <motion.div
               className="relative z-10"

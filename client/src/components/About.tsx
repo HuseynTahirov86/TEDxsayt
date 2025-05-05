@@ -44,13 +44,12 @@ const FlipCard = ({ title, content, icon, index }: {
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       <motion.div 
-        className="absolute inset-0 cursor-pointer z-10 w-full h-full"
+        className="absolute inset-0 z-10 w-full h-full"
         style={{ 
           transformStyle: "preserve-3d",
-          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          transform: isHovered ? "rotateY(180deg)" : "rotateY(0deg)",
           transition: "transform 0.6s"
         }}
-        onClick={() => setIsFlipped(!isFlipped)}
       >
         {/* Front side */}
         <motion.div 
@@ -128,7 +127,7 @@ const FlipCard = ({ title, content, icon, index }: {
             >
               <Info size={14} className="text-tedred/70" />
             </motion.div>
-            <span>Daha ətraflı məlumat üçün klikləyin</span>
+            <span>Ətraflı məlumata baxmaq üçün kartın üzərində dayanın</span>
           </motion.div>
           
           {/* Shine effect on hover */}
