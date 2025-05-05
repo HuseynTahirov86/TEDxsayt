@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import tedxLogo from "@/assets/tedx-logo.svg";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -53,7 +54,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/TEDx_logo.svg/1200px-TEDx_logo.svg.png"
+              src={tedxLogo}
               alt="TEDx Logo"
               className="h-8 mr-2"
             />

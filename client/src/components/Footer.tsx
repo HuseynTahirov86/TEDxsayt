@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import tedxLogo from "@/assets/tedx-logo.svg";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
@@ -18,7 +19,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <div className="flex items-center mb-6 md:mb-0">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/TEDx_logo.svg/1200px-TEDx_logo.svg.png"
+              src={tedxLogo}
               alt="TEDx Logo"
               className="h-8 mr-2"
             />
