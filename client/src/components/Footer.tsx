@@ -24,7 +24,7 @@ export default function Footer() {
               className="h-8 mr-2"
             />
             <span className="font-poppins font-bold text-lg">
-              Nakhchivan State University
+              Naxçıvan Dövlət Universiteti
             </span>
           </div>
 
@@ -64,7 +64,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h4 className="font-semibold text-lg mb-4">
-                TEDx Nakhchivan State University
+                TEDx Naxçıvan Dövlət Universiteti
               </h4>
               <p className="text-gray-400 text-sm">
                 TEDx, TED lisenziyası altında yerli icmalar tərəfindən müstəqil
@@ -152,7 +152,7 @@ export default function Footer() {
             TEDx is independently organized under TED license
           </p>
           <p className="text-gray-500 text-xs">
-            &copy; 2025 TEDx Nakhchivan State University. Bütün hüquqlar qorunur.
+            &copy; 2025 TEDx Naxçıvan Dövlət Universiteti. Bütün hüquqlar qorunur.
           </p>
         </div>
       </div>

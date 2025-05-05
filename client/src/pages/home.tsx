@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     setupScrollAnimation();
     // Set page title and meta description
-    document.title = "TEDx Nakhchivan State University | June 16, 2025";
+    document.title = "TEDx Naxçıvan Dövlət Universiteti | June 16, 2025";
     
     // Add favicon
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;

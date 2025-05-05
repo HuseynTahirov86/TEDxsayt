@@ -70,10 +70,10 @@ export default function About() {
 
             <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
               <h3 className="text-xl font-poppins font-semibold mb-3">
-                TEDx Nakhchivan State University
+                TEDx Naxçıvan Dövlət Universiteti
               </h3>
               <p className="text-tedgray">
-                Bu il ilk dəfə təşkil olunan TEDx Nakhchivan State University
+                Bu il ilk dəfə təşkil olunan TEDx Naxçıvan Dövlət Universiteti
                 tədbirinin əsas mövzusu{" "}
                 <span className="font-semibold">
                   "İnnovasiya və Yaradıcılıq vasitəsilə Regional İnkişaf"

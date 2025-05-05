@@ -267,7 +267,7 @@ export default function Register() {
                             />
                           </FormControl>
                           <FormLabel className="text-sm">
-                            Məlumatlarımın TEDx Nakhchivan State University
+                            Məlumatlarımın TEDx Naxçıvan Dövlət Universiteti
                             tərəfindən işlənməsinə razılıq verirəm.
                           </FormLabel>
                           <FormMessage />
