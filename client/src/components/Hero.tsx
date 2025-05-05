@@ -81,7 +81,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 // Enhanced Countdown Timer component
 function CountdownTimer() {
   // Target date: June 16, 2025
-  const targetDate = new Date('2025-06-16T10:00:00');
+  const targetDate = new Date('2025-06-16T09:00:00');
   
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -116,72 +116,6 @@ function CountdownTimer() {
     return () => clearInterval(timer); // Cleanup on unmount
   }, [controls]);
   
-  // Enhanced time unit display component
-  const TimeUnit = ({ value, label, index }: { value: number, label: string, index: number }) => {
-    const variants = {
-      hidden: { opacity: 0, y: 20, scale: 0.9 },
-      visible: {
-        opacity: 1, 
-        y: 0,
-        scale: 1,
-        transition: { 
-          duration: 0.7,
-          delay: 0.2 + (index * 0.1),
-          type: "spring",
-          stiffness: 200,
-          damping: 20
-        }
-      }
-    };
-    
-    return (
-      <motion.div 
-        className="flex flex-col items-center mx-1.5 md:mx-3"
-        variants={variants}
-      >
-        <div className="bg-tedred relative text-white text-xl md:text-3xl xl:text-4xl font-bold rounded-lg px-2 md:px-4 py-3 min-w-[55px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
-          {/* Animated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          
-          {/* Dynamic glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-tedred/80 to-tedred opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
-          {/* Animated border */}
-          <div className="absolute inset-0 p-px pointer-events-none">
-            <div className="h-full w-full rounded-lg opacity-20 group-hover:opacity-100 transition-opacity duration-300" 
-              style={{ 
-                background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.3) 55%, rgba(255,255,255,0) 100%)' 
-              }}
-            ></div>
-          </div>
-          
-          <div className="text-xl md:text-3xl font-bold">{value.toString().padStart(2, '0')}</div>
-        </div>
-        <motion.span 
-          className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 + (index * 0.1) }}
-        >
-          {label}
-        </motion.span>
-      </motion.div>
-    );
-  };
-  
-  // Separator variants
-  const separatorVariants = {
-    hidden: { opacity: 0, scale: 0.5 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        delay: 0.35 + (i * 0.25)
-      }
-    })
-  };
-  
   return (
     <motion.div 
       className="flex justify-center items-center mt-8 mb-8"
@@ -197,8 +131,26 @@ function CountdownTimer() {
           }
         }
       }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
-      <div className="relative p-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.5)]">
+      <motion.div 
+        className="relative p-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.5)]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          boxShadow: ["0 0 35px rgba(0,0,0,0.5)", "0 0 35px rgba(230,43,30,0.2)", "0 0 35px rgba(0,0,0,0.5)"]
+        }}
+        transition={{ 
+          duration: 0.8, 
+          boxShadow: {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }
+        }}
+      >
         {/* Main background gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-tedred/20 to-black/20 rounded-xl opacity-70"></div>
         
@@ -215,63 +167,214 @@ function CountdownTimer() {
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         ></motion.div>
         
-        <div className="flex flex-row items-center relative z-10">
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, x: -10 },
-              visible: { 
-                opacity: 1, 
-                x: 0,
-                transition: { delay: 0.1, duration: 0.6 } 
+        <div className="flex flex-row items-center justify-center relative z-10 px-1 md:px-4">
+          {/* Days */}
+          <motion.div 
+            className="flex flex-col items-center mx-1 md:mx-3"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{
+              opacity: 1, 
+              y: 0,
+              scale: 1,
+              transition: { 
+                duration: 0.7,
+                delay: 0.2,
+                type: "spring",
+                stiffness: 200,
+                damping: 20
               }
             }}
-            className="hidden md:flex items-center mr-4 bg-tedred/20 p-2 rounded-full"
           >
-            <Clock className="text-tedred h-6 w-6 animate-pulse-strong" />
+            <motion.div 
+              className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group"
+              whileHover={{ boxShadow: "0 0 30px rgba(230, 43, 30, 0.5)" }}
+              animate={{ 
+                boxShadow: ["0 25px 25px rgba(230, 43, 30, 0.2)", "0 5px 15px rgba(230, 43, 30, 0.4)", "0 25px 25px rgba(230, 43, 30, 0.2)"]
+              }}
+              transition={{
+                boxShadow: {
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="text-lg md:text-3xl font-bold flex items-center justify-center">
+                {timeLeft.days.toString().padStart(2, '0')}
+              </div>
+            </motion.div>
+            <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Gün</span>
           </motion.div>
           
-          <TimeUnit value={timeLeft.days} label="Gün" index={0} />
-          
+          {/* Separator */}
           <motion.span 
-            className="text-tedred text-2xl font-bold"
-            custom={0}
-            variants={separatorVariants}
-            animate={{ 
-              opacity: [0.5, 1, 0.5],
-              scale: [0.98, 1, 0.98]
+            className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{
+              opacity: [0.6, 1, 0.6],
+              scale: 1,
+              transition: {
+                opacity: { duration: 1, repeat: Infinity },
+                scale: { duration: 0.4, delay: 0.35 }
+              }
             }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >:</motion.span>
           
-          <TimeUnit value={timeLeft.hours} label="Saat" index={1} />
-          
-          <motion.span 
-            className="text-tedred text-2xl font-bold"
-            custom={1}
-            variants={separatorVariants}
-            animate={{ 
-              opacity: [0.5, 1, 0.5],
-              scale: [0.98, 1, 0.98]
+          {/* Hours */}
+          <motion.div 
+            className="flex flex-col items-center mx-1 md:mx-3"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{
+              opacity: 1, 
+              y: 0,
+              scale: 1,
+              transition: { 
+                duration: 0.7,
+                delay: 0.3,
+                type: "spring",
+                stiffness: 200,
+                damping: 20
+              }
             }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.25 }}
+          >
+            <motion.div 
+              className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group"
+              whileHover={{ boxShadow: "0 0 30px rgba(230, 43, 30, 0.5)" }}
+              animate={{ 
+                boxShadow: ["0 25px 25px rgba(230, 43, 30, 0.2)", "0 5px 15px rgba(230, 43, 30, 0.4)", "0 25px 25px rgba(230, 43, 30, 0.2)"]
+              }}
+              transition={{
+                boxShadow: {
+                  duration: 3.2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="text-lg md:text-3xl font-bold flex items-center justify-center">
+                {timeLeft.hours.toString().padStart(2, '0')}
+              </div>
+            </motion.div>
+            <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Saat</span>
+          </motion.div>
+          
+          {/* Separator */}
+          <motion.span 
+            className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{
+              opacity: [0.6, 1, 0.6],
+              scale: 1,
+              transition: {
+                opacity: { duration: 1, repeat: Infinity, delay: 0.33 },
+                scale: { duration: 0.4, delay: 0.4 }
+              }
+            }}
           >:</motion.span>
           
-          <TimeUnit value={timeLeft.minutes} label="Dəqiqə" index={2} />
-          
-          <motion.span 
-            className="text-tedred text-2xl font-bold"
-            custom={2}
-            variants={separatorVariants}
-            animate={{ 
-              opacity: [0.5, 1, 0.5],
-              scale: [0.98, 1, 0.98]
+          {/* Minutes */}
+          <motion.div 
+            className="flex flex-col items-center mx-1 md:mx-3"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{
+              opacity: 1, 
+              y: 0,
+              scale: 1,
+              transition: { 
+                duration: 0.7,
+                delay: 0.4,
+                type: "spring",
+                stiffness: 200,
+                damping: 20
+              }
             }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          >
+            <motion.div 
+              className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group"
+              whileHover={{ boxShadow: "0 0 30px rgba(230, 43, 30, 0.5)" }}
+              animate={{ 
+                boxShadow: ["0 25px 25px rgba(230, 43, 30, 0.2)", "0 5px 15px rgba(230, 43, 30, 0.4)", "0 25px 25px rgba(230, 43, 30, 0.2)"]
+              }}
+              transition={{
+                boxShadow: {
+                  duration: 3.4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="text-lg md:text-3xl font-bold flex items-center justify-center">
+                {timeLeft.minutes.toString().padStart(2, '0')}
+              </div>
+            </motion.div>
+            <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Dəq</span>
+          </motion.div>
+          
+          {/* Separator */}
+          <motion.span 
+            className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{
+              opacity: [0.6, 1, 0.6],
+              scale: 1,
+              transition: {
+                opacity: { duration: 1, repeat: Infinity, delay: 0.66 },
+                scale: { duration: 0.4, delay: 0.45 }
+              }
+            }}
           >:</motion.span>
           
-          <TimeUnit value={timeLeft.seconds} label="Saniyə" index={3} />
+          {/* Seconds */}
+          <motion.div 
+            className="flex flex-col items-center mx-1 md:mx-3"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{
+              opacity: 1, 
+              y: 0,
+              scale: 1,
+              transition: { 
+                duration: 0.7,
+                delay: 0.5,
+                type: "spring",
+                stiffness: 200,
+                damping: 20
+              }
+            }}
+          >
+            <motion.div 
+              className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group"
+              whileHover={{ boxShadow: "0 0 30px rgba(230, 43, 30, 0.5)" }}
+              animate={{ 
+                boxShadow: ["0 25px 25px rgba(230, 43, 30, 0.2)", "0 5px 15px rgba(230, 43, 30, 0.4)", "0 25px 25px rgba(230, 43, 30, 0.2)"]
+              }}
+              transition={{
+                boxShadow: {
+                  duration: 3.6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="text-lg md:text-3xl font-bold flex items-center justify-center">
+                {timeLeft.seconds.toString().padStart(2, '0')}
+              </div>
+            </motion.div>
+            <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">San</span>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -588,68 +691,8 @@ export default function Hero() {
         </motion.div>
         
         {/* Countdown Timer */}
-        <motion.div 
-          variants={itemVariants} 
-          className="w-full max-w-3xl mx-auto py-5"
-        >
-          {/* Set hard-coded countdown values */}
-          <div className="relative p-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.5)]">
-            {/* Main background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-tedred/20 to-black/20 rounded-xl opacity-70"></div>
-            
-            {/* Animated pulsing glow */}
-            <motion.div 
-              className="absolute inset-0 rounded-xl bg-tedred/10"
-              animate={{ 
-                boxShadow: [
-                  "0 0 5px rgba(230, 43, 30, 0.1)",
-                  "0 0 25px rgba(230, 43, 30, 0.4)",
-                  "0 0 5px rgba(230, 43, 30, 0.1)"
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            ></motion.div>
-            
-            <div className="flex flex-row items-center justify-center relative z-10 px-1 md:px-4">
-              <div className="flex flex-col items-center mx-1 md:mx-3">
-                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
-                  <div className="text-lg md:text-3xl font-bold">25</div>
-                </div>
-                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Gün</span>
-              </div>
-              
-              <span className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1">:</span>
-              
-              <div className="flex flex-col items-center mx-1 md:mx-3">
-                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
-                  <div className="text-lg md:text-3xl font-bold">12</div>
-                </div>
-                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Saat</span>
-              </div>
-              
-              <span className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1">:</span>
-              
-              <div className="flex flex-col items-center mx-1 md:mx-3">
-                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
-                  <div className="text-lg md:text-3xl font-bold">45</div>
-                </div>
-                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">Dəq</span>
-              </div>
-              
-              <span className="text-tedred text-xl md:text-2xl font-bold mx-0.5 md:mx-1">:</span>
-              
-              <div className="flex flex-col items-center mx-1 md:mx-3">
-                <div className="bg-tedred relative text-white text-lg md:text-3xl xl:text-4xl font-bold rounded-lg px-1 md:px-4 py-2 md:py-3 min-w-[40px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-30 transition-opacity duration-300"></div>
-                  <div className="text-lg md:text-3xl font-bold">30</div>
-                </div>
-                <span className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium">San</span>
-              </div>
-            </div>
-          </div>
+        <motion.div variants={itemVariants}>
+          <CountdownTimer />
         </motion.div>
 
         {/* Registration Button */}
