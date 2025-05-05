@@ -67,8 +67,7 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">{t('address')}</h4>
                   <p className="text-tedgray">
-                    Naxçıvan Dövlət Universitetinin Konservatoriyası, AZ7000
-                    Naxçıvan, Azərbaycan
+                    {t('university_address')}
                   </p>
                 </div>
               </div>
@@ -80,10 +79,10 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">{t('email')}</h4>
                   <a
-                    href="mailto:info@tedxnakhchivansu.com"
+                    href={`mailto:${t('email_address')}`}
                     className="text-tedred hover:text-red-700 transition-colors"
                   >
-                    info@tedxnakhchivansu.com
+                    {t('email_address')}
                   </a>
                 </div>
               </div>
@@ -95,10 +94,10 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">{t('phone')}</h4>
                   <a
-                    href="tel:+994501234567"
+                    href={`tel:${t('phone_number').replace(/\s+/g, '')}`}
                     className="text-tedgray hover:text-tedblack transition-colors"
                   >
-                    +994 50 123 45 67
+                    {t('phone_number')}
                   </a>
                 </div>
               </div>
