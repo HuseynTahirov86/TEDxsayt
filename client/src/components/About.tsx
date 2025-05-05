@@ -25,7 +25,8 @@ const FlipCard = ({ title, content, icon, index }: {
   
   return (
     <motion.div 
-      className="relative h-36 w-full perspective-1000"
+      className="relative h-36 w-full"
+      style={{ perspective: "1000px" }}
       initial={{ opacity: 0, y: 50 }}
       animate={{ 
         opacity: 1, 
@@ -43,31 +44,21 @@ const FlipCard = ({ title, content, icon, index }: {
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
       <motion.div 
-        className="absolute inset-0 cursor-pointer z-10"
-        animate={isFlipped ? "back" : "front"}
-        variants={{
-          front: { 
-            rotateY: 0,
-            transition: { 
-              type: "spring",
-              stiffness: 300,
-              damping: 20
-            } 
-          },
-          back: { 
-            rotateY: 180,
-            transition: { 
-              type: "spring",
-              stiffness: 300,
-              damping: 20
-            } 
-          }
+        className="absolute inset-0 cursor-pointer z-10 w-full h-full"
+        style={{ 
+          transformStyle: "preserve-3d",
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          transition: "transform 0.6s"
         }}
         onClick={() => setIsFlipped(!isFlipped)}
       >
         {/* Front side */}
         <motion.div 
-          className={`absolute inset-0 rounded-xl bg-white p-6 shadow-md ${isFlipped ? 'backface-hidden' : ''} flex flex-col justify-center overflow-hidden`}
+          className="absolute inset-0 rounded-xl bg-white p-6 shadow-md flex flex-col justify-center overflow-hidden w-full h-full"
+          style={{ 
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden"
+          }}
           animate={{
             boxShadow: isHovered ? "0 10px 30px rgba(0, 0, 0, 0.1)" : "0 4px 6px rgba(0, 0, 0, 0.05)"
           }}
@@ -157,11 +148,11 @@ const FlipCard = ({ title, content, icon, index }: {
         
         {/* Back side */}
         <motion.div 
-          className={`absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md ${isFlipped ? '' : 'backface-hidden'} flex flex-col justify-center text-white overflow-hidden`}
+          className="absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md flex flex-col justify-center text-white overflow-hidden w-full h-full"
           style={{ 
-            transform: "rotateY(180deg)",
-            transformStyle: "preserve-3d",
-            backfaceVisibility: "hidden"
+            backfaceVisibility: "hidden", 
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)" 
           }}
           animate={{
             boxShadow: isHovered ? "0 10px 30px rgba(230, 43, 30, 0.3)" : "0 4px 6px rgba(230, 43, 30, 0.2)"
