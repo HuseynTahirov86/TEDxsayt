@@ -56,11 +56,8 @@ export default function Navbar() {
             <img
               src={tedxLogo}
               alt="TEDx Logo"
-              className="h-8 mr-2"
+              className="h-8"
             />
-            <span className="text-white font-poppins font-bold text-lg tracking-tight hidden sm:inline-block">
-              Nakhchivan State University
-            </span>
           </Link>
 
           <div className="hidden md:flex space-x-8 text-white font-medium">
