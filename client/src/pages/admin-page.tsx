@@ -2903,7 +2903,7 @@ export default function AdminPage() {
   // If not authenticated, redirect to auth page
   useEffect(() => {
     if (!authLoading && !user) {
-      window.location.href = "/auth";
+      window.location.href = "/adminpanelndutedxlogin";
     }
   }, [user, authLoading]);
 
@@ -2933,7 +2933,7 @@ export default function AdminPage() {
                   fetch("/api/logout", {
                     method: "POST",
                   }).then(() => {
-                    window.location.href = "/";
+                    window.location.href = "/adminpanelndutedxlogin";
                   });
                 }}
               >
