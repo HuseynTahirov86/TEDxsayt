@@ -21,8 +21,11 @@ export default function Footer() {
             <img
               src={tedxLogo}
               alt="TEDx Logo"
-              className="h-8"
+              className="h-8 mr-2"
             />
+            <span className="font-poppins font-bold text-lg">
+              Nakhchivan State University
+            </span>
           </div>
 
           <div className="flex space-x-6">
@@ -61,7 +64,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h4 className="font-semibold text-lg mb-4">
-                TEDx
+                TEDx Nakhchivan State University
               </h4>
               <p className="text-gray-400 text-sm">
                 TEDx, TED lisenziyası altında yerli icmalar tərəfindən müstəqil
@@ -76,10 +79,10 @@ export default function Footer() {
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
                   <a
-                    href="mailto:info@tedx.com"
+                    href="mailto:info@tedxnakhchivansu.com"
                     className="hover:text-white transition-colors"
                   >
-                    info@tedx.com
+                    info@tedxnakhchivansu.com
                   </a>
                 </li>
                 <li>
@@ -91,7 +94,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  AZ7000 Naxçıvan, Azərbaycan
+                  Naxçıvan Dövlət Universiteti, AZ7000 Naxçıvan, Azərbaycan
                 </li>
               </ul>
             </div>
@@ -149,7 +152,7 @@ export default function Footer() {
             TEDx is independently organized under TED license
           </p>
           <p className="text-gray-500 text-xs">
-            &copy; 2025 TEDx. Bütün hüquqlar qorunur.
+            &copy; 2025 TEDx Nakhchivan State University. Bütün hüquqlar qorunur.
           </p>
         </div>
       </div>
