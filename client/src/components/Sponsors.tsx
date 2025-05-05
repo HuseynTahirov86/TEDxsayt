@@ -58,7 +58,7 @@ export default function Sponsors() {
                 className="flex flex-col items-center justify-center text-center p-4"
               >
                 <sponsor.Icon size={60} className="text-gray-600 hover:text-tedred transition-colors mb-3" />
-                <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
+                <p className="text-sm text-gray-700 font-medium">{t(sponsor.name.toLowerCase().replace(/\s+|ə|ö|ü|ğ|ı|ş|ç/g, match => match === ' ' ? '_' : {'ə':'e', 'ö':'o', 'ü':'u', 'ğ':'g', 'ı':'i', 'ş':'s', 'ç':'c'}[match] || match))}</p>
               </motion.div>
             ))}
           </div>

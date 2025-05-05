@@ -107,6 +107,16 @@ const resources = {
       'gold': 'Qızıl',
       'silver': 'Gümüş',
       
+      // Sponsors information
+      'nakhchivan_state_university': 'Naxçıvan Dövlət Universiteti', 
+      'nakhchivan_city_executive': 'Naxçıvan Şəhər İcra Hakimiyyəti',
+      'tech_azerbaijan': 'TechAzərbaycan',
+      'ministry_of_education': 'Təhsil Nazirliyi',
+      'innovation_center': 'İnnovasiya Mərkəzi',
+      'youth_fund': 'Gənclər Fondu',
+      'business_association': 'İş Adamları Assosiasiyası',
+      'international_cooperation': 'Beynəlxalq Əməkdaşlıq Mərkəzi',
+      
       // Program
       'morning_session': 'Səhər Sessiyası',
       'afternoon_session': 'Günorta Sessiyası',
@@ -180,6 +190,12 @@ const resources = {
       'speakers_coming_soon': 'Coming Soon...',
       'speech_topic': 'Speech Topic',
       'view_all': 'View All',
+      'tech_entrepreneur': 'Tech Entrepreneur & AI Researcher',
+      'sustainable_agriculture': 'Sustainable Agriculture Specialist',
+      'educational_innovator': 'Educational Innovator',
+      'cultural_heritage': 'Cultural Heritage Preservationist',
+      'climate_scientist': 'Climate Scientist',
+      'renewable_energy': 'Renewable Energy Entrepreneur',
       
       // Program
       'program_title': 'Event Program',
@@ -248,6 +264,16 @@ const resources = {
       'platinum': 'Platinum',
       'gold': 'Gold',
       'silver': 'Silver',
+      
+      // Sponsors information
+      'nakhchivan_state_university': 'Nakhchivan State University', 
+      'nakhchivan_city_executive': 'Nakhchivan City Executive Authority',
+      'tech_azerbaijan': 'TechAzerbaijan',
+      'ministry_of_education': 'Ministry of Education',
+      'innovation_center': 'Innovation Center',
+      'youth_fund': 'Youth Fund',
+      'business_association': 'Business Association',
+      'international_cooperation': 'International Cooperation Center',
       
       // Footer
       'footer_about_text': 'TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. This event is organized under TED license to create a TED-like experience for the local community.',

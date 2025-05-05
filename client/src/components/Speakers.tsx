@@ -57,14 +57,14 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
         <h3 className="text-white text-xl font-poppins font-semibold">
           {speaker.name}
         </h3>
-        <p className="text-gray-200">{speaker.title}</p>
+        <p className="text-gray-200">{t(speaker.title.toLowerCase().replace(/\s+|&/g, '_'))}</p>
       </div>
 
       <div className="absolute inset-0 bg-tedred/90 p-6 flex flex-col justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <h3 className="text-white text-xl font-poppins font-semibold mb-2">
           {speaker.name}
         </h3>
-        <p className="text-gray-200 mb-2">{speaker.title}</p>
+        <p className="text-gray-200 mb-2">{t(speaker.title.toLowerCase().replace(/\s+|&/g, '_'))}</p>
         <div className="w-12 h-0.5 bg-white mb-4"></div>
         <p className="text-white text-sm mb-4">{speaker.bio}</p>
         <h4 className="text-white font-semibold mb-1">{t('speech_topic')}:</h4>
