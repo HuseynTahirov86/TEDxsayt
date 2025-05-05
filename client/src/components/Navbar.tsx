@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import tedxLogo from "@/assets/images/tedx-logo.png";
-import nduLogo from "@/assets/images/ndu-logo.svg";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -59,16 +58,9 @@ export default function Navbar() {
               alt="TEDx Logo"
               className="h-8 mr-2"
             />
-            <div className="flex items-center">
-              <img
-                src={nduLogo}
-                alt="Nakhchivan State University Logo"
-                className="h-7 mr-2 hidden sm:block"
-              />
-              <span className="text-white font-poppins font-bold text-lg tracking-tight hidden sm:inline-block">
-                Nakhchivan State University
-              </span>
-            </div>
+            <span className="text-white font-poppins font-bold text-lg tracking-tight hidden sm:inline-block">
+              Nakhchivan State University
+            </span>
           </Link>
 
           <div className="hidden md:flex space-x-8 text-white font-medium">
