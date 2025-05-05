@@ -70,7 +70,7 @@ export default function AuthPage() {
 
   // If user is already logged in, redirect to admin dashboard
   if (user) {
-    setLocation("/admin");
+    setLocation("/adminndutedxozu");
     return null;
   }
 

@@ -11,8 +11,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/auth" component={AuthPage} />
-      <ProtectedRoute path="/admin" component={AdminPage} />
+      <Route path="/adminpanelndutedxlogin" component={AuthPage} />
+      <ProtectedRoute path="/adminndutedxozu" component={AdminPage} />
       <Route component={NotFound} />
     </Switch>
   );
