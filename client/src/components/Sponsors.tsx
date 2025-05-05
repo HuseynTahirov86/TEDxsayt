@@ -9,10 +9,34 @@ import {
   FaBriefcase,
   FaGlobe
 } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import { getQueryFn } from "@/lib/queryClient";
+import { Loader2 } from "lucide-react";
+
+interface Sponsor {
+  id: number;
+  name: string;
+  logo: string;
+  website?: string;
+  level: string;
+  order: number;
+  createdAt: string;
+}
+
+interface DefaultSponsor {
+  Icon: React.ElementType;
+  name: string;
+}
 
 export default function Sponsors() {
-  // Example sponsor logos with generic icons
-  const sponsorLogos = [
+  // Fetch sponsors from API
+  const { data: sponsors, isLoading } = useQuery<Sponsor[]>({
+    queryKey: ["/api/sponsors"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Default sponsors if none in database
+  const defaultSponsors: DefaultSponsor[] = [
     { Icon: FaUniversity, name: "Naxçıvan Dövlət Universiteti" },
     { Icon: FaBuilding, name: "Naxçıvan Şəhər İcra Hakimiyyəti" },
     { Icon: FaLaptop, name: "TechAzərbaycan" },
@@ -41,24 +65,64 @@ export default function Sponsors() {
           </p>
         </motion.div>
 
-        {/* Animated grid for sponsor logos instead of marquee */}
+        {/* Animated grid for sponsor logos */}
         <div className="my-10 bg-white shadow-sm rounded-lg py-8 px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {sponsorLogos.map((sponsor, index) => (
-              <motion.div 
-                key={`sponsor-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-                className="flex flex-col items-center justify-center text-center p-4"
-              >
-                <sponsor.Icon size={60} className="text-gray-600 hover:text-tedred transition-colors mb-3" />
-                <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
-              </motion.div>
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-tedred" />
+            </div>
+          ) : sponsors && sponsors.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {sponsors.sort((a, b) => a.order - b.order).map((sponsor, index) => (
+                <motion.div 
+                  key={`sponsor-${sponsor.id}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                  className="flex flex-col items-center justify-center text-center p-4"
+                >
+                  <div className="w-24 h-24 flex items-center justify-center mb-3">
+                    <img 
+                      src={sponsor.logo} 
+                      alt={sponsor.name} 
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                  {sponsor.website ? (
+                    <a 
+                      href={sponsor.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-sm text-gray-700 font-medium hover:text-tedred transition-colors"
+                    >
+                      {sponsor.name}
+                    </a>
+                  ) : (
+                    <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {defaultSponsors.map((sponsor, index) => (
+                <motion.div 
+                  key={`default-sponsor-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                  className="flex flex-col items-center justify-center text-center p-4"
+                >
+                  <sponsor.Icon size={60} className="text-gray-600 hover:text-tedred transition-colors mb-3" />
+                  <p className="text-sm text-gray-700 font-medium">{sponsor.name}</p>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
         
         {/* Become a sponsor CTA */}
