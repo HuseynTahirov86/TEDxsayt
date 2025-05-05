@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
-import tedxLogo from "@/assets/tedx-logo.svg";
+import tedxLogo from "@/assets/images/tedx-logo.png";
 import nduLogo from "@/assets/images/ndu-logo.svg";
 
 export default function Footer() {
@@ -24,9 +24,16 @@ export default function Footer() {
               alt="TEDx Logo"
               className="h-8 mr-2"
             />
-            <span className="font-poppins font-bold text-lg">
-              Nakhchivan State University
-            </span>
+            <div className="flex items-center">
+              <img
+                src={nduLogo}
+                alt="Nakhchivan State University Logo"
+                className="h-7 mr-2"
+              />
+              <span className="font-poppins font-bold text-lg">
+                Nakhchivan State University
+              </span>
+            </div>
           </div>
 
           <div className="flex space-x-6">

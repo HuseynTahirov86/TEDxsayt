@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import tedxLogo from "@/assets/tedx-logo.svg";
+import tedxLogo from "@/assets/images/tedx-logo.png";
 import nduLogo from "@/assets/images/ndu-logo.svg";
 
 export default function Navbar() {
