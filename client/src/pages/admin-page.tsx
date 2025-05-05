@@ -1,7 +1,14 @@
 import { useEffect, useState, useRef, Dispatch, SetStateAction } from "react";
 
-// Helper function to safely increment state
-const incrementState = (prev: number): number => prev + 1;
+// Helper function to safely increment state using various TypeScript patterns
+function incrementState(prev: number): number {
+  return prev + 1;
+}
+
+// Updated - Handle update state function with different patterns for backwards compatibility
+function updateRefreshKey(setter: Dispatch<SetStateAction<number>>): void {
+  setter(prev => prev + 1);
+}
 
 import { useAuth } from "@/hooks/use-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -1925,7 +1932,7 @@ function SessionsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setR
 }
 
 // Program Items Panel Subcomponent
-function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: (key: number) => void }) {
+function ProgramItemsPanel({ refreshKey, setRefreshKey }: { refreshKey: number, setRefreshKey: Dispatch<SetStateAction<number>> }) {
   const { toast } = useToast();
   const [selectedItem, setSelectedItem] = useState<ProgramItem | null>(null);
   const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
