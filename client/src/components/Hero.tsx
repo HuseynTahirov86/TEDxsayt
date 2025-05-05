@@ -152,17 +152,7 @@ export default function Hero() {
         className="container mx-auto px-4 relative z-10 text-center"
         style={{ y: y2, opacity }}
       >
-        {/* TED Logo */}
-        <motion.div
-          className="mb-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="w-24 h-12 mx-auto bg-tedred rounded-sm flex items-center justify-center">
-            <span className="text-white font-bold tracking-tight text-2xl">TED<span className="font-normal text-base">x</span></span>
-          </div>
-        </motion.div>
+
         
         {/* Main Content */}
         <motion.div
@@ -171,9 +161,9 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          <h1 className="font-poppins font-bold text-4xl md:text-5xl lg:text-7xl tracking-tight mb-5">
+          <h1 className="font-poppins font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight mb-5">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">TEDx</span>
-            <span className="font-normal">Nakhchivan State University</span>
+            <span className="font-normal text-base md:text-2xl lg:text-3xl block md:mt-2">Naxçıvan Dövlət Universiteti</span>
           </h1>
           
           <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm mb-6">

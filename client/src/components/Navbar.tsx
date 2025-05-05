@@ -164,7 +164,7 @@ export default function Navbar() {
               />
             </div>
             <span className="text-white font-poppins font-bold text-lg tracking-tight hidden sm:inline-block transition-opacity duration-300 group-hover:opacity-90">
-              Nakhchivan State University
+              Naxçıvan Dövlət Universiteti
             </span>
           </Link>
 
