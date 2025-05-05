@@ -76,7 +76,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
 
 export default function Speakers() {
   const { t } = useTranslation();
-  const { data: speakers, isLoading } = useQuery({
+  const { data: speakers = [], isLoading } = useQuery<Speaker[]>({
     queryKey: ["/api/speakers"],
     staleTime: Infinity,
   });
@@ -113,11 +113,10 @@ export default function Speakers() {
           className="text-center mb-12"
         >
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
-            Spikerlər
+            {t('speakers_title')}
           </h2>
           <p className="text-tedgray text-center max-w-2xl mx-auto">
-            Müxtəlif sahələrdən olan fərqli spikerlər ilhamverici ideyalarını
-            bizimlə bölüşəcəklər.
+            {t('speakers_subtitle')}
           </p>
         </motion.div>
 
@@ -127,7 +126,7 @@ export default function Speakers() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {speakers?.map((speaker: Speaker) => (
+            {Array.isArray(speakers) && speakers.map((speaker: Speaker) => (
               <SpeakerCard key={speaker.id} speaker={speaker} />
             ))}
           </div>
@@ -135,7 +134,7 @@ export default function Speakers() {
 
         <div className="text-center mt-12">
           <p className="text-tedgray mb-4">
-            Yeni spikerlər haqqında məlumatlar tezliklə əlavə olunacaq
+            {t('speakers_coming_soon')}
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -148,7 +147,7 @@ export default function Speakers() {
             }}
             className="inline-block bg-tedred hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md transition-colors"
           >
-            İndi qeydiyyatdan keç
+            {t('hero_register_button')}
           </motion.button>
         </div>
       </div>

@@ -45,6 +45,7 @@ const resources = {
       'speakers_title': 'Spikerlərlə tanış olun',
       'speakers_subtitle': 'İlhamverici danışıqlarla çıxış edəcək mütəxəssislər və liderlərlə tanış olun',
       'speakers_coming_soon': 'Tezliklə...',
+      'speech_topic': 'Çıxış mövzusu',
       'view_all': 'Hamısına baxın',
       
       // Program
@@ -137,6 +138,7 @@ const resources = {
       'speakers_title': 'Meet Our Speakers',
       'speakers_subtitle': 'Get to know the experts and leaders who will deliver inspiring talks',
       'speakers_coming_soon': 'Coming Soon...',
+      'speech_topic': 'Speech Topic',
       'view_all': 'View All',
       
       // Program
