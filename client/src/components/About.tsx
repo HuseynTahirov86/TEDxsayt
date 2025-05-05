@@ -157,7 +157,12 @@ const FlipCard = ({ title, content, icon, index }: {
         
         {/* Back side */}
         <motion.div 
-          className={`absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md ${isFlipped ? '' : 'backface-hidden'} flex flex-col justify-center text-white transform-style-3d rotateY-180 overflow-hidden`}
+          className={`absolute inset-0 rounded-xl bg-tedred/90 p-6 shadow-md ${isFlipped ? '' : 'backface-hidden'} flex flex-col justify-center text-white overflow-hidden`}
+          style={{ 
+            transform: "rotateY(180deg)",
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden"
+          }}
           animate={{
             boxShadow: isHovered ? "0 10px 30px rgba(230, 43, 30, 0.3)" : "0 4px 6px rgba(230, 43, 30, 0.2)"
           }}

@@ -48,6 +48,8 @@
   }
 
   html {
+    letter-spacing: 0.02em;
+    word-spacing: 0.1em;
     scroll-behavior: smooth;
   }
 
