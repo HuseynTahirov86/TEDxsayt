@@ -148,7 +148,7 @@ export default function Navbar() {
       className={cn(
         "sticky-nav fixed w-full z-50 transition-all duration-300",
         isScrolled
-          ? "bg-white py-2 shadow-lg" 
+          ? "bg-white/20 py-2 backdrop-blur-sm shadow-sm" 
           : "bg-gradient-to-b from-black/80 to-transparent py-4"
       )}
       initial={{ opacity: 0, y: -20 }}
