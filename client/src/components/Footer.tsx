@@ -422,19 +422,19 @@ export default function Footer() {
                 
                 {/* Share and follow section */}
                 <motion.div 
-                  className="mt-6 pt-5 border-t border-gray-800"
+                  className="mt-6 pt-5 border-t border-gray-800 ml-auto md:ml-8"
                   variants={headingVariants}
                 >
-                  <motion.div className="flex items-center mb-3">
+                  <motion.div className="flex items-center mb-3 justify-end">
                     <Share2 className="h-4 w-4 mr-2 text-tedred" />
                     <span className="text-sm font-medium">Yayım və İştirak</span>
                   </motion.div>
                   <ul className="text-xs text-gray-400 space-y-2">
-                    <li className="flex items-center">
+                    <li className="flex items-center justify-end">
                       <span className="w-1.5 h-1.5 bg-tedred/50 rounded-full mr-2"></span>
                       <span>Canlı yayım: 16 İyun, 2025</span>
                     </li>
-                    <li className="flex items-center">
+                    <li className="flex items-center justify-end">
                       <span className="w-1.5 h-1.5 bg-tedred/50 rounded-full mr-2"></span>
                       <span>Tam video: tədbirdən 2 həftə sonra</span>
                     </li>

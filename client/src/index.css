@@ -63,6 +63,22 @@
 }
 
 @layer components {
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .rotateY-180 {
+    transform: rotateY(180deg);
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
   .reveal {
     opacity: 0;
     transform: translateY(30px);
