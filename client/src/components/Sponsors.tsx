@@ -9,8 +9,11 @@ import {
   FaBriefcase,
   FaGlobe
 } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export default function Sponsors() {
+  const { t } = useTranslation();
+  
   // Example sponsor logos with generic icons
   const sponsorLogos = [
     { Icon: FaUniversity, name: "Naxçıvan Dövlət Universiteti" },

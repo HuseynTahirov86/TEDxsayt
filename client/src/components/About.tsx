@@ -56,33 +56,21 @@ export default function About() {
             className="lg:w-1/2"
           >
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold mb-6">
-              TED və TEDx nədir?
+              {t('about_what_is_tedx')}
             </h2>
             <p className="text-tedgray mb-6">
-              TED (Technology, Entertainment, Design) 1984-cü ildən etibarən
-              "yayılmağa dəyər ideyalar" (ideas worth spreading) fəlsəfəsi
-              altında fəaliyyət göstərən qlobal konfranslar silsiləsidir.
+              {t('about_description')}
             </p>
             <p className="text-tedgray mb-6">
-              TEDx isə müstəqil təşkilatlar tərəfindən TED-in lisenziyası
-              altında təşkil edilən yerli tədbirlərdir. Bu tədbirlər TED
-              formatında olsa da, yerli icmalar və təşkilatçılar tərəfindən
-              müstəqil şəkildə təşkil edilir.
+              {t('about_what_is_tedx_desc')}
             </p>
 
             <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
               <h3 className="text-xl font-poppins font-semibold mb-3">
-                TEDx Nakhchivan State University
+                {t('about_university')}
               </h3>
               <p className="text-tedgray">
-                Bu il ilk dəfə təşkil olunan TEDx Nakhchivan State University
-                tədbirinin əsas mövzusu{" "}
-                <span className="font-semibold">
-                  "İnnovasiya və Yaradıcılıq vasitəsilə Regional İnkişaf"
-                </span>{" "}
-                olacaq. Tədbirimiz gənc istedadların, yerli sahibkarların və
-                təhsil liderlərinin ideyalarını paylaşacaqları bir platform
-                olacaq.
+                {t('about_university_desc')}
               </p>
             </div>
 
@@ -92,8 +80,8 @@ export default function About() {
                   <Clock className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold">18-dən çox</h4>
-                  <p className="text-sm text-tedgray">çıxış</p>
+                  <h4 className="font-semibold">18+</h4>
+                  <p className="text-sm text-tedgray">{t('speakers')}</p>
                 </div>
               </div>
 
@@ -102,8 +90,8 @@ export default function About() {
                   <Users className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold">300+ iştirakçı</h4>
-                  <p className="text-sm text-tedgray">iştirakçılar</p>
+                  <h4 className="font-semibold">300+</h4>
+                  <p className="text-sm text-tedgray">{t('participants')}</p>
                 </div>
               </div>
 
@@ -113,7 +101,7 @@ export default function About() {
                 </div>
                 <div>
                   <h4 className="font-semibold">2000+</h4>
-                  <p className="text-sm text-tedgray">online izləyici</p>
+                  <p className="text-sm text-tedgray">{t('online_viewers')}</p>
                 </div>
               </div>
             </div>
@@ -135,23 +123,20 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
                 <div className="max-w-md">
                   <h3 className="text-white text-2xl font-poppins font-semibold mb-2">
-                    Global TEDx Facts
+                    {t('tedx_facts')}
                   </h3>
                   <div className="flex flex-col gap-2 text-white">
                     <div className="flex items-center">
                       <div className="w-2 h-2 rounded-full bg-tedred mr-2"></div>
-                      <p>Dünyada hər il 3000+ TEDx tədbiri keçirilir</p>
+                      <p>{t('fact1')}</p>
                     </div>
                     <div className="flex items-center">
                       <div className="w-2 h-2 rounded-full bg-tedred mr-2"></div>
-                      <p>TEDx çıxışları 150+ dildə və 190+ ölkədə izlənir</p>
+                      <p>{t('fact2')}</p>
                     </div>
                     <div className="flex items-center">
                       <div className="w-2 h-2 rounded-full bg-tedred mr-2"></div>
-                      <p>
-                        TEDx video materialları YouTube-da milyardlarla baxış
-                        toplayır
-                      </p>
+                      <p>{t('fact3')}</p>
                     </div>
                   </div>
                 </div>

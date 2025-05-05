@@ -34,6 +34,12 @@ const resources = {
       'about_theme_desc': 'Dünyamızı yenidən düşünmə vaxtı gəldi. Mövcud fərziyyələri sorğulayaraq, yeni perspektivlər axtararaq və ideyalarımızı paylaşaraq, daha yaxşı bir gələcək yaratma potensialına malikik.',
       'about_university': 'Naxçıvan Dövlət Universiteti',
       'about_university_desc': 'Naxçıvan Dövlət Universiteti 1967-ci ildə təsis edilmiş və Azərbaycanın ən nüfuzlu ali təhsil müəssisələrindən biridir. Universitetimiz geniş çeşiddə akademik proqramlar və tədqiqat imkanları təklif edir.',
+      'participants': 'iştirakçılar',
+      'online_viewers': 'online izləyici',
+      'tedx_facts': 'Global TEDx Faktları',
+      'fact1': 'Dünyada hər il 3000+ TEDx tədbiri keçirilir',
+      'fact2': 'TEDx çıxışları 150+ dildə və 190+ ölkədə izlənir',
+      'fact3': 'TEDx video materialları YouTube-da milyardlarla baxış toplayır',
       
       // Speakers
       'speakers_title': 'Spikerlərlə tanış olun',
@@ -118,6 +124,12 @@ const resources = {
       'about_theme_desc': 'It\'s time to rethink our world. By questioning existing assumptions, seeking new perspectives, and sharing our ideas, we have the potential to create a better future.',
       'about_university': 'Nakhchivan State University',
       'about_university_desc': 'Nakhchivan State University was established in 1967 and is one of the most prestigious higher education institutions in Azerbaijan. Our university offers a wide range of academic programs and research opportunities.',
+      'participants': 'participants',
+      'online_viewers': 'online viewers',
+      'tedx_facts': 'Global TEDx Facts',
+      'fact1': 'Over 3000 TEDx events are held worldwide each year',
+      'fact2': 'TEDx talks are watched in over 150 languages and 190+ countries',
+      'fact3': 'TEDx videos have billions of views on YouTube',
       
       // Speakers
       'speakers_title': 'Meet Our Speakers',
