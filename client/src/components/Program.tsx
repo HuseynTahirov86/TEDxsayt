@@ -173,9 +173,37 @@ export default function Program() {
     (item: ProgramItem) => item.session === activeSession
   );
 
+  // Animation for session switching
+  const sessionContentVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { 
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      x: 20,
+      transition: { duration: 0.3 } 
+    }
+  };
+
+  // Loading placeholder for when data is loading
+  const isLoading = !sessions || !programItems;
+  const loadingPlaceholder = (
+    <div className="flex flex-col items-center justify-center h-40">
+      <div className="w-12 h-12 rounded-full border-2 border-tedred border-t-transparent animate-spin mb-4"></div>
+      <p className="text-gray-500">Proqram yüklənir...</p>
+    </div>
+  );
+
   return (
-    <section id="program" className="py-20 bg-tedlightgray">
+    <section id="program" className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
+        {/* Section header with animations */}
         <motion.div
           ref={ref}
           initial="hidden"
@@ -186,38 +214,76 @@ export default function Program() {
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
             Proqram
           </h2>
+          
+          {/* Event date & location badges */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-6">
+            <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
+              <Calendar className="w-4 h-4 mr-2 text-tedred" />
+              <span className="text-sm font-medium">16 İyun, 2025</span>
+            </div>
+            <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-tedred"></div>
+            <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
+              <MapPin className="w-4 h-4 mr-2 text-tedred" />
+              <span className="text-sm font-medium">Naxçıvan Dövlət Universiteti</span>
+            </div>
+          </div>
+          
           <p className="text-tedgray text-center max-w-2xl mx-auto">
-            16 İyun 2025-ci ildə keçiriləcək TEDx Nakhchivan State University
-            tədbirinin gündəlik cədvəli
+            TEDx Naxçıvan Dövlət Universiteti tədbirinin tam proqramı ilə tanış olun.
+            İlham verici çıxışlar, maraqlı söhbətlər və daha çox.
           </p>
         </motion.div>
 
-        <div className="flex justify-center mb-10">
-          <div className="inline-flex rounded-lg overflow-hidden">
-            {sessions?.map((session: ProgramSession) => (
-              <button
-                key={session.id}
-                className={cn(
-                  "px-6 py-3 font-medium transition-colors",
-                  activeSession === session.id
-                    ? "bg-tedred text-white"
-                    : "bg-white text-tedblack hover:bg-gray-100"
-                )}
-                onClick={() => setActiveSession(session.id)}
+        {isLoading ? (
+          loadingPlaceholder
+        ) : (
+          <>
+            {/* Session tabs */}
+            {sessions && (
+              <motion.div 
+                className="flex flex-wrap justify-center mb-10 gap-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
               >
-                {session.name}
-              </button>
-            ))}
-          </div>
-        </div>
+                {sessions?.map((session: ProgramSession) => (
+                  <motion.button
+                    key={session.id}
+                    onClick={() => setActiveSession(session.id)}
+                    className={cn(
+                      "px-6 py-2.5 rounded-full transition-all font-medium text-sm",
+                      activeSession === session.id
+                        ? "bg-tedred text-white shadow-md scale-105"
+                        : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                    )}
+                    whileHover={{ scale: activeSession === session.id ? 1.05 : 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {session.name}
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
 
-        <div className="program-content">
-          <div id={activeSession} className="timeline-connector pl-8 md:pl-0">
-            {filteredItems?.map((item: ProgramItem) => (
-              <ProgramTimelineItem key={item.id} item={item} />
-            ))}
-          </div>
-        </div>
+            {/* Program timeline with animated transitions between sessions */}
+            <div className="max-w-4xl mx-auto relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeSession}
+                  variants={sessionContentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="relative"
+                >
+                  {filteredItems?.map((item: ProgramItem, index: number) => (
+                    <ProgramTimelineItem key={item.id} item={item} index={index} />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
