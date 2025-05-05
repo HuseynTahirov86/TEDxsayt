@@ -1,7 +1,14 @@
-import { useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Clock, Users, Globe } from "lucide-react";
+import { 
+  Clock, 
+  Users, 
+  Globe, 
+  ChevronRight, 
+  Info, 
+  Sparkles
+} from "lucide-react";
 
 export default function About() {
   const controlsLeft = useAnimation();
