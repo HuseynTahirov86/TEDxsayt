@@ -152,7 +152,7 @@ export default function Contact() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Map showing Nakhchivan State University location"
+                title="Map showing Naxçıvan Dövlət Universiteti location"
               ></iframe>
             </div>
 
