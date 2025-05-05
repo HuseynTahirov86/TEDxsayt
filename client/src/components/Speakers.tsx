@@ -193,10 +193,9 @@ function SpeakerDetailModal({
   );
 }
 
-function SpeakerCard({ speaker, index, onOpenDetails }: { 
+function SpeakerCard({ speaker, index }: { 
   speaker: Speaker;
   index: number;
-  onOpenDetails: (speaker: Speaker) => void;
 }) {
   const controls = useAnimation();
   const [ref, inView] = useInView({
@@ -247,8 +246,7 @@ function SpeakerCard({ speaker, index, onOpenDetails }: {
       initial="hidden"
       animate={controls}
       variants={variants}
-      className="speaker-card relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer group"
-      onClick={() => onOpenDetails(speaker)}
+      className="speaker-card relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={{ 
@@ -342,15 +340,6 @@ export default function Speakers() {
     queryKey: ["/api/speakers"],
     staleTime: Infinity,
   });
-  
-  // For showing speaker details
-  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const handleOpenSpeakerDetails = (speaker: Speaker) => {
-    setSelectedSpeaker(speaker);
-    setIsModalOpen(true);
-  };
 
   const controls = useAnimation();
   const [ref, inView] = useInView({
@@ -444,19 +433,9 @@ export default function Speakers() {
                 key={speaker.id} 
                 speaker={speaker} 
                 index={index}
-                onOpenDetails={handleOpenSpeakerDetails}
               />
             ))}
           </div>
-        )}
-        
-        {/* Speaker details modal */}
-        {selectedSpeaker && (
-          <SpeakerDetailModal 
-            speaker={selectedSpeaker}
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          />
         )}
 
         <div className="text-center mt-16">
