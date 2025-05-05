@@ -1,0 +1,77 @@
+Mən TEDx Naxçıvan Dövlət Universiteti adlı rəsmi TEDx tədbiri üçün müasir, interaktiv və vizual baxımdan heyranedici bir veb sayt yaratmaq istəyirəm. Saytın funksionallığı və dizaynı https://tedxunec.com saytından daha yüksək səviyyədə olmalıdır. Zəhmət olmasa, aşağıdakı detallara uyğun dizayn, layout və kod nümunələri təqdim et:
+
+📍 Əsas Məlumatlar:
+Tədbirin Adı: TEDx Nakhchivan State University
+
+Tarix: 16 İyun 2025
+
+Məkan: Naxçıvan Dövlət Universitetinin Konservatoriyası
+
+Sloqan: “Ideas worth spreading” fəlsəfəsinə uyğun kreativ bir cümlə təklif et
+
+🏠 Ana Səhifə:
+Hero bölməsində TEDx loqosu, tədbirin adı, məkan və tarix
+
+Dinamik parallax scroll effekti və ya video background (universitetdən görüntü və ya TED mövzusunda)
+
+“Qeydiyyatdan keç” düyməsi — istifadəçini qeydiyyat bölməsinə yönləndirən animasiyalı CTA
+
+“Nə üçün TEDx?” bölməsi - sadə animasiyalı ikonlarla izah
+
+ℹ️ Haqqında:
+TED və TEDx anlayışlarının açıqlaması
+
+Bu tədbirin spesifik mövzusu və məqsədi (məsələn: gənclərin innovasiya və yaradıcılıq potensialı)
+
+Animasiya ilə görünən qrafiklər və ya faktlar (məsələn, dünyada TEDx tədbirləri haqqında)
+
+🎙️ Spikerlər:
+Hər spiker üçün şəkil, ad, peşəsi və qısa bio (hover zamanı animasiya ilə açılsın)
+
+Grid şəklində düzülüş, mobil uyğun
+
+"Ətraflı bax" düyməsi ilə modallarda və ya popup pəncərədə çıxış mövzusu
+
+🕓 Proqram:
+Gündəlik vaxt cədvəli (scroll effekti ilə açılan bölmələr)
+
+Hər çıxış üçün: saat, spiker adı, çıxış mövzusu
+
+Sadə timeline animasiyası və ya interaktiv tabs
+
+📝 Qeydiyyat:
+Ad, soyad, e-mail, telefon üçün sahələr
+
+Təsdiqləmə (form validation), uğurlu göndəriş bildirişi
+
+Animasiya ilə “Təşəkkür edirik” mesajı
+
+📍 Əlaqə:
+Google Map ilə Konservatoriyanın dəqiq yerləşməsi
+
+E-poçt, sosial media linkləri (Instagram, LinkedIn, X/Twitter)
+
+Qısa əlaqə forması
+
+🎨 Dizayn və Texniki Xüsusiyyətlər:
+Rənglər: TEDx brendinə uyğun qırmızı, qara, ağ (və vurğulayıcı üçün boz və ya gradient)
+
+Şriftlər: Poppins və Inter – həm müasir, həm oxunaqlı
+
+Texnologiya: HTML5, CSS3, JavaScript (və ya React + Tailwind, əgər mümkünsə)
+
+Animasiya Kitabxanası: AOS (Animate On Scroll), GSAP və ya Framer Motion istifadə oluna bilər
+
+Fully responsive dizayn: Desktop, tablet və mobil cihazlar üçün optimallaşdırılmış
+
+SEO və sürət optimizasiyası: lazy-loading, meta tags, kompress edilmiş şəkillər
+
+🎁 Əlavə:
+
+Favicon olaraq TEDx ikonunu əlavə et
+
+Sonda “TEDx is independently organized under TED license” qeydini yerləşdir
+
+GitHub Pages və ya Netlify üçün deploy tövsiyələri ver
+
+💡 Mənə bu dizayna uyğun kod strukturu, şablon və texniki fayl adları ilə birlikdə təqdim et.
