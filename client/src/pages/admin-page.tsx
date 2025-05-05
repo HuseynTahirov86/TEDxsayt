@@ -35,7 +35,10 @@ import {
   Mic,
   Users,
   ListChecks,
-  Database 
+  Database,
+  Award,
+  Link,
+  ExternalLink
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";

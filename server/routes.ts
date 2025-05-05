@@ -763,6 +763,136 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ===== ADMIN SPONSORS MANAGEMENT =====
+  
+  // Get all sponsors
+  app.get(`${apiPrefix}/sponsors`, async (_req, res) => {
+    try {
+      const [rows] = await pool.query(`
+        SELECT id, name, logo, website, level, \`order\`, created_at as createdAt 
+        FROM sponsors 
+        ORDER BY \`order\` ASC
+      `);
+      
+      res.json(rows);
+    } catch (error) {
+      console.error("Error fetching sponsors:", error);
+      res.status(500).json({ message: "Sponsorları əldə etmək mümkün olmadı" });
+    }
+  });
+
+  // Admin: Get all sponsors
+  app.get(`${apiPrefix}/admin/sponsors`, async (_req, res) => {
+    try {
+      const [rows] = await pool.query(`
+        SELECT id, name, logo, website, level, \`order\`, created_at as createdAt 
+        FROM sponsors 
+        ORDER BY \`order\` ASC
+      `);
+      
+      res.json(rows);
+    } catch (error) {
+      console.error("Error fetching sponsors:", error);
+      res.status(500).json({ message: "Sponsorları əldə etmək mümkün olmadı" });
+    }
+  });
+  
+  // Admin: Add a new sponsor
+  app.post(`${apiPrefix}/admin/sponsors`, async (req, res) => {
+    try {
+      const { name, logo, website, level, order } = req.body;
+      
+      // Basic validation
+      if (!name || !logo || !level) {
+        return res.status(400).json({ message: "Ad, logo və səviyyə tələb olunur" });
+      }
+      
+      // Get the next order value if not provided
+      let orderValue = order;
+      if (!orderValue) {
+        const [result] = await pool.query('SELECT MAX(`order`) as maxOrder FROM sponsors');
+        const rows = result as any[];
+        orderValue = rows.length > 0 && rows[0].maxOrder !== null ? rows[0].maxOrder + 1 : 1;
+      }
+      
+      // Insert sponsor
+      const [insertResult] = await pool.query(
+        'INSERT INTO sponsors (name, logo, website, level, `order`) VALUES (?, ?, ?, ?, ?)',
+        [name, logo, website || null, level, orderValue]
+      );
+      
+      const insertId = (insertResult as any).insertId;
+      
+      // Get the newly inserted sponsor
+      const [newSponsor] = await pool.query(
+        'SELECT id, name, logo, website, level, `order`, created_at as createdAt FROM sponsors WHERE id = ?',
+        [insertId]
+      );
+      
+      res.status(201).json((newSponsor as any[])[0]);
+    } catch (error) {
+      console.error("Error adding sponsor:", error);
+      res.status(500).json({ message: "Sponsor əlavə etmək mümkün olmadı" });
+    }
+  });
+  
+  // Admin: Update a sponsor
+  app.put(`${apiPrefix}/admin/sponsors/:id`, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, logo, website, level, order } = req.body;
+      
+      // Basic validation
+      if (!name || !logo || !level) {
+        return res.status(400).json({ message: "Ad, logo və səviyyə tələb olunur" });
+      }
+      
+      // Update sponsor
+      const [result] = await pool.query(
+        'UPDATE sponsors SET name = ?, logo = ?, website = ?, level = ?, `order` = ? WHERE id = ?',
+        [name, logo, website || null, level, order, id]
+      );
+      
+      const affectedRows = (result as any).affectedRows;
+      
+      if (affectedRows === 0) {
+        return res.status(404).json({ message: "Sponsor tapılmadı" });
+      }
+      
+      // Get the updated sponsor
+      const [updatedSponsor] = await pool.query(
+        'SELECT id, name, logo, website, level, `order`, created_at as createdAt FROM sponsors WHERE id = ?',
+        [id]
+      );
+      
+      res.json((updatedSponsor as any[])[0]);
+    } catch (error) {
+      console.error("Error updating sponsor:", error);
+      res.status(500).json({ message: "Sponsoru yeniləmək mümkün olmadı" });
+    }
+  });
+  
+  // Admin: Delete a sponsor
+  app.delete(`${apiPrefix}/admin/sponsors/:id`, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Delete sponsor
+      const [result] = await pool.query('DELETE FROM sponsors WHERE id = ?', [id]);
+      
+      const affectedRows = (result as any).affectedRows;
+      
+      if (affectedRows === 0) {
+        return res.status(404).json({ message: "Sponsor tapılmadı" });
+      }
+      
+      res.json({ message: "Sponsor uğurla silindi" });
+    } catch (error) {
+      console.error("Error deleting sponsor:", error);
+      res.status(500).json({ message: "Sponsoru silmək mümkün olmadı" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
