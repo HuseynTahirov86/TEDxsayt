@@ -18,25 +18,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API routes for the TEDx website
   const apiPrefix = "/api";
 
-  // Get all speakers
+  // Get all speakers from static JSON file
   app.get(`${apiPrefix}/speakers`, async (_req, res) => {
     try {
-      const allSpeakers = await db.query.speakers.findMany({
-        orderBy: speakers.id,
-      });
-      res.json(allSpeakers);
+      // Import speakers from JSON file
+      const speakers = require('../client/src/data/speakers.json');
+      res.json(speakers);
     } catch (error) {
       console.error("Error fetching speakers:", error);
       res.status(500).json({ message: "Error fetching speakers" });
     }
   });
 
-  // Get program sessions
+  // Get program sessions from static JSON file
   app.get(`${apiPrefix}/program/sessions`, async (_req, res) => {
     try {
-      const sessions = await db.query.programSessions.findMany({
-        orderBy: programSessions.order,
-      });
+      // Import sessions from JSON file
+      const sessions = require('../client/src/data/sessions.json');
       res.json(sessions);
     } catch (error) {
       console.error("Error fetching program sessions:", error);
@@ -44,46 +42,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get program items
+  // Get program items from static JSON file with speaker references
   app.get(`${apiPrefix}/program/items`, async (_req, res) => {
     try {
-      // MySQL can have issues with complex joins in Drizzle, so use a simpler approach
-      const items = await db.select({
-        id: programItems.id,
-        time: programItems.time,
-        title: programItems.title,
-        description: programItems.description,
-        session: programItems.session,
-        speakerId: programItems.speakerId,
-        order: programItems.order
-      }).from(programItems)
-        .orderBy(programItems.time);
+      // Import program items and speakers from JSON files
+      const programItems = require('../client/src/data/programItems.json');
+      const speakers = require('../client/src/data/speakers.json');
       
-      // If there are items with speakers, fetch speakers separately
-      const speakerIds = items.filter(item => item.speakerId !== null)
-        .map(item => item.speakerId);
-      
-      if (speakerIds.length > 0) {
-        // For MySQL, use a more compatible approach with the IN operator
-        const [speakersData] = await pool.query(
-          `SELECT * FROM speakers WHERE id IN (${speakerIds.join(',')})`
-        );
-        
-        // Manually join speakers to program items
-        const itemsWithSpeakers = items.map(item => {
-          const speaker = Array.isArray(speakersData) 
-            ? speakersData.find((s: any) => s.id === item.speakerId)
-            : null;
+      // Add speaker details to program items that have a speakerId
+      const itemsWithSpeakers = programItems.map((item: any) => {
+        if (item.speakerId) {
+          const speaker = speakers.find((s: any) => s.id === item.speakerId);
           return {
             ...item,
             speaker: speaker || null
           };
-        });
-        
-        res.json(itemsWithSpeakers);
-      } else {
-        res.json(items);
-      }
+        }
+        return item;
+      });
+      
+      res.json(itemsWithSpeakers);
     } catch (error) {
       console.error("Error fetching program items:", error);
       res.status(500).json({ message: "Error fetching program items" });
@@ -100,28 +78,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "All required fields must be provided" });
       }
 
-      // Check if email already registered
-      const [existingUsers] = await db.select({id: registrations.id})
-        .from(registrations)
-        .where(eq(registrations.email, email));
+      // Check if email already registered using raw MySQL query
+      const [rows] = await pool.query(
+        'SELECT id FROM registrations WHERE email = ?',
+        [email]
+      );
 
-      if (existingUsers && existingUsers.length > 0) {
+      if (Array.isArray(rows) && rows.length > 0) {
         return res.status(400).json({ message: "This email is already registered" });
       }
 
-      // Create registration
-      const [newRegistration] = await db
-        .insert(registrations)
-        .values({
+      // Create registration using raw MySQL query
+      const [result] = await pool.query(
+        'INSERT INTO registrations (first_name, last_name, email, phone, occupation, topics) VALUES (?, ?, ?, ?, ?, ?)',
+        [
           firstName,
           lastName,
           email,
           phone,
-          occupation: occupation || null,
-          topics: topics ? topics.join(",") : null,
-        }); // MySQL doesn't support .returning()
+          occupation || null,
+          topics ? topics.join(",") : null
+        ]
+      );
 
-      res.status(201).json(newRegistration[0]);
+      // Get inserted ID from the query result
+      const insertedId = (result as any).insertId;
+      
+      // Return the newly created registration
+      res.status(201).json({
+        id: insertedId,
+        firstName,
+        lastName,
+        email,
+        phone,
+        occupation: occupation || null,
+        topics: topics ? topics.join(",") : null
+      });
     } catch (error) {
       console.error("Error during registration:", error);
       res.status(500).json({ message: "Error processing registration" });
@@ -138,18 +130,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "All fields are required" });
       }
 
-      // Create contact message
-      const newContact = await db
-        .insert(contacts)
-        .values({
-          name,
-          email,
-          subject,
-          message,
-        })
-        .returning();
+      // Create contact message using raw MySQL query
+      const [result] = await pool.query(
+        'INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)',
+        [name, email, subject, message]
+      );
 
-      res.status(201).json(newContact[0]);
+      // Get inserted ID from the query result
+      const insertedId = (result as any).insertId;
+      
+      // Return the newly created contact
+      res.status(201).json({
+        id: insertedId,
+        name,
+        email,
+        subject,
+        message,
+        createdAt: new Date(),
+        isRead: false
+      });
     } catch (error) {
       console.error("Error submitting contact form:", error);
       res.status(500).json({ message: "Error processing contact form submission" });

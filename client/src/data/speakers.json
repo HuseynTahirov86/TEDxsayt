@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Leyla Əliyeva",
+    "title": "Tech Entrepreneur & AI Researcher",
+    "bio": "Süni intellekt sahəsində 10+ illik təcrübəyə malik olan Leyla, hazırda Azərbaycanda texnologiya startaplarını dəstəkləyən və mentor kimi çalışan bir sahibkardır.",
+    "topic": "AI və Regional İnnovasiya: Naxçıvandan Dünyaya",
+    "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80"
+  },
+  {
+    "id": 2,
+    "name": "Orxan Məmmədov",
+    "title": "Sustainable Agriculture Specialist",
+    "bio": "Orxan, davamlı kənd təsərrüfatı sahəsində çalışan və Naxçıvan bölgəsində innovativ əkinçilik metodlarının tətbiqi ilə məşğul olan bir mütəxəssisdir.",
+    "topic": "Su Qıtlığı Şəraitində Davamlı Əkinçilik Texnologiyaları",
+    "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Aynur Həsənli",
+    "title": "Educational Innovator",
+    "bio": "Aynur, təhsil sahəsində yeni metodların tətbiqi ilə tanınan və ucqar kənd məktəblərində distant təhsil layihələri həyata keçirən təhsil innovatorudur.",
+    "topic": "Ucqar Bölgələrdə Rəqəmsal Təhsil İmkanları",
+    "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1161&q=80"
+  },
+  {
+    "id": 4,
+    "name": "Tural Əliyev",
+    "title": "Cultural Heritage Preservationist",
+    "bio": "Tural Naxçıvanın zəngin mədəni irsinin qorunması üçün çalışan və müasir texnologiyalardan istifadə edərək tarixi abidələrin virtual turlarını yaradan bir mütəxəssisdir.",
+    "topic": "Rəqəmsal Texnologiyalar vasitəsilə Naxçıvan Mədəni İrsinin Qorunması",
+    "image": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+  },
+  {
+    "id": 5,
+    "name": "Gülnar Məmmədova",
+    "title": "Climate Scientist",
+    "bio": "Gülnar iqlim dəyişikliyi sahəsində tədqiqatlar aparan və Naxçıvan bölgəsində su qıtlığı problemlərinin həlli yollarını araşdıran bir alimədir.",
+    "topic": "İqlim Dəyişikliyinə Qarşı Yerli Həll Yolları",
+    "image": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+  },
+  {
+    "id": 6,
+    "name": "Elşən Quliyev",
+    "title": "Renewable Energy Entrepreneur",
+    "bio": "Elşən bərpa olunan enerji sahəsində çalışan və Naxçıvanda günəş enerjisi layihələri həyata keçirən bir sahibkardır.",
+    "topic": "Naxçıvanda Günəş Enerjisi: İmkanlar və Perspektivlər",
+    "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+  }
+]

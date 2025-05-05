@@ -1,0 +1,17 @@
+[
+  {
+    "id": "morning",
+    "name": "Səhər Sessiyası",
+    "order": 1
+  },
+  {
+    "id": "afternoon",
+    "name": "Günorta Sessiyası",
+    "order": 2
+  },
+  {
+    "id": "evening",
+    "name": "Axşam Sessiyası",
+    "order": 3
+  }
+]
