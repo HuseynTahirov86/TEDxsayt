@@ -107,6 +107,26 @@ const resources = {
       'gold': 'Qızıl',
       'silver': 'Gümüş',
       
+      // Program
+      'morning_session': 'Səhər Sessiyası',
+      'afternoon_session': 'Günorta Sessiyası',
+      'evening_session': 'Axşam Sessiyası',
+      'registration_checkin': 'Qeydiyyat və Qarşılama',
+      'registration_checkin_desc': 'İştirakçıların qeydiyyatı, qarşılanması və tədbir materiallarının paylanması.',
+      'opening_speech': 'Açılış Nitqi',
+      'opening_speech_desc': 'Naxçıvan Dövlət Universitetinin rektoru tərəfindən açılış nitqi.',
+      'ai_regional_innovation': 'Çıxış: "Aİ və Regional İnnovasiya: Naxçıvandan Dünyaya"',
+      'ai_regional_innovation_desc': 'Süni intellektin regional inkişafa təsiri və Naxçıvanda texnoloji innovasiya imkanları haqqında.',
+
+      // WhyTedx
+      'why': 'Nə üçün',
+      'idea_exchange': 'Fikir Mübadiləsi',
+      'idea_exchange_desc': 'TEDx tədbirlərində müxtəlif sahələrdən olan insanlar öz unikal ideyalarını paylaşır və tamaşaçılara ilham verir.',
+      'global_network': 'Qlobal Şəbəkə',
+      'global_network_desc': 'TEDx tədbirləri dünyanın 170-dən çox ölkəsində keçirilir, bu da qlobal dialoqun bir hissəsi olmaq imkanı yaradır.',
+      'diverse_perspectives': 'Fərqli Perspektivlər',
+      'diverse_perspectives_desc': 'TEDx platforması fərqli yaş, təhsil və karyera sahiblərinə öz təcrübələrini bölüşmək imkanı yaradır.',
+      
       // Footer
       'footer_about_text': 'TEDx, TED lisenziyası altında yerli icmalar tərəfindən müstəqil şəkildə təşkil edilən tədbirlərdir. Bu tədbir, TED konfrans formatında, yerli toplum üçün TED təcrübəsini yaratmaq məqsədi daşıyır.',
       'navigation': 'Naviqasiya',
@@ -164,6 +184,15 @@ const resources = {
       // Program
       'program_title': 'Event Program',
       'program_subtitle': 'Explore the agenda and plan for exciting talks, workshops, and networking opportunities',
+      'morning_session': 'Morning Session',
+      'afternoon_session': 'Afternoon Session',
+      'evening_session': 'Evening Session',
+      'registration_checkin': 'Registration & Check-in',
+      'registration_checkin_desc': 'Registration, welcome and distribution of event materials.',
+      'opening_speech': 'Opening Speech',
+      'opening_speech_desc': 'Opening speech by the rector of Nakhchivan State University.',
+      'ai_regional_innovation': 'Talk: "AI and Regional Innovation: From Nakhchivan to the World"',
+      'ai_regional_innovation_desc': 'About the impact of artificial intelligence on regional development and technological innovation opportunities in Nakhchivan.',
       
       // Register
       'register_title': 'Secure Your Spot Now',

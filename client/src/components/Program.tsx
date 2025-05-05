@@ -24,6 +24,7 @@ interface ProgramItem {
 }
 
 function ProgramTimelineItem({ item }: { item: ProgramItem }) {
+  const { t } = useTranslation();
   const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.2,
@@ -69,9 +70,9 @@ function ProgramTimelineItem({ item }: { item: ProgramItem }) {
             {item.time}
           </div>
           <h3 className="text-xl font-poppins font-semibold mb-2">
-            {item.title}
+            {t(item.title.toLowerCase().replace(/[^a-z0-9]/g, '_'))}
           </h3>
-          <p className="text-tedgray mb-3">{item.description}</p>
+          <p className="text-tedgray mb-3">{t(item.title.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_desc')}</p>
           {item.speaker && (
             <div className="flex items-center">
               <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
@@ -162,7 +163,7 @@ export default function Program() {
                 )}
                 onClick={() => setActiveSession(session.id)}
               >
-                {session.name}
+                {t(session.id + '_session')}
               </button>
             ))}
           </div>
