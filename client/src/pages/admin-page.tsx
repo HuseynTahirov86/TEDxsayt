@@ -1231,7 +1231,7 @@ function SponsorsPanel() {
       }
       
       // Refresh data
-      setRefreshKey(prev => prev + 1);
+      setRefreshKey((prev: number) => prev + 1);
       
     } catch (error) {
       toast({
@@ -1300,7 +1300,7 @@ function SponsorsPanel() {
   
   // Refresh data
   const handleRefresh = () => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshKey((prev: number) => prev + 1);
     toast({
       title: "Yeniləndi",
       description: "Sponsorlar siyahısı yeniləndi",
