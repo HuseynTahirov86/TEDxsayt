@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Check } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useRegistration } from "@/hooks/use-registration";
+import { useTranslation } from "react-i18next";
 import {
   Form,
   FormControl,
@@ -38,6 +39,7 @@ const registrationSchema = z.object({
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export default function Register() {
+  const { t } = useTranslation();
   const { isSubmitting, isSuccess, submitRegistration, resetForm } =
     useRegistration();
 
@@ -63,11 +65,10 @@ export default function Register() {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
-            Qeydiyyatdan Keçin
+            {t('register_title')}
           </h2>
           <p className="text-gray-300 text-center mb-10">
-            16 İyun 2025-ci ildə keçiriləcək TEDx Nakhchivan State University
-            tədbirində iştirak etmək üçün qeydiyyatdan keçin.
+            {t('register_subtitle')}
           </p>
 
           <AnimatePresence mode="wait">
