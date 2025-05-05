@@ -10,17 +10,22 @@ const NavItem = ({
   label, 
   sectionId, 
   isActive = false, 
-  onClick 
+  onClick,
+  isScrolled = false
 }: { 
   label: string;
   sectionId: string;
   isActive?: boolean;
   onClick: (id: string) => void;
+  isScrolled?: boolean;
 }) => {
   return (
     <motion.button
       onClick={() => onClick(sectionId)}
-      className="relative text-white font-medium px-1 py-2 mx-3 group"
+      className={cn(
+        "relative font-medium px-1 py-2 mx-3 group",
+        isScrolled ? "text-gray-800" : "text-white"
+      )}
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
     >
@@ -35,7 +40,11 @@ const NavItem = ({
       {/* Text with gradient hover effect */}
       <span className={cn(
         "transition-colors duration-300",
-        isActive ? "text-tedred" : "text-white group-hover:text-tedred"
+        isActive 
+          ? "text-tedred" 
+          : isScrolled 
+            ? "text-gray-800 group-hover:text-tedred" 
+            : "text-white group-hover:text-tedred"
       )}>
         {label}
       </span>
@@ -139,7 +148,7 @@ export default function Navbar() {
       className={cn(
         "sticky-nav fixed w-full z-50 transition-all duration-300",
         isScrolled
-          ? "bg-tedblack/95 backdrop-blur-md py-2 shadow-lg" 
+          ? "bg-white py-2 shadow-lg" 
           : "bg-gradient-to-b from-black/80 to-transparent py-4"
       )}
       initial={{ opacity: 0, y: -20 }}
@@ -163,7 +172,10 @@ export default function Navbar() {
                 transition={{ duration: 0.7 }}
               />
             </div>
-            <span className="text-white font-poppins font-bold text-lg tracking-tight hidden sm:inline-block transition-opacity duration-300 group-hover:opacity-90">
+            <span className={cn(
+              "font-poppins font-bold text-lg tracking-tight hidden sm:inline-block transition-opacity duration-300 group-hover:opacity-90",
+              isScrolled ? "text-gray-800" : "text-white"
+            )}>
               Naxçıvan Dövlət Universiteti
             </span>
           </Link>
@@ -177,6 +189,7 @@ export default function Navbar() {
                 sectionId={item.id}
                 isActive={activeSection === item.id}
                 onClick={scrollToSection}
+                isScrolled={isScrolled}
               />
             ))}
           </div>
@@ -200,7 +213,10 @@ export default function Navbar() {
           <motion.button
             id="mobileMenuButton"
             onClick={toggleMobileMenu}
-            className="md:hidden text-white p-1 rounded-md focus:outline-none"
+            className={cn(
+              "md:hidden p-1 rounded-md focus:outline-none",
+              isScrolled ? "text-gray-800" : "text-white"
+            )}
             aria-label="Menu"
             whileTap={{ scale: 0.95 }}
           >
