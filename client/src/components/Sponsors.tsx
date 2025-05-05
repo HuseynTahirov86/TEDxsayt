@@ -74,7 +74,7 @@ export default function Sponsors() {
             TEDx Nakhchivan State University tədbirini dəstəkləyərək innovativ ideyaların və 
             ilham verici mühazirələrin bir parçası olun.
           </p>
-          <a
+          <motion.a
             href="#contact"
             onClick={(e) => {
               e.preventDefault();
@@ -83,10 +83,13 @@ export default function Sponsors() {
                 contactSection.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className="inline-block bg-tedred hover:bg-red-700 text-white font-medium px-8 py-3 rounded-md transition-all transform hover:scale-105"
+            className="relative overflow-hidden inline-block bg-tedred text-white font-medium px-8 py-3 rounded-md shadow-md group hover:scale-105 transition-all duration-300"
+            whileHover={{ scale: 1.05, boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
           >
-            Sponsor olun
-          </a>
+            <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-20 group-hover:-translate-y-20 ease-out"></span>
+            <span className="relative z-10">Sponsor olun</span>
+          </motion.a>
         </motion.div>
       </div>
     </section>
