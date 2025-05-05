@@ -583,14 +583,7 @@ export default function Hero() {
               </span>
             </motion.p>
             
-            {/* Hidden accent details that appear on animation */}
-            <motion.div
-              className="flex justify-center mt-3 opacity-0"
-              animate={{ opacity: [0, 0.7, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            >
-              <span className="text-xs text-tedred/70 tracking-widest">INNOVATION • CREATIVITY • IMPACT</span>
-            </motion.div>
+
           </motion.div>
         </motion.div>
         
@@ -602,7 +595,7 @@ export default function Hero() {
         {/* Registration Button */}
         <motion.div
           variants={itemVariants}
-          className="mt-6"
+          className="mt-6 flex justify-center"
         >
           <motion.button
             onClick={() => {
@@ -642,17 +635,6 @@ export default function Hero() {
               <MoveRight className="h-5 w-5" />
             </motion.div>
           </motion.button>
-        </motion.div>
-        
-        {/* Small "hot" indicator for registration */}
-        <motion.div
-          className="mt-3 flex items-center justify-center gap-1 opacity-70"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.7, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.5 }}
-        >
-          <Flame className="h-3 w-3 text-tedred" />
-          <span className="text-xs">Yerlər məhduddur, tez qeydiyyatdan keç</span>
         </motion.div>
       </motion.div>
 
