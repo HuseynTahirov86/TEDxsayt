@@ -7,6 +7,7 @@ import Speakers from "@/components/Speakers";
 import Program from "@/components/Program";
 import Register from "@/components/Register";
 import Contact from "@/components/Contact";
+import Sponsors from "@/components/Sponsors";
 import Footer from "@/components/Footer";
 import { useAnimation } from "@/hooks/use-animation";
 
@@ -34,6 +35,7 @@ export default function Home() {
       <Speakers />
       <Program />
       <Register />
+      <Sponsors />
       <Contact />
       <Footer />
     </div>
