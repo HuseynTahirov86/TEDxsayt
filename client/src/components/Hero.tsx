@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ChevronDown, Clock, Calendar, MapPin, Sparkles, ExternalLink, MoveRight, Flame } from "lucide-react";
 
@@ -27,10 +27,23 @@ const AnimatedText = ({ text, className = "", staggerDelay = 0.03 }: {
   className?: string;
   staggerDelay?: number;
 }) => {
+  const words = text.split(" ");
+  
   return (
     <span className={className}>
-      {text.split("").map((letter, i) => (
-        <AnimatedLetter key={i} letter={letter} delay={i * staggerDelay} />
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} style={{ display: "inline-block" }}>
+          {word.split("").map((letter, i) => (
+            <AnimatedLetter 
+              key={`${wordIndex}-${i}`} 
+              letter={letter} 
+              delay={(wordIndex * word.length + i) * staggerDelay} 
+            />
+          ))}
+          {wordIndex < words.length - 1 && (
+            <span style={{ display: "inline-block", width: "0.3em" }}></span>
+          )}
+        </span>
       ))}
     </span>
   );
