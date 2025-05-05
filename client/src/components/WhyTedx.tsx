@@ -68,7 +68,7 @@ function Reason({ icon, title, description, index }: ReasonProps) {
       initial="hidden"
       animate={controls}
       variants={variants}
-      className="flex flex-col items-center text-center p-6 rounded-lg hover-float shine-effect bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
+      className="flex flex-col items-center text-center p-6 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-300 group"
       whileHover={{ 
         y: -5,
         boxShadow: "0 10px 25px rgba(0, 0, 0, 0.08)",
@@ -76,11 +76,15 @@ function Reason({ icon, title, description, index }: ReasonProps) {
       }}
     >
       <motion.div 
-        className="w-20 h-20 flex items-center justify-center rounded-full bg-tedlightgray mb-6 relative overflow-hidden group"
+        className="w-20 h-20 flex items-center justify-center rounded-full bg-tedlightgray mb-6 relative overflow-hidden"
         variants={iconVariants}
       >
         {/* Pulsing background effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent rounded-full transform scale-0 group-hover:scale-150 transition-transform duration-700"></div>
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-tedred/10 to-transparent rounded-full"
+          animate={{ scale: [1, 1.5, 1] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
         
         {/* Icon with shine effect */}
         <motion.div 
@@ -98,27 +102,52 @@ function Reason({ icon, title, description, index }: ReasonProps) {
         </motion.div>
       </motion.div>
       
-      <motion.div variants={textVariants}>
-        <h3 className="text-xl font-poppins font-semibold mb-3 relative">
+      <motion.div 
+        variants={textVariants}
+        className="w-full"
+      >
+        <h3 className="text-xl font-poppins font-semibold mb-3 relative inline-block">
           {title}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-tedred transition-all duration-300 group-hover:w-full"></div>
+          <motion.div 
+            className="absolute bottom-0 left-0 w-0 h-0.5 bg-tedred"
+            initial={{ width: "0%" }}
+            whileHover={{ width: "100%" }}
+            transition={{ duration: 0.3 }}
+          />
         </h3>
-        <p className="text-tedgray">{description}</p>
+        <p className="text-tedgray text-left md:text-center">{description}</p>
       </motion.div>
       
       {/* Animated decoration elements */}
-      <div className="absolute -z-10 opacity-10 right-4 top-4">
+      <motion.div 
+        className="absolute -z-10 opacity-0 right-4 top-4 text-tedred"
+        animate={{ 
+          opacity: [0, 0.1, 0],
+          rotate: [0, 5, 0, -5, 0],
+          scale: [1, 1.1, 1, 0.9, 1] 
+        }}
+        transition={{ duration: 7, repeat: Infinity }}
+      >
+        <Sparkles size={20} />
+      </motion.div>
+      
+      {/* Shine effect */}
+      <motion.div 
+        className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-100"
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+      >
         <motion.div 
-          animate={{ 
-            rotate: [0, 5, 0, -5, 0],
-            scale: [1, 1.1, 1, 0.9, 1] 
+          className="absolute top-0 -left-full w-[120%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[20deg]"
+          animate={{ left: ["0%", "100%"] }}
+          transition={{ 
+            duration: 1.5, 
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatDelay: 2
           }}
-          transition={{ duration: 7, repeat: Infinity }}
-          className="text-tedred"
-        >
-          <Sparkles size={20} />
-        </motion.div>
-      </div>
+        />
+      </motion.div>
     </motion.div>
   );
 }
@@ -207,12 +236,7 @@ export default function WhyTedx() {
             </span>?
           </motion.h2>
           
-          <motion.div 
-            className="w-20 h-1 bg-tedred rounded-full mt-6"
-            initial={{ opacity: 0, width: 0 }}
-            animate={inView ? { opacity: 1, width: 80 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          ></motion.div>
+
           
           <motion.p 
             className="text-tedgray max-w-2xl text-center mt-6"
