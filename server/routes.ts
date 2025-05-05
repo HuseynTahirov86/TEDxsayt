@@ -21,8 +21,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get all speakers from static JSON file
   app.get(`${apiPrefix}/speakers`, async (_req, res) => {
     try {
-      // Import speakers from JSON file
-      const speakers = require('../client/src/data/speakers.json');
+      // Import speakers using fs instead of require
+      const fs = await import('fs/promises');
+      // Use path.join to handle paths correctly
+      const path = await import('path');
+      const speakersData = await fs.readFile(path.join(process.cwd(), 'client/src/data/speakers.json'), 'utf-8');
+      const speakers = JSON.parse(speakersData);
       res.json(speakers);
     } catch (error) {
       console.error("Error fetching speakers:", error);
@@ -33,8 +37,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get program sessions from static JSON file
   app.get(`${apiPrefix}/program/sessions`, async (_req, res) => {
     try {
-      // Import sessions from JSON file
-      const sessions = require('../client/src/data/sessions.json');
+      // Import sessions using fs instead of require
+      const fs = await import('fs/promises');
+      // Use path.join to handle paths correctly
+      const path = await import('path');
+      const sessionsData = await fs.readFile(path.join(process.cwd(), 'client/src/data/sessions.json'), 'utf-8');
+      const sessions = JSON.parse(sessionsData);
       res.json(sessions);
     } catch (error) {
       console.error("Error fetching program sessions:", error);
@@ -45,9 +53,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get program items from static JSON file with speaker references
   app.get(`${apiPrefix}/program/items`, async (_req, res) => {
     try {
-      // Import program items and speakers from JSON files
-      const programItems = require('../client/src/data/programItems.json');
-      const speakers = require('../client/src/data/speakers.json');
+      // Import program items and speakers using fs instead of require
+      const fs = await import('fs/promises');
+      // Use path.join to handle paths correctly
+      const path = await import('path');
+      const programItemsData = await fs.readFile(path.join(process.cwd(), 'client/src/data/programItems.json'), 'utf-8');
+      const speakersData = await fs.readFile(path.join(process.cwd(), 'client/src/data/speakers.json'), 'utf-8');
+      
+      const programItems = JSON.parse(programItemsData);
+      const speakers = JSON.parse(speakersData);
       
       // Add speaker details to program items that have a speakerId
       const itemsWithSpeakers = programItems.map((item: any) => {

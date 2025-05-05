@@ -10,7 +10,7 @@ if (!process.env.MYSQL_HOST || !process.env.MYSQL_USER || !process.env.MYSQL_PAS
 }
 
 // Create a MySQL connection pool
-const poolConnection = mysql.createPool({
+export const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
@@ -18,5 +18,6 @@ const poolConnection = mysql.createPool({
   port: process.env.MYSQL_PORT ? parseInt(process.env.MYSQL_PORT) : 3306,
 });
 
-// Setup Drizzle ORM with MySQL client
-export const db = drizzle(poolConnection, { schema, mode: 'default' });
+// Setup Drizzle ORM with MySQL client 
+// (Note: We'll keep this for schema definitions, but will primarily use raw queries)
+export const db = drizzle(pool, { schema, mode: 'default' });

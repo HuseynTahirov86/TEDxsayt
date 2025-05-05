@@ -19,55 +19,8 @@ async function createTables() {
   try {
     console.log("Creating MySQL tables...");
 
-    // Create users table
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL
-      )
-    `);
-    console.log("Users table created");
-
-    // Create speakers table
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS speakers (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        bio TEXT NOT NULL,
-        topic VARCHAR(255) NOT NULL,
-        image VARCHAR(2000) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
-      )
-    `);
-    console.log("Speakers table created");
-
-    // Create program_sessions table
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS program_sessions (
-        id VARCHAR(50) PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        \`order\` INT NOT NULL
-      )
-    `);
-    console.log("Program sessions table created");
-
-    // Create program_items table
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS program_items (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        time VARCHAR(50) NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        session VARCHAR(50) NOT NULL,
-        speaker_id INT,
-        \`order\` INT NOT NULL,
-        FOREIGN KEY (session) REFERENCES program_sessions(id),
-        FOREIGN KEY (speaker_id) REFERENCES speakers(id)
-      )
-    `);
-    console.log("Program items table created");
+    // We don't need users, speakers, program_sessions, and program_items tables in MySQL anymore
+    // as we're using JSON files for static content and only storing dynamic user data in MySQL
 
     // Create registrations table
     await pool.query(`
