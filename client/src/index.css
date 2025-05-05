@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    
+    --primary: 3 91% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+    
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 46%;
+    
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 10%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 3 91% 50%;
+    
+    --radius: 0.5rem;
+
+    /* Custom colors for the TEDx site */
+    --tedred: 3 91% 50%;
+    --tedblack: 0 0% 10%;
+    --tedgray: 0 0% 46%;
+    --tedlightgray: 0 0% 95%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-inter antialiased bg-background text-foreground overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins;
+  }
+}
+
+@layer components {
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .parallax {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .shadow-red {
+    box-shadow: 0 4px 20px rgba(230, 43, 30, 0.25);
+  }
+  
+  .timeline-connector::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background-color: hsl(var(--tedred));
+    left: 14px;
+    top: 24px;
+    z-index: -1;
+  }
+}
+
+@layer utilities {
+  .text-tedred {
+    color: hsl(var(--tedred));
+  }
+  
+  .text-tedblack {
+    color: hsl(var(--tedblack));
+  }
+  
+  .text-tedgray {
+    color: hsl(var(--tedgray));
+  }
+  
+  .bg-tedred {
+    background-color: hsl(var(--tedred));
+  }
+  
+  .bg-tedblack {
+    background-color: hsl(var(--tedblack));
+  }
+  
+  .bg-tedgray {
+    background-color: hsl(var(--tedgray));
+  }
+  
+  .bg-tedlightgray {
+    background-color: hsl(var(--tedlightgray));
+  }
+  
+  .hover\:bg-tedred:hover {
+    background-color: hsl(var(--tedred));
+  }
+  
+  .hover\:text-tedred:hover {
+    color: hsl(var(--tedred));
+  }
+}
