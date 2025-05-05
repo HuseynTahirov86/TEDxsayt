@@ -55,7 +55,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center">
             <img
               src={tedxLogo}
-              alt="TEDx Logo"
+              alt=""
               className="h-8 mr-2"
             />
             <span className="text-white font-poppins font-bold text-lg tracking-tight hidden sm:inline-block">

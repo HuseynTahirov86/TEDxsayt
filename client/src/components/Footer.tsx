@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="flex items-center mb-6 md:mb-0">
             <img
               src={tedxLogo}
-              alt="TEDx Logo"
+              alt=""
               className="h-8 mr-2"
             />
             <span className="font-poppins font-bold text-lg">
