@@ -68,6 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Uğurlu giriş",
         description: "Admin panelinə daxil oldunuz",
       });
+      window.location.href = "/admin";
     },
     onError: (error: Error) => {
       toast({
@@ -94,6 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Uğurlu qeydiyyat",
         description: "Yeni admin hesabı yaradıldı",
       });
+      window.location.href = "/admin";
     },
     onError: (error: Error) => {
       toast({
