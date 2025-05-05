@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 export default function About() {
+  // Animation controls for left and right sections
   const controlsLeft = useAnimation();
   const controlsRight = useAnimation();
   const [refLeft, inViewLeft] = useInView({
@@ -21,6 +22,16 @@ export default function About() {
     threshold: 0.2,
     triggerOnce: true,
   });
+
+  // Animation controls for fade in facts
+  const [refFacts, inViewFacts] = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
+
+  // State for interactive card flip effect
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [selectedFact, setSelectedFact] = useState<number | null>(null);
 
   useEffect(() => {
     if (inViewLeft) {
@@ -36,8 +47,21 @@ export default function About() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { 
+        duration: 0.8, 
+        ease: "easeOut",
+        staggerChildren: 0.2
+      },
     },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
   };
 
   const rightVariants = {
@@ -47,6 +71,30 @@ export default function About() {
       x: 0,
       transition: { duration: 0.8, ease: "easeOut" },
     },
+  };
+
+  const factVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { 
+        duration: 0.5, 
+        delay: i * 0.15,
+        ease: "easeOut" 
+      },
+    }),
+  };
+
+  const flipVariants = {
+    front: { 
+      rotateY: 0,
+      transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] }
+    },
+    back: { 
+      rotateY: 180,
+      transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] }
+    }
   };
 
   return (
