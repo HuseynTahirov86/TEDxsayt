@@ -139,7 +139,7 @@ function CountdownTimer() {
         className="flex flex-col items-center mx-1.5 md:mx-3"
         variants={variants}
       >
-        <div className="bg-tedred relative text-white text-xl md:text-3xl xl:text-4xl font-bold rounded-lg px-2 md:px-4 py-3 min-w-[55px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-lg overflow-hidden group">
+        <div className="bg-tedred relative text-white text-xl md:text-3xl xl:text-4xl font-bold rounded-lg px-2 md:px-4 py-3 min-w-[55px] md:min-w-[80px] xl:min-w-[100px] flex items-center justify-center shadow-xl shadow-tedred/30 overflow-hidden group">
           {/* Animated gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           
@@ -155,7 +155,7 @@ function CountdownTimer() {
             ></div>
           </div>
           
-          <span>{value.toString().padStart(2, '0')}</span>
+          <div className="text-xl md:text-3xl font-bold">{value.toString().padStart(2, '0')}</div>
         </div>
         <motion.span 
           className="text-[10px] md:text-xs mt-2 tracking-wider uppercase text-gray-300 font-medium"
@@ -198,18 +198,18 @@ function CountdownTimer() {
         }
       }}
     >
-      <div className="relative p-6 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 shadow-[0_0_25px_rgba(0,0,0,0.2)]">
+      <div className="relative p-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.5)]">
         {/* Main background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-tedred/10 to-black/10 rounded-xl opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-tedred/20 to-black/20 rounded-xl opacity-70"></div>
         
         {/* Animated pulsing glow */}
         <motion.div 
-          className="absolute inset-0 rounded-xl bg-tedred/5"
+          className="absolute inset-0 rounded-xl bg-tedred/10"
           animate={{ 
             boxShadow: [
-              "0 0 5px rgba(230, 43, 30, 0)",
-              "0 0 15px rgba(230, 43, 30, 0.3)",
-              "0 0 5px rgba(230, 43, 30, 0)"
+              "0 0 5px rgba(230, 43, 30, 0.1)",
+              "0 0 25px rgba(230, 43, 30, 0.4)",
+              "0 0 5px rgba(230, 43, 30, 0.1)"
             ]
           }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}

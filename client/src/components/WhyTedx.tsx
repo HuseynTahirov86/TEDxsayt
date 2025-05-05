@@ -23,41 +23,16 @@ function Reason({ icon, title, description, index }: ReasonProps) {
     }
   }, [controls, inView]);
 
-  // Different animation for each card
-  const getVariants = (index: number) => {
-    const variants = [
-      {
-        hidden: { opacity: 0, y: 50, scale: 0.9 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          transition: { duration: 0.7, delay: 0.1 * index },
-        },
-      },
-      {
-        hidden: { opacity: 0, x: -50, rotateY: 45 },
-        visible: {
-          opacity: 1,
-          x: 0,
-          rotateY: 0,
-          transition: { duration: 0.7, delay: 0.1 * index },
-        },
-      },
-      {
-        hidden: { opacity: 0, x: 50, rotateY: -45 },
-        visible: {
-          opacity: 1,
-          x: 0,
-          rotateY: 0,
-          transition: { duration: 0.7, delay: 0.1 * index },
-        },
-      },
-    ];
-    return variants[index % 3];
+  // Same animation for all cards
+  const variants = {
+    hidden: { opacity: 0, y: 30, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7, delay: 0.1 * index },
+    },
   };
-
-  const variants = getVariants(index);
 
   // Different entrance animations for icons
   const iconVariants = {
