@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { MapPin, Mail, Phone, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import { MapPin, Mail, Phone, Instagram, Linkedin, Twitter, Youtube, Check } from "lucide-react";
 import { useContact } from "@/hooks/use-contact";
 
 export default function Contact() {
@@ -227,25 +227,30 @@ export default function Contact() {
                 ></textarea>
               </div>
               <div>
-                <button
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-tedred hover:bg-red-700 text-white font-medium px-6 py-3 rounded-md transition-colors flex items-center"
+                  className="relative overflow-hidden bg-tedred text-white font-medium px-6 py-3 rounded-md shadow-md group hover:scale-105 transition-all duration-300 flex items-center"
+                  whileHover={{ scale: 1.05, boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)" }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {isSubmitting ? (
-                    <>
-                      <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                      Göndərilir...
-                    </>
-                  ) : isSuccess ? (
-                    <>
-                      <Check className="h-4 w-4 mr-2" />
-                      Göndərildi!
-                    </>
-                  ) : (
-                    "Göndər"
-                  )}
-                </button>
+                  <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-20 group-hover:-translate-y-20 ease-out"></span>
+                  <span className="relative z-10">
+                    {isSubmitting ? (
+                      <>
+                        <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                        Göndərilir...
+                      </>
+                    ) : isSuccess ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2" />
+                        Göndərildi!
+                      </>
+                    ) : (
+                      "Göndər"
+                    )}
+                  </span>
+                </motion.button>
               </div>
             </form>
           </motion.div>

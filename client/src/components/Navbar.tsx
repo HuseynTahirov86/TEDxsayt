@@ -198,13 +198,11 @@ export default function Navbar() {
           <div className="hidden md:block">
             <motion.button
               onClick={() => scrollToSection("register")}
-              className="relative overflow-hidden bg-tedred hover:bg-red-600 text-white font-medium px-6 py-2.5 rounded-md transition-colors shadow-md group"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              className="relative overflow-hidden bg-tedred text-white font-medium px-6 py-2.5 rounded-md shadow-md group hover:scale-105 transition-all duration-300"
+              whileHover={{ scale: 1.05, boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)" }}
+              whileTap={{ scale: 0.95 }}
             >
-              {/* Animated highlight effect */}
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-              
+              <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-20 group-hover:-translate-y-20 ease-out"></span>
               <span className="relative z-10 font-medium tracking-wide">Qeydiyyat</span>
             </motion.button>
           </div>
@@ -260,11 +258,12 @@ export default function Navbar() {
               
               <motion.button
                 onClick={() => scrollToSection("register")}
-                className="bg-tedred hover:bg-red-700 text-white text-center font-medium py-3 px-4 rounded-md transition-colors mt-2"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="relative overflow-hidden bg-tedred text-white text-center font-medium py-3 px-4 rounded-md shadow-md mt-2 group hover:scale-105 transition-all duration-300"
+                whileHover={{ scale: 1.05, boxShadow: "0px 5px 20px rgba(239, 68, 68, 0.5)" }}
+                whileTap={{ scale: 0.95 }}
               >
-                Qeydiyyat
+                <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-white opacity-10 rotate-45 group-hover:-translate-x-20 group-hover:-translate-y-20 ease-out"></span>
+                <span className="relative z-10">Qeydiyyat</span>
               </motion.button>
             </div>
           </motion.div>
