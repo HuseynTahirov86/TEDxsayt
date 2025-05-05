@@ -6,6 +6,9 @@ import { eq } from "drizzle-orm";
 import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Set up authentication middleware and routes
+  setupAuth(app);
+  
   // API routes for the TEDx website
   const apiPrefix = "/api";
 
@@ -157,6 +160,109 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error submitting contact form:", error);
       res.status(500).json({ message: "Error processing contact form submission" });
+    }
+  });
+
+  // ===== ADMIN API ROUTES =====
+
+  // Get all registrations (Admin only)
+  app.get(`${apiPrefix}/admin/registrations`, async (req, res) => {
+    try {
+      const [rows] = await pool.query(`
+        SELECT id, first_name as firstName, last_name as lastName, email, phone, occupation, topics, created_at as createdAt 
+        FROM registrations 
+        ORDER BY created_at DESC
+      `);
+      
+      res.json(rows);
+    } catch (error) {
+      console.error("Error fetching registrations:", error);
+      res.status(500).json({ message: "Qeydiyyatları əldə etmək mümkün olmadı" });
+    }
+  });
+
+  // Delete a registration (Admin only)
+  app.delete(`${apiPrefix}/admin/registrations/:id`, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const [result] = await pool.query(
+        'DELETE FROM registrations WHERE id = ?',
+        [id]
+      );
+      
+      const deletedRows = (result as any).affectedRows;
+      
+      if (deletedRows === 0) {
+        return res.status(404).json({ message: "Qeydiyyat tapılmadı" });
+      }
+      
+      res.json({ message: "Qeydiyyat uğurla silindi" });
+    } catch (error) {
+      console.error("Error deleting registration:", error);
+      res.status(500).json({ message: "Qeydiyyatı silmək mümkün olmadı" });
+    }
+  });
+
+  // Get all contacts (Admin only)
+  app.get(`${apiPrefix}/admin/contacts`, async (req, res) => {
+    try {
+      const [rows] = await pool.query(`
+        SELECT id, name, email, subject, message, created_at as createdAt, is_read as isRead 
+        FROM contacts 
+        ORDER BY created_at DESC
+      `);
+      
+      res.json(rows);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      res.status(500).json({ message: "Əlaqə mesajlarını əldə etmək mümkün olmadı" });
+    }
+  });
+
+  // Delete a contact (Admin only)
+  app.delete(`${apiPrefix}/admin/contacts/:id`, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const [result] = await pool.query(
+        'DELETE FROM contacts WHERE id = ?',
+        [id]
+      );
+      
+      const deletedRows = (result as any).affectedRows;
+      
+      if (deletedRows === 0) {
+        return res.status(404).json({ message: "Əlaqə mesajı tapılmadı" });
+      }
+      
+      res.json({ message: "Əlaqə mesajı uğurla silindi" });
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+      res.status(500).json({ message: "Əlaqə mesajını silmək mümkün olmadı" });
+    }
+  });
+
+  // Mark a contact as read (Admin only)
+  app.patch(`${apiPrefix}/admin/contacts/:id/read`, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const [result] = await pool.query(
+        'UPDATE contacts SET is_read = TRUE WHERE id = ?',
+        [id]
+      );
+      
+      const updatedRows = (result as any).affectedRows;
+      
+      if (updatedRows === 0) {
+        return res.status(404).json({ message: "Əlaqə mesajı tapılmadı" });
+      }
+      
+      res.json({ message: "Əlaqə mesajı oxunmuş kimi qeyd edildi" });
+    } catch (error) {
+      console.error("Error marking contact as read:", error);
+      res.status(500).json({ message: "Əlaqə mesajını oxunmuş kimi qeyd etmək mümkün olmadı" });
     }
   });
 

@@ -8,14 +8,14 @@ import connectPgSimple from "connect-pg-simple";
 import { pool } from "@db";
 
 // Types for user authentication
-interface User {
+interface CustomUser {
   id: number;
   username: string;
 }
 
 declare global {
   namespace Express {
-    interface User extends User {}
+    interface User extends CustomUser {}
   }
 }
 
@@ -171,7 +171,7 @@ export function setupAuth(app: Express) {
 
   // Handle login
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
       if (err) return next(err);
       if (!user) {
         return res.status(401).json({ message: info?.message || "Giriş uğursuz oldu" });
