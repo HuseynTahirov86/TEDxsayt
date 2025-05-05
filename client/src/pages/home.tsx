@@ -34,8 +34,8 @@ export default function Home() {
       <About />
       <Speakers />
       <Program />
-      <Register />
       <Sponsors />
+      <Register />
       <Contact />
       <Footer />
     </div>
