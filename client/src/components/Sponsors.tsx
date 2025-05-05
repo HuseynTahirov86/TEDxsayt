@@ -37,10 +37,10 @@ export default function Sponsors() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Tərəfdaşlarımız
+            {t('sponsors_title')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            TEDx Nakhchivan State University tədbirini dəstəkləyən qurumlar və sponsorlar.
+            {t('sponsors_subtitle')}
           </p>
         </motion.div>
 
@@ -72,10 +72,9 @@ export default function Sponsors() {
           viewport={{ once: true }}
           className="text-center mt-12 p-8 bg-white rounded-lg shadow-md border border-gray-100"
         >
-          <h3 className="text-2xl font-bold mb-4">Sponsor olmaq istəyirsiniz?</h3>
+          <h3 className="text-2xl font-bold mb-4">{t('sponsor_question')}</h3>
           <p className="text-gray-600 mb-6 max-w-3xl mx-auto">
-            TEDx Nakhchivan State University tədbirini dəstəkləyərək innovativ ideyaların və 
-            ilham verici mühazirələrin bir parçası olun.
+            {t('sponsor_description')}
           </p>
           <a
             href="#contact"
@@ -88,7 +87,7 @@ export default function Sponsors() {
             }}
             className="inline-block bg-tedred hover:bg-red-700 text-white font-medium px-8 py-3 rounded-md transition-all transform hover:scale-105"
           >
-            Sponsor olun
+            {t('become_sponsor')}
           </a>
         </motion.div>
       </div>
